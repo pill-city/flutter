@@ -1,0 +1,28 @@
+name: pill_city_flutter
+description: Flutter client for pill.city
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  go_router: ^5.1.5
+  openapi:
+    git:
+      url: git@github.com:pill-city/dart-sdk.git
+      ref: 6410dd4dfde50ff216431c8233cb974f0b6417ca
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/image.webp
