@@ -1,0 +1,7 @@
+{
+  "id": "ID",
+  "password": "密码",
+  "signin": "登陆",
+  "valid_id_please": "请输入一个正确的 ID",
+  "valid_password_please": "请输入一个正确的密码"
+}

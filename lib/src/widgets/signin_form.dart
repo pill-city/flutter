@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final idRegex = RegExp(r'^[a-zA-Z0-9_-]{1,15}$');
 
@@ -22,11 +23,13 @@ class SignInFormState extends State<SignInForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           TextFormField(
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'ID'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.id,
+            ),
             validator: (value) {
               if (value == null || !idRegex.hasMatch(value)) {
-                return 'Please enter a valid ID';
+                return AppLocalizations.of(context)!.valid_id_please;
               }
               return null;
             },
@@ -34,11 +37,13 @@ class SignInFormState extends State<SignInForm> {
           const SizedBox(height: 12),
           TextFormField(
             obscureText: true,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Password'),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.password,
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter a valid password';
+                return AppLocalizations.of(context)!.valid_password_please;
               }
               return null;
             },
@@ -52,7 +57,7 @@ class SignInFormState extends State<SignInForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {}
               },
-              child: const Text('Sign In'))
+              child: Text(AppLocalizations.of(context)!.signin))
         ],
       ),
     );

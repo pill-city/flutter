@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pill_city_flutter/src/blinker.dart';
 import 'package:pill_city_flutter/src/cards.dart';
@@ -15,7 +17,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: "Welcome to Flutter!",
+      title: "Pill.City",
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('zh', ''),
+      ],
       theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.light),
       darkTheme: ThemeData(
           primarySwatch: Colors.deepOrange, brightness: Brightness.dark),

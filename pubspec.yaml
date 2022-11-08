@@ -12,6 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
   go_router: ^5.1.5
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
   openapi:
     git:
       url: git@github.com:pill-city/dart-sdk.git
@@ -26,3 +29,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/image.webp
+  generate: true
