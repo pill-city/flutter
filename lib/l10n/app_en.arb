@@ -2,6 +2,6 @@
   "id": "ID",
   "password": "Password",
   "signin": "Sign In",
-  "valid_id_please": "Please enter a valid ID",
+  "valid_id_please": "Please enter a valid ID (not your email)",
   "valid_password_please": "Please enter a valid password"
 }

@@ -3,8 +3,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final idRegex = RegExp(r'^[a-zA-Z0-9_-]{1,15}$');
 
+typedef SignInCallback = void Function(String, String);
+
 class SignInForm extends StatefulWidget {
-  const SignInForm({super.key});
+  const SignInForm({
+    super.key,
+    required this.onSignIn,
+  });
+
+  final SignInCallback onSignIn;
 
   @override
   SignInFormState createState() {
