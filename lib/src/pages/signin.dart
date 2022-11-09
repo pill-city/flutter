@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:openapi/api.dart';
+import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/widgets/signin_form.dart';
 
-final api = CoreApi();
+final api = PillCity().getCoreApi();
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -17,7 +17,9 @@ class SignInPage extends StatelessWidget {
             actions: [
               TextButton(
                 child: const Text("OK"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ],
           );
@@ -30,9 +32,11 @@ class SignInPage extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: SignInForm(
           onSignIn: (id, password) {
-            final signInRequest = SignInRequest(id: id, password: password);
+            var builder = SignInRequestBuilder();
+            builder.id = id;
+            builder.password = password;
             api
-                .signIn(signInRequest: signInRequest)
+                .signIn(signInRequest: builder.build())
                 .then((value) =>
                     {showOkDialog(context, "then", value.toString())})
                 .catchError((error) {

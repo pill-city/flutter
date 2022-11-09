@@ -15,10 +15,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
-  openapi:
+  pill_city:
     git:
       url: git@github.com:pill-city/dart-sdk.git
-      ref: 6410dd4dfde50ff216431c8233cb974f0b6417ca
+      ref: b73e3ee4d94a394b438c8cc43d6e8c94c31a2791
 
 dev_dependencies:
   flutter_test:

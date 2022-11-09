@@ -21,6 +21,8 @@ class SignInForm extends StatefulWidget {
 
 class SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class SignInFormState extends State<SignInForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           TextFormField(
+            controller: idController,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: AppLocalizations.of(context)!.id,
@@ -43,6 +46,7 @@ class SignInFormState extends State<SignInForm> {
           ),
           const SizedBox(height: 12),
           TextFormField(
+            controller: passwordController,
             obscureText: true,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
@@ -62,7 +66,9 @@ class SignInFormState extends State<SignInForm> {
                       borderRadius: BorderRadius.circular(24)),
                   minimumSize: const Size(144, 48)),
               onPressed: () {
-                if (_formKey.currentState!.validate()) {}
+                if (_formKey.currentState!.validate()) {
+                  widget.onSignIn(idController.text, passwordController.text);
+                }
               },
               child: Text(AppLocalizations.of(context)!.signin))
         ],
