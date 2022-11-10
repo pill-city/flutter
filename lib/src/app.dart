@@ -114,9 +114,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_calculateSelectedLabel(context)),
-      ),
       body: child,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -124,7 +121,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
         unselectedFontSize: 12,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.forest),
+            icon: Icon(Icons.circle_outlined),
             label: 'Circles',
           ),
           BottomNavigationBarItem(
@@ -168,26 +165,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
       return 4;
     }
     return 2;
-  }
-
-  static String _calculateSelectedLabel(BuildContext context) {
-    final String location = GoRouterState.of(context).location;
-    if (location == '/circles') {
-      return "Circles";
-    }
-    if (location == '/users') {
-      return "Users";
-    }
-    if (location == '/home') {
-      return "Home";
-    }
-    if (location == '/notifications') {
-      return "Notifications";
-    }
-    if (location == '/profile') {
-      return "Profile";
-    }
-    return "Home";
   }
 
   void _onItemTapped(int index, BuildContext context) {
