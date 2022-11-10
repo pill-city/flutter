@@ -3,5 +3,8 @@
   "password": "Password",
   "signin": "Sign In",
   "valid_id_please": "Please enter a valid ID (not your email)",
-  "valid_password_please": "Please enter a valid password"
+  "valid_password_please": "Please enter a valid password",
+  "signing_in": "Sign in...",
+  "error": "Error",
+  "unknown_error": "Unknown error"
 }
