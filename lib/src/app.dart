@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pill_city_flutter/src/api/app_global_state.dart';
 import 'package:pill_city_flutter/src/pages/circles.dart';
 import 'package:pill_city_flutter/src/pages/home.dart';
 import 'package:pill_city_flutter/src/pages/notifications.dart';
 import 'package:pill_city_flutter/src/pages/profile.dart';
 import 'package:pill_city_flutter/src/pages/signin.dart';
 import 'package:pill_city_flutter/src/pages/users.dart';
-
-const secureStorage = FlutterSecureStorage();
+import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +38,9 @@ class MyApp extends StatelessWidget {
       routerConfig: GoRouter(
           initialLocation: '/home',
           redirect: (context, state) async {
-            var accessToken = await secureStorage.read(key: 'access_token');
-            if (accessToken == null) {
-              return '/signin';
-            }
-            var expires = await secureStorage.read(key: 'expires');
-            if (expires == null) {
-              return '/signin';
-            }
-            var expiresSeconds = int.parse(expires);
-            var now = DateTime.now().millisecondsSinceEpoch / 1000;
-            if (expiresSeconds <= now) {
+            final appGlobalState =
+                Provider.of<AppGlobalState>(context, listen: false);
+            if ((await appGlobalState.getAccessToken()) == null) {
               return '/signin';
             }
             return null;

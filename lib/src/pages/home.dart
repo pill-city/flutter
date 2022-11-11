@@ -1,10 +1,9 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pill_city/pill_city.dart';
-
-const secureStorage = FlutterSecureStorage();
+import 'package:pill_city_flutter/src/api/app_global_state.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,21 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  late Future<BuiltList<Post>> futurePosts;
-
-  @override
-  void initState() {
-    super.initState();
-    futurePosts = loadPosts();
-  }
-
-  Future<BuiltList<Post>> loadPosts() async {
-    final accessToken = await secureStorage.read(key: "access_token");
-    if (accessToken == null) {
-      return Future.error("fa");
-    }
-    PillCity api = PillCity();
-    api.setBearerAuth("bearer", accessToken);
+  Future<BuiltList<Post>> loadPosts(BuildContext context) async {
+    final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
+    final api = await appGlobalState.getAuthenticatedApi();
     try {
       final response = await api.getCoreApi().getHome();
       if (response.data == null) {
@@ -44,7 +31,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Center(
       child: FutureBuilder<BuiltList<Post>>(
-        future: futurePosts,
+        future: loadPosts(context),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Text(snapshot.data!.toString());
