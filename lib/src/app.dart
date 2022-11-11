@@ -55,7 +55,7 @@ class App extends StatelessWidget {
                 navigatorKey: _shellNavigatorKey,
                 builder:
                     (BuildContext context, GoRouterState state, Widget child) {
-                  return ScaffoldWithNavBar(child: child);
+                  return MyScaffold(child: child);
                 },
                 routes: [
                   GoRoute(
@@ -94,8 +94,8 @@ class App extends StatelessWidget {
   }
 }
 
-class ScaffoldWithNavBar extends StatelessWidget {
-  const ScaffoldWithNavBar({
+class MyScaffold extends StatelessWidget {
+  const MyScaffold({
     required this.child,
     Key? key,
   }) : super(key: key);
@@ -104,38 +104,38 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.visibility),
-            label: AppLocalizations.of(context)!.scopes,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.people),
-            label: AppLocalizations.of(context)!.users,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: AppLocalizations.of(context)!.home,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.notifications),
-            label: AppLocalizations.of(context)!.notifications,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.account_circle),
-            label: AppLocalizations.of(context)!.profile,
-          ),
-        ],
-        currentIndex: _calculateSelectedIndex(context),
-        onTap: (int idx) => _onItemTapped(idx, context),
-      ),
-    );
+    return SafeArea(
+        child: Scaffold(
+            body: child,
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              selectedFontSize: 12,
+              unselectedFontSize: 12,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.visibility),
+                  label: AppLocalizations.of(context)!.scopes,
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.people),
+                  label: AppLocalizations.of(context)!.users,
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.home),
+                  label: AppLocalizations.of(context)!.home,
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.notifications),
+                  label: AppLocalizations.of(context)!.notifications,
+                ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.account_circle),
+                  label: AppLocalizations.of(context)!.profile,
+                ),
+              ],
+              currentIndex: _calculateSelectedIndex(context),
+              onTap: (int idx) => _onItemTapped(idx, context),
+            )));
   }
 
   static int _calculateSelectedIndex(BuildContext context) {
