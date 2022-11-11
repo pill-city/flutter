@@ -3,10 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pill_city_flutter/src/api/app_global_state.dart';
-import 'package:pill_city_flutter/src/pages/circles.dart';
 import 'package:pill_city_flutter/src/pages/home.dart';
 import 'package:pill_city_flutter/src/pages/notifications.dart';
 import 'package:pill_city_flutter/src/pages/profile.dart';
+import 'package:pill_city_flutter/src/pages/scopes.dart';
 import 'package:pill_city_flutter/src/pages/signin.dart';
 import 'package:pill_city_flutter/src/pages/users.dart';
 import 'package:provider/provider.dart';
@@ -59,9 +59,9 @@ class App extends StatelessWidget {
                 },
                 routes: [
                   GoRoute(
-                    path: '/circles',
+                    path: '/scopes',
                     builder: (BuildContext context, GoRouterState state) {
-                      return CirclesPage();
+                      return ScopesPage();
                     },
                   ),
                   GoRoute(
@@ -73,7 +73,7 @@ class App extends StatelessWidget {
                   GoRoute(
                     path: '/home',
                     builder: (BuildContext context, GoRouterState state) {
-                      return HomePage();
+                      return const HomePage();
                     },
                   ),
                   GoRoute(
@@ -110,26 +110,26 @@ class ScaffoldWithNavBar extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         selectedFontSize: 12,
         unselectedFontSize: 12,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.circle_outlined),
-            label: 'Circles',
+            icon: const Icon(Icons.visibility),
+            label: AppLocalizations.of(context)!.scopes,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Users',
+            icon: const Icon(Icons.people),
+            label: AppLocalizations.of(context)!.users,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.home,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
+            icon: const Icon(Icons.notifications),
+            label: AppLocalizations.of(context)!.notifications,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            icon: const Icon(Icons.account_circle),
+            label: AppLocalizations.of(context)!.profile,
           ),
         ],
         currentIndex: _calculateSelectedIndex(context),
@@ -140,7 +140,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).location;
-    if (location == '/circles') {
+    if (location == '/scopes') {
       return 0;
     }
     if (location == '/users') {
@@ -161,7 +161,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        GoRouter.of(context).go('/circles');
+        GoRouter.of(context).go('/scopes');
         break;
       case 1:
         GoRouter.of(context).go('/users');

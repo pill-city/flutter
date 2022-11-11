@@ -6,5 +6,10 @@
   "valid_password_please": "Please enter a valid password",
   "signing_in": "Sign in...",
   "error": "Error",
-  "unknown_error": "Unknown error"
+  "unknown_error": "Unknown error",
+  "scopes": "Scopes",
+  "users": "Users",
+  "home": "Home",
+  "notifications": "Notifications",
+  "profile": "Profile"
 }
