@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pill_city_flutter/src/api/home_state.dart';
+import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,7 +20,18 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeState>(builder: (context, home, child) {
-      return Text(home.posts.toString());
+      if (home.loading) {
+        return const Center(child: CircularProgressIndicator());
+      } else {
+        return ListView.builder(
+            itemCount: home.posts.length,
+            itemBuilder: (context, index) {
+              return Column(children: [
+                PostWidget(post: home.posts[index]),
+                const Divider()
+              ]);
+            });
+      }
     });
   }
 }

@@ -10,6 +10,8 @@ class HomeState extends ChangeNotifier {
 
   UnmodifiableListView<Post> get posts => UnmodifiableListView(_posts);
 
+  bool loading = true;
+
   Future<void> fetchPosts(BuildContext context) async {
     final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
     final api = await appGlobalState.getAuthenticatedApi();
@@ -22,6 +24,7 @@ class HomeState extends ChangeNotifier {
     } on DioError catch (error) {
       return Future.error(error);
     } finally {
+      loading = false;
       notifyListeners();
     }
   }

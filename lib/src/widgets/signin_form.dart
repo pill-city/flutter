@@ -44,7 +44,7 @@ class SignInFormState extends State<SignInForm> {
               return null;
             },
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           TextFormField(
             controller: passwordController,
             obscureText: true,
@@ -59,12 +59,12 @@ class SignInFormState extends State<SignInForm> {
               return null;
             },
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           ElevatedButton(
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24)),
-                  minimumSize: const Size(144, 48)),
+                      borderRadius: BorderRadius.circular(32)),
+                  minimumSize: const Size(192, 64)),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   widget.onSignIn(idController.text, passwordController.text);

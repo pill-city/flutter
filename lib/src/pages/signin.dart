@@ -42,7 +42,7 @@ class SignInPage extends StatelessWidget {
           content: Row(
             children: [
               const CircularProgressIndicator(),
-              const SizedBox(width: 24),
+              const SizedBox(width: 32),
               Text(AppLocalizations.of(context)!.signing_in),
             ],
           ),
@@ -54,7 +54,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
     return Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(32),
         child: SignInForm(
           onSignIn: (id, password) async {
             var builder = SignInRequestBuilder();
