@@ -9,8 +9,8 @@ class HomeState extends ChangeNotifier {
   final List<Post> _posts = [];
 
   UnmodifiableListView<Post> get posts => UnmodifiableListView(_posts);
-
   bool loading = true;
+  DioError? error;
 
   Future<void> fetchPosts(BuildContext context) async {
     final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
@@ -21,8 +21,8 @@ class HomeState extends ChangeNotifier {
         return Future.error("Failed to poll posts");
       }
       _posts.addAll(response.data!);
-    } on DioError catch (error) {
-      return Future.error(error);
+    } on DioError catch (errorCaught) {
+      error = errorCaught;
     } finally {
       loading = false;
       notifyListeners();

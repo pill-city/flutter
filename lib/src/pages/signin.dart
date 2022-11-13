@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/api/app_global_state.dart';
+import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/widgets/signin_form.dart';
 import 'package:provider/provider.dart';
 
@@ -83,26 +82,11 @@ class SignInPage extends StatelessWidget {
             } on DioError catch (error) {
               if (!mounted) return;
               Navigator.of(context).pop();
-              Map<String, dynamic>? decodedResponse;
-              try {
-                decodedResponse = json.decode(error.response.toString())
-                    as Map<String, dynamic>;
-              } on FormatException catch (_) {
-                showOkDialog(context, AppLocalizations.of(context)!.error,
-                    AppLocalizations.of(context)!.unknown_error);
-              }
-              if (decodedResponse == null) {
-                showOkDialog(context, AppLocalizations.of(context)!.error,
-                    error.response.toString());
-                return;
-              }
-              if (!decodedResponse.containsKey('msg')) {
-                showOkDialog(context, AppLocalizations.of(context)!.error,
-                    error.response.toString());
-                return;
-              }
-              showOkDialog(context, AppLocalizations.of(context)!.error,
-                  decodedResponse['msg']);
+              showOkDialog(
+                  context,
+                  AppLocalizations.of(context)!.error,
+                  getErrorMessage(error) ??
+                      AppLocalizations.of(context)!.unknown_error);
             }
           },
         ));
