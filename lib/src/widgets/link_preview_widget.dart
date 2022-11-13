@@ -28,21 +28,22 @@ class LinkPreviewWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                if (linkPreview.imageUrls != null &&
-                    linkPreview.imageUrls!.isNotEmpty)
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 48,
-                        child: Image.network(
-                          linkPreview.imageUrls![0],
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.broken_image),
-                        ),
-                      ),
-                      const SizedBox(width: 8)
-                    ],
-                  ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 48,
+                      child: linkPreview.imageUrls != null &&
+                              linkPreview.imageUrls!.isNotEmpty
+                          ? Image.network(
+                              linkPreview.imageUrls![0],
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.broken_image),
+                            )
+                          : const Icon(Icons.link),
+                    ),
+                    const SizedBox(width: 8)
+                  ],
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
