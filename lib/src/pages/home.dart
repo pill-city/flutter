@@ -34,6 +34,7 @@ class HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               return Column(children: [
                 PostWidget(post: home.posts[index]),
+                const SizedBox(height: 16),
                 const Divider()
               ]);
             });

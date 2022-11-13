@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ktachibana.pillcity.pill_city_flutter">
    <application
-        android:label="Pill City (Beta)"
+        android:label="Pill City α"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
