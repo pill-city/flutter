@@ -12,7 +12,10 @@ class HomeState extends ChangeNotifier {
   bool loading = true;
   DioError? error;
 
-  Future<void> fetchPosts(BuildContext context) async {
+  Future<void> loadInitialPosts(BuildContext context) async {
+    if (_posts.isNotEmpty) {
+      return;
+    }
     final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
     final api = await appGlobalState.getAuthenticatedApi();
     try {

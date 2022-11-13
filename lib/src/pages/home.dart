@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
-    Provider.of<HomeState>(context, listen: false).fetchPosts(context);
+    Provider.of<HomeState>(context, listen: false).loadInitialPosts(context);
     super.initState();
   }
 
