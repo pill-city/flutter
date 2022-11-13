@@ -31,22 +31,27 @@ class LinkPreviewWidget extends StatelessWidget {
                   const SizedBox(width: 8)
                 ],
               ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (linkPreview.title != null)
-                  Text(
-                    linkPreview.title!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                if (linkPreview.subtitle != null)
-                  Text(
-                    linkPreview.subtitle!,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (linkPreview.title != null)
+                    Text(
+                      linkPreview.title!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textScaleFactor: 0.9,
+                    ),
+                  if (linkPreview.subtitle != null)
+                    Text(
+                      linkPreview.subtitle!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textScaleFactor: 0.8,
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                ],
+              ),
             )
           ],
         ),
