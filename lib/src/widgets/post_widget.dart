@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
-import 'package:pill_city_flutter/src/utils/get_media_url_v2_image.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
+import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/link_preview_widget.dart';
 
 class PostWidget extends StatelessWidget {
@@ -15,8 +15,21 @@ class PostWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-          leading: CircleAvatar(
-              backgroundImage: getMediaUrlV2Image(post.author.avatarUrlV2)),
+          leading: post.author.avatarUrlV2 != null
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      post.author.avatarUrlV2!.processed
+                          ? post.author.avatarUrlV2!.processedUrl!
+                          : post.author.avatarUrlV2!.originalUrl),
+                  backgroundColor: post.author.avatarUrlV2!.processed
+                      ? HexColor.fromHex(
+                          post.author.avatarUrlV2!.dominantColorHex!)
+                      : Colors.grey,
+                )
+              : CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  child: Text(post.author.id[0]),
+                ),
           title: Text(getUserPrimaryName(post.author),
               maxLines: 1, overflow: TextOverflow.ellipsis),
           subtitle: getUserSecondaryName(post.author) != null
