@@ -17,7 +17,8 @@ class LinkPreviewWidget extends StatelessWidget {
       parsedUrl = Uri.parse(linkPreview.url);
     } on FormatException {}
 
-    return InkWell(
+    return Card(
+      child: InkWell(
         onTap: () {
           if (parsedUrl == null) {
             return;
@@ -27,62 +28,62 @@ class LinkPreviewWidget extends StatelessWidget {
             mode: LaunchMode.externalApplication,
           );
         },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 48,
-                  child: linkPreview.imageUrls != null &&
-                          linkPreview.imageUrls!.isNotEmpty
-                      ? Image.network(
-                          linkPreview.imageUrls![0],
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.broken_image),
-                        )
-                      : const Icon(Icons.link),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (linkPreview.title != null)
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 48,
+                child: linkPreview.imageUrls != null &&
+                        linkPreview.imageUrls!.isNotEmpty
+                    ? Image.network(
+                        linkPreview.imageUrls![0],
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.broken_image),
+                      )
+                    : const Icon(Icons.link),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (linkPreview.title != null)
+                      Text(
+                        linkPreview.title!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textScaleFactor: 0.9,
+                      ),
+                    if (linkPreview.subtitle != null)
+                      Column(children: [
+                        const SizedBox(height: 4),
                         Text(
-                          linkPreview.title!,
+                          linkPreview.subtitle!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textScaleFactor: 0.8,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ]),
+                    if (parsedUrl != null)
+                      Column(children: [
+                        const SizedBox(height: 4),
+                        Text(
+                          parsedUrl.host,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          textScaleFactor: 0.9,
+                          textScaleFactor: 0.7,
+                          style: const TextStyle(color: Colors.grey),
                         ),
-                      if (linkPreview.subtitle != null)
-                        Column(children: [
-                          const SizedBox(height: 4),
-                          Text(
-                            linkPreview.subtitle!,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textScaleFactor: 0.8,
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-                        ]),
-                      if (parsedUrl != null)
-                        Column(children: [
-                          const SizedBox(height: 4),
-                          Text(
-                            parsedUrl.host,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textScaleFactor: 0.7,
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-                        ])
-                    ],
-                  ),
-                )
-              ],
-            ),
+                      ])
+                  ],
+                ),
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
