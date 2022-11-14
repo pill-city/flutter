@@ -5,7 +5,7 @@ import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/link_preview_widget.dart';
-import 'package:pill_city_flutter/src/widgets/post_media_widget.dart';
+import 'package:pill_city_flutter/src/widgets/post_media_collage.dart';
 
 const subTextStyle = TextStyle(fontSize: 12, color: Colors.grey);
 
@@ -64,7 +64,7 @@ class PostWidget extends StatelessWidget {
                 if (post.mediaUrlsV2 != null && post.mediaUrlsV2!.isNotEmpty)
                   Column(children: [
                     const SizedBox(height: 8),
-                    PostMediaWidget(postMedia: post.mediaUrlsV2!.first)
+                    PostMediaCollage(postMedia: post.mediaUrlsV2!)
                   ]),
                 if (post.linkPreviews != null && post.linkPreviews!.isNotEmpty)
                   Column(children: [
