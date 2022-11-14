@@ -26,7 +26,7 @@ class PostMediaWidget extends StatelessWidget {
           }
         },
         errorBuilder: (context, error, stackTrace) =>
-            const Icon(Icons.broken_image),
+        const Icon(Icons.broken_image),
       ),
     );
   }
