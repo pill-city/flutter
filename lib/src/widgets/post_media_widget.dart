@@ -18,15 +18,19 @@ class PostMediaWidget extends StatelessWidget {
           }
           if (!postMedia.processed) {
             return const Icon(Icons.image);
-          } else {
-            return Container(
-                width: postMedia.width!.toDouble(),
-                height: postMedia.height!.toDouble(),
-                color: HexColor.fromHex(postMedia.dominantColorHex!));
           }
+          return AspectRatio(
+            aspectRatio:
+                postMedia.width!.toDouble() / postMedia.height!.toDouble(),
+            child: Container(
+              color: HexColor.fromHex(
+                postMedia.dominantColorHex!,
+              ),
+            ),
+          );
         },
         errorBuilder: (context, error, stackTrace) =>
-        const Icon(Icons.broken_image),
+            const Icon(Icons.broken_image),
       ),
     );
   }

@@ -14,7 +14,7 @@
   "profile": "Profile",
   "retry": "Retry",
   "public": "Public",
-  "circles": "{count, plural, one{1 circle}, other{{count} circles}}",
+  "circles": "{count, plural, =0{No circle}, =1{1 circle}, other{{count} circles}}",
   "@circles": {
     "description": "The number of circles a post is in",
     "placeholders": {

@@ -14,7 +14,7 @@
   "profile": "个人资料",
   "retry": "重试",
   "public": "公开",
-  "circles": "{count, plural, one{1 个圈子}, other{{count} 个圈子}}",
+  "circles": "{count, plural, =0{没有圈子} one{1 个圈子}, other{{count} 个圈子}}",
   "@circles": {
     "description": "The number of circles a post is in",
     "placeholders": {
