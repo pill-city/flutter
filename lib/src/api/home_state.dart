@@ -22,6 +22,7 @@ class HomeState extends ChangeNotifier {
     }
     loadingInitialPosts = true;
     initialPostsError = null;
+    notifyListeners();
     final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
     final api = await appGlobalState.getAuthenticatedApi();
     try {
@@ -44,6 +45,7 @@ class HomeState extends ChangeNotifier {
     }
     loadingMorePosts = true;
     morePostsError = null;
+    notifyListeners();
     final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
     final api = await appGlobalState.getAuthenticatedApi();
     try {

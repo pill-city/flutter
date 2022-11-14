@@ -54,17 +54,16 @@ class HomePageState extends State<HomePage> {
                   }
                   return const LinearProgressIndicator();
                 } else {
-                  return InkWell(
-                    onTap: () {
-                      home.loadMorePosts(context);
-                    },
-                    child: Column(
-                      children: [
-                        Text(getErrorMessage(home.morePostsError!) ??
-                            AppLocalizations.of(context)!.unknown_error),
-                        Text(AppLocalizations.of(context)!.retry)
-                      ],
-                    ),
+                  return Column(
+                    children: [
+                      Text(getErrorMessage(home.morePostsError!) ??
+                          AppLocalizations.of(context)!.unknown_error),
+                      ElevatedButton(
+                          onPressed: () {
+                            home.loadMorePosts(context);
+                          },
+                          child: Text(AppLocalizations.of(context)!.retry))
+                    ],
                   );
                 }
               }
