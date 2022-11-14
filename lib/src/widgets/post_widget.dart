@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/link_preview_widget.dart';
+
+const subTextStyle = TextStyle(fontSize: 12, color: Colors.grey);
 
 class PostWidget extends StatelessWidget {
   const PostWidget({super.key, required this.post});
@@ -30,12 +34,23 @@ class PostWidget extends StatelessWidget {
                   backgroundColor: Colors.grey,
                   child: Text(post.author.id[0]),
                 ),
-          title: Text(getUserPrimaryName(post.author),
-              maxLines: 1, overflow: TextOverflow.ellipsis),
-          subtitle: getUserSecondaryName(post.author) != null
-              ? Text(getUserSecondaryName(post.author)!,
-                  maxLines: 1, overflow: TextOverflow.ellipsis)
-              : null,
+          title: RichText(
+            text: TextSpan(
+              text: getUserPrimaryName(post.author),
+              style: DefaultTextStyle.of(context).style,
+              children: [
+                if (getUserSecondaryName(post.author) != null)
+                  TextSpan(
+                    text: ' @${post.author.id}',
+                    style: subTextStyle,
+                  ),
+              ],
+            ),
+          ),
+          subtitle: Text(
+            "▸ ${post.isPublic ? AppLocalizations.of(context)!.public : post.circles != null && post.circles!.isNotEmpty ? AppLocalizations.of(context)!.circles(post.circles!.length) : AppLocalizations.of(context)!.only_you} · ${formatDuration(post.createdAtSeconds)}",
+            style: subTextStyle,
+          ),
         ),
         Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),

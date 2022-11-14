@@ -12,5 +12,14 @@
   "home": "Home",
   "notifications": "Notifications",
   "profile": "Profile",
-  "retry": "Retry"
+  "retry": "Retry",
+  "public": "Public",
+  "circles": "{count, plural, one{1 circle}, other{{count} circles}}",
+  "@circles": {
+    "description": "The number of circles a post is in",
+    "placeholders": {
+      "count": { }
+    }
+  },
+  "only_you": "Only you"
 }
