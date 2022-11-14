@@ -11,5 +11,6 @@
   "users": "Users",
   "home": "Home",
   "notifications": "Notifications",
-  "profile": "Profile"
+  "profile": "Profile",
+  "retry": "Retry"
 }

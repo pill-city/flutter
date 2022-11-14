@@ -22,21 +22,52 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeState>(builder: (context, home, child) {
-      if (home.loading) {
+      if (home.loadingInitialPosts) {
         return const Center(child: CircularProgressIndicator());
-      } else if (home.error != null) {
-        return Center(
-            child: Text(getErrorMessage(home.error!) ??
-                AppLocalizations.of(context)!.unknown_error));
+      } else if (home.initialPostsError != null) {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(getErrorMessage(home.initialPostsError!) ??
+                  AppLocalizations.of(context)!.unknown_error),
+              ElevatedButton(
+                  onPressed: () {
+                    home.loadInitialPosts(context);
+                  },
+                  child: Text(AppLocalizations.of(context)!.retry))
+            ]);
       } else {
         return ListView.builder(
-            itemCount: home.posts.length,
+            itemCount: home.posts.length + 1,
             itemBuilder: (context, index) {
-              return Column(children: [
-                PostWidget(post: home.posts[index]),
-                const SizedBox(height: 16),
-                const Divider()
-              ]);
+              if (index < home.posts.length) {
+                return Column(children: [
+                  PostWidget(post: home.posts[index]),
+                  const SizedBox(height: 16),
+                  const Divider()
+                ]);
+              } else {
+                if (home.morePostsError == null) {
+                  if (!home.loadingMorePosts) {
+                    home.loadMorePosts(context);
+                  }
+                  return const LinearProgressIndicator();
+                } else {
+                  return InkWell(
+                    onTap: () {
+                      home.loadMorePosts(context);
+                    },
+                    child: Column(
+                      children: [
+                        Text(getErrorMessage(home.morePostsError!) ??
+                            AppLocalizations.of(context)!.unknown_error),
+                        Text(AppLocalizations.of(context)!.retry)
+                      ],
+                    ),
+                  );
+                }
+              }
             });
       }
     });

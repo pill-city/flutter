@@ -9,25 +9,53 @@ class HomeState extends ChangeNotifier {
   final List<Post> _posts = [];
 
   UnmodifiableListView<Post> get posts => UnmodifiableListView(_posts);
-  bool loading = true;
-  DioError? error;
+
+  bool loadingInitialPosts = true;
+  DioError? initialPostsError;
+
+  bool loadingMorePosts = false;
+  DioError? morePostsError;
 
   Future<void> loadInitialPosts(BuildContext context) async {
     if (_posts.isNotEmpty) {
       return;
     }
+    loadingInitialPosts = true;
+    initialPostsError = null;
     final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
     final api = await appGlobalState.getAuthenticatedApi();
     try {
       final response = await api.getCoreApi().getHome();
       if (response.data == null) {
-        return Future.error("Failed to poll posts");
+        return Future.error("Failed to load initial posts");
       }
       _posts.addAll(response.data!);
     } on DioError catch (errorCaught) {
-      error = errorCaught;
+      initialPostsError = errorCaught;
     } finally {
-      loading = false;
+      loadingInitialPosts = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadMorePosts(BuildContext context) async {
+    if (_posts.isEmpty) {
+      return;
+    }
+    loadingMorePosts = true;
+    morePostsError = null;
+    final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
+    final api = await appGlobalState.getAuthenticatedApi();
+    try {
+      final response = await api.getCoreApi().getHome(fromId: _posts.last.id);
+      if (response.data == null) {
+        return Future.error("Failed to load more posts");
+      }
+      _posts.addAll(response.data!);
+    } on DioError catch (errorCaught) {
+      morePostsError = errorCaught;
+    } finally {
+      loadingMorePosts = false;
       notifyListeners();
     }
   }
