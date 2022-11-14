@@ -17,9 +17,11 @@ class PostWidget extends StatelessWidget {
         ListTile(
           leading: CircleAvatar(
               backgroundImage: getMediaUrlV2Image(post.author.avatarUrlV2)),
-          title: Text(getUserPrimaryName(post.author)),
+          title: Text(getUserPrimaryName(post.author),
+              maxLines: 1, overflow: TextOverflow.ellipsis),
           subtitle: getUserSecondaryName(post.author) != null
-              ? Text(getUserSecondaryName(post.author)!)
+              ? Text(getUserSecondaryName(post.author)!,
+                  maxLines: 1, overflow: TextOverflow.ellipsis)
               : null,
         ),
         Padding(
@@ -27,7 +29,9 @@ class PostWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (post.content != null) Text(post.content!),
+                if (post.content != null)
+                  Text(post.content!,
+                      maxLines: 20, overflow: TextOverflow.fade),
                 if (post.linkPreviews != null && post.linkPreviews!.isNotEmpty)
                   Column(children: [
                     const SizedBox(height: 8),
