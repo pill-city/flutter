@@ -33,7 +33,8 @@ class LinkPreviewWidget extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(
-                width: 48,
+                height: 80,
+                width: 64,
                 child: linkPreview.imageUrls != null &&
                         linkPreview.imageUrls!.isNotEmpty
                     ? Image.network(

@@ -10,6 +10,9 @@ class PostMediaCollage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PostMediaImage(postMedia: postMedia.first);
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 1080),
+      child: PostMediaImage(postMedia: postMedia.first),
+    );
   }
 }
