@@ -18,6 +18,7 @@ class LinkPreviewWidget extends StatelessWidget {
     } on FormatException {}
 
     return Card(
+      margin: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
           if (parsedUrl == null) {
