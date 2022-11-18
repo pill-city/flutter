@@ -24,16 +24,48 @@ class PostMediaCollage extends StatelessWidget {
     );
   }
 
+  Widget build2(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: 240,
+        width: double.infinity,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 20,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge,
+                child: PostMediaImage(postMedia: postMedia.first),
+              ),
+            ),
+            const Expanded(flex: 1, child: SizedBox()),
+            Expanded(
+              flex: 20,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge,
+                child: PostMediaImage(postMedia: postMedia[1]),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (postMedia.length == 1) {
       return build1(context);
     } else if (postMedia.length == 2) {
-      return build1(context);
+      return build2(context);
     } else if (postMedia.length == 3) {
-      return build1(context);
+      return build2(context);
     } else {
-      return build1(context);
+      return build2(context);
     }
   }
 }
