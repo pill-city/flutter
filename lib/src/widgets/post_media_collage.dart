@@ -56,6 +56,121 @@ class PostMediaCollage extends StatelessWidget {
     );
   }
 
+  Widget build3(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: 240,
+        width: double.infinity,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 24,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge,
+                child: PostMediaImage(postMedia: postMedia.first),
+              ),
+            ),
+            const Expanded(flex: 1, child: SizedBox()),
+            Expanded(
+              flex: 24,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 24,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: PostMediaImage(postMedia: postMedia[1]),
+                    ),
+                  ),
+                  const Expanded(flex: 1, child: SizedBox()),
+                  Expanded(
+                    flex: 24,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: PostMediaImage(postMedia: postMedia[2]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget build4(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: 240,
+        width: double.infinity,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 24,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 24,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: PostMediaImage(postMedia: postMedia.first),
+                    ),
+                  ),
+                  const Expanded(flex: 1, child: SizedBox()),
+                  Expanded(
+                    flex: 24,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: PostMediaImage(postMedia: postMedia[2]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Expanded(flex: 1, child: SizedBox()),
+            Expanded(
+              flex: 24,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 24,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: PostMediaImage(postMedia: postMedia[1]),
+                    ),
+                  ),
+                  const Expanded(flex: 1, child: SizedBox()),
+                  Expanded(
+                    flex: 24,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: PostMediaImage(postMedia: postMedia[3]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (postMedia.length == 1) {
@@ -63,9 +178,9 @@ class PostMediaCollage extends StatelessWidget {
     } else if (postMedia.length == 2) {
       return build2(context);
     } else if (postMedia.length == 3) {
-      return build2(context);
+      return build3(context);
     } else {
-      return build2(context);
+      return build4(context);
     }
   }
 }
