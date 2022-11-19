@@ -34,7 +34,7 @@ class PostMediaCollage extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 20,
+              flex: 24,
               child: FittedBox(
                 fit: BoxFit.cover,
                 clipBehavior: Clip.hardEdge,
@@ -43,7 +43,7 @@ class PostMediaCollage extends StatelessWidget {
             ),
             const Expanded(flex: 1, child: SizedBox()),
             Expanded(
-              flex: 20,
+              flex: 24,
               child: FittedBox(
                 fit: BoxFit.cover,
                 clipBehavior: Clip.hardEdge,
