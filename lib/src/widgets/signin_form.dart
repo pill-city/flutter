@@ -60,17 +60,21 @@ class SignInFormState extends State<SignInForm> {
             },
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
+          FractionallySizedBox(
+            widthFactor: 0.6,
+            child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32)),
-                  minimumSize: const Size(192, 64)),
+                  minimumSize: const Size(double.infinity, 48)),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   widget.onSignIn(idController.text, passwordController.text);
                 }
               },
-              child: Text(AppLocalizations.of(context)!.signin))
+              child: Text(AppLocalizations.of(context)!.signin),
+            ),
+          ),
         ],
       ),
     );
