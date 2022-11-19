@@ -21,5 +21,12 @@
       "count": { }
     }
   },
-  "only_you": "自己"
+  "only_you": "自己",
+  "and_more_link_previews": "{count, plural, =0{没有链接预览了}, =1{还有 1 个链接预览}, other{还有 {count} 个链接预览}}",
+  "@and_more_link_previews": {
+    "description": "The number of link previews",
+    "placeholders": {
+      "count": { }
+    }
+  }
 }

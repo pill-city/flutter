@@ -1,10 +1,12 @@
 import 'package:pill_city/pill_city.dart';
 
+const displayNameMaxLength = 20;
+
 String getUserPrimaryName(User user) {
   if (user.displayName != null) {
-    return user.displayName!.length < 20
+    return user.displayName!.length < displayNameMaxLength
         ? user.displayName!
-        : "${user.displayName!.substring(0, 20)}...";
+        : "${user.displayName!.substring(0, displayNameMaxLength)}...";
   }
   return user.id;
 }

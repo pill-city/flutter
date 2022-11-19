@@ -21,5 +21,12 @@
       "count": { }
     }
   },
-  "only_you": "Only you"
+  "only_you": "Only you",
+  "and_more_link_previews": "{count, plural, =0{No more link previews}, =1{and 1 more link preview}, other{and {count} more link previews}}",
+  "@and_more_link_previews": {
+    "description": "The number of link previews",
+    "placeholders": {
+      "count": { }
+    }
+  }
 }

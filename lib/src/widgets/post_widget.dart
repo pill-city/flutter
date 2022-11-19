@@ -7,7 +7,9 @@ import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
 
-import 'link_preview_widget.dart';
+import 'link_previews_widget.dart';
+
+const contentMaxLines = 20;
 
 const subTextStyle = TextStyle(fontSize: 12, color: Colors.grey);
 
@@ -62,25 +64,17 @@ class PostWidget extends StatelessWidget {
               children: [
                 if (post.content != null)
                   Text(post.content!,
-                      maxLines: 20, overflow: TextOverflow.fade),
+                      maxLines: contentMaxLines, overflow: TextOverflow.fade),
                 if (post.mediaUrlsV2 != null && post.mediaUrlsV2!.isNotEmpty)
                   Column(children: [
                     const SizedBox(height: 8),
                     MediaCollage(mediaList: post.mediaUrlsV2!)
                   ]),
                 if (post.linkPreviews != null && post.linkPreviews!.isNotEmpty)
-                  Column(
-                    children: post.linkPreviews!
-                        .map(
-                          (p) => Column(
-                            children: [
-                              const SizedBox(height: 8),
-                              LinkPreviewWidget(linkPreview: p)
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
+                  Column(children: [
+                    const SizedBox(height: 8),
+                    LinkPreviewsWidget(linkPreviews: post.linkPreviews!)
+                  ]),
                 if (post.reactions != null && post.reactions!.isNotEmpty)
                   Column(children: [
                     const SizedBox(height: 8),
