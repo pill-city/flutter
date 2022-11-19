@@ -4,7 +4,7 @@ import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
-import 'package:pill_city_flutter/src/widgets/post_media_collage.dart';
+import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
 
 import 'link_preview_widget.dart';
@@ -66,7 +66,7 @@ class PostWidget extends StatelessWidget {
                 if (post.mediaUrlsV2 != null && post.mediaUrlsV2!.isNotEmpty)
                   Column(children: [
                     const SizedBox(height: 8),
-                    PostMediaCollage(postMedia: post.mediaUrlsV2!)
+                    MediaCollage(mediaList: post.mediaUrlsV2!)
                   ]),
                 if (post.linkPreviews != null && post.linkPreviews!.isNotEmpty)
                   Column(

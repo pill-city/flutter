@@ -3,13 +3,13 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/pages/media_carousel.dart';
-import 'package:pill_city_flutter/src/widgets/post_media_image.dart';
+import 'package:pill_city_flutter/src/widgets/media_widget.dart';
 
-class PostMediaCollageCell extends StatelessWidget {
-  const PostMediaCollageCell(
-      {super.key, required this.postMedia, required this.index});
+class MediaCollageCell extends StatelessWidget {
+  const MediaCollageCell(
+      {super.key, required this.mediaList, required this.index});
 
-  final BuiltList<MediaUrlV2> postMedia;
+  final BuiltList<MediaUrlV2> mediaList;
 
   final int index;
 
@@ -20,7 +20,7 @@ class PostMediaCollageCell extends StatelessWidget {
         Navigator.of(context, rootNavigator: true).push(
           MaterialPageRoute(
             builder: (context) => MediaCarousel(
-              media: postMedia,
+              media: mediaList,
               initialPage: index,
             ),
           ),
@@ -30,17 +30,17 @@ class PostMediaCollageCell extends StatelessWidget {
         child: FittedBox(
           fit: BoxFit.cover,
           clipBehavior: Clip.hardEdge,
-          child: PostMediaImage(postMedia: postMedia[index]),
+          child: MediaWidget(media: mediaList[index]),
         ),
       ),
     );
   }
 }
 
-class PostMediaCollageColumn extends StatelessWidget {
-  const PostMediaCollageColumn({super.key, required this.cells});
+class MediaCollageColumn extends StatelessWidget {
+  const MediaCollageColumn({super.key, required this.cells});
 
-  final List<PostMediaCollageCell> cells;
+  final List<MediaCollageCell> cells;
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +61,10 @@ class PostMediaCollageColumn extends StatelessWidget {
   }
 }
 
-class PostMediaCollageRow extends StatelessWidget {
-  const PostMediaCollageRow({super.key, required this.items});
+class MediaCollageRow extends StatelessWidget {
+  const MediaCollageRow({super.key, required this.items});
 
-  final List<Either<PostMediaCollageCell, PostMediaCollageColumn>> items;
+  final List<Either<MediaCollageCell, MediaCollageColumn>> items;
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +86,10 @@ class PostMediaCollageRow extends StatelessWidget {
   }
 }
 
-class PostMediaCollageContainer extends StatelessWidget {
-  const PostMediaCollageContainer({super.key, required this.item});
+class MediaCollageContainer extends StatelessWidget {
+  const MediaCollageContainer({super.key, required this.item});
 
-  final Either<PostMediaCollageCell, PostMediaCollageRow> item;
+  final Either<MediaCollageCell, MediaCollageRow> item;
 
   @override
   Widget build(BuildContext context) {

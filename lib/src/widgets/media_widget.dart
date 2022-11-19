@@ -2,36 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 
-class PostMediaImage extends StatelessWidget {
-  const PostMediaImage({super.key, required this.postMedia});
+class MediaWidget extends StatelessWidget {
+  const MediaWidget({super.key, required this.media});
 
-  final MediaUrlV2 postMedia;
+  final MediaUrlV2 media;
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
-        postMedia.processed ? postMedia.processedUrl! : postMedia.originalUrl,
+        media.processed ? media.processedUrl! : media.originalUrl,
         loadingBuilder: (context, child, loadingProgress) {
       if (loadingProgress == null) {
         return child;
       }
-      if (!postMedia.processed) {
+      if (!media.processed) {
         return const Icon(Icons.image);
       }
       return AspectRatio(
-        aspectRatio: postMedia.width!.toDouble() / postMedia.height!.toDouble(),
+        aspectRatio: media.width!.toDouble() / media.height!.toDouble(),
         child: Container(
           color: HexColor.fromHex(
-            postMedia.dominantColorHex!,
+            media.dominantColorHex!,
           ),
         ),
       );
     }, errorBuilder: (context, error, stackTrace) {
-      if (!postMedia.processed) {
+      if (!media.processed) {
         return const Icon(Icons.broken_image);
       }
       return AspectRatio(
-        aspectRatio: postMedia.width!.toDouble() / postMedia.height!.toDouble(),
+        aspectRatio: media.width!.toDouble() / media.height!.toDouble(),
         child: const Icon(Icons.broken_image),
       );
     });
