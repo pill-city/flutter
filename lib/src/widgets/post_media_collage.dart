@@ -33,21 +33,25 @@ class PostMediaCollage extends StatelessWidget {
         width: double.infinity,
         child: Row(
           children: [
-            Expanded(
+            Flexible(
               flex: 24,
-              child: FittedBox(
-                fit: BoxFit.cover,
-                clipBehavior: Clip.hardEdge,
-                child: PostMediaImage(postMedia: postMedia.first),
+              child: SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                  child: PostMediaImage(postMedia: postMedia.first),
+                ),
               ),
             ),
             const Expanded(flex: 1, child: SizedBox()),
-            Expanded(
+            Flexible(
               flex: 24,
-              child: FittedBox(
-                fit: BoxFit.cover,
-                clipBehavior: Clip.hardEdge,
-                child: PostMediaImage(postMedia: postMedia[1]),
+              child: SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                  child: PostMediaImage(postMedia: postMedia[1]),
+                ),
               ),
             ),
           ],
@@ -65,35 +69,41 @@ class PostMediaCollage extends StatelessWidget {
         width: double.infinity,
         child: Row(
           children: [
-            Expanded(
+            Flexible(
               flex: 24,
-              child: FittedBox(
-                fit: BoxFit.cover,
-                clipBehavior: Clip.hardEdge,
-                child: PostMediaImage(postMedia: postMedia.first),
+              child: SizedBox.expand(
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                  child: PostMediaImage(postMedia: postMedia.first),
+                ),
               ),
             ),
             const Expanded(flex: 1, child: SizedBox()),
-            Expanded(
+            Flexible(
               flex: 24,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
+                  Flexible(
                     flex: 24,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      clipBehavior: Clip.hardEdge,
-                      child: PostMediaImage(postMedia: postMedia[1]),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
+                        child: PostMediaImage(postMedia: postMedia[1]),
+                      ),
                     ),
                   ),
                   const Expanded(flex: 1, child: SizedBox()),
-                  Expanded(
+                  Flexible(
                     flex: 24,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      clipBehavior: Clip.hardEdge,
-                      child: PostMediaImage(postMedia: postMedia[2]),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
+                        child: PostMediaImage(postMedia: postMedia[2]),
+                      ),
                     ),
                   ),
                 ],
@@ -114,52 +124,60 @@ class PostMediaCollage extends StatelessWidget {
         width: double.infinity,
         child: Row(
           children: [
-            Expanded(
+            Flexible(
               flex: 24,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
+                  Flexible(
                     flex: 24,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      clipBehavior: Clip.hardEdge,
-                      child: PostMediaImage(postMedia: postMedia.first),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
+                        child: PostMediaImage(postMedia: postMedia.first),
+                      ),
                     ),
                   ),
                   const Expanded(flex: 1, child: SizedBox()),
-                  Expanded(
+                  Flexible(
                     flex: 24,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      clipBehavior: Clip.hardEdge,
-                      child: PostMediaImage(postMedia: postMedia[2]),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
+                        child: PostMediaImage(postMedia: postMedia[2]),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
             const Expanded(flex: 1, child: SizedBox()),
-            Expanded(
+            Flexible(
               flex: 24,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
+                  Flexible(
                     flex: 24,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      clipBehavior: Clip.hardEdge,
-                      child: PostMediaImage(postMedia: postMedia[1]),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
+                        child: PostMediaImage(postMedia: postMedia[1]),
+                      ),
                     ),
                   ),
                   const Expanded(flex: 1, child: SizedBox()),
-                  Expanded(
+                  Flexible(
                     flex: 24,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      clipBehavior: Clip.hardEdge,
-                      child: PostMediaImage(postMedia: postMedia[3]),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
+                        child: PostMediaImage(postMedia: postMedia[3]),
+                      ),
                     ),
                   ),
                 ],
