@@ -22,6 +22,7 @@ dependencies:
       url: git@github.com:pill-city/dart-sdk.git
       ref: cc9c4927de1314c542619a00938676bf756f6b0c
   url_launcher: ^6.1.6
+  either_dart: ^0.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,8 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
-import 'package:pill_city_flutter/src/widgets/post_media_image.dart';
+import 'package:pill_city_flutter/src/widgets/post_media_collage_widgets.dart';
 
 class PostMediaCollage extends StatelessWidget {
   const PostMediaCollage({super.key, required this.postMedia});
@@ -9,51 +10,22 @@ class PostMediaCollage extends StatelessWidget {
   final BuiltList<MediaUrlV2> postMedia;
 
   Widget build1(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      clipBehavior: Clip.antiAlias,
-      child: SizedBox(
-        height: 240,
-        width: double.infinity,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          clipBehavior: Clip.hardEdge,
-          child: PostMediaImage(postMedia: postMedia.first),
+    return PostMediaCollageContainer(
+      item: Left(
+        PostMediaCollageCell(
+          postMedia: postMedia[0],
         ),
       ),
     );
   }
 
   Widget build2(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      clipBehavior: Clip.antiAlias,
-      child: SizedBox(
-        height: 240,
-        width: double.infinity,
-        child: Row(
-          children: [
-            Flexible(
-              flex: 24,
-              child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  clipBehavior: Clip.hardEdge,
-                  child: PostMediaImage(postMedia: postMedia.first),
-                ),
-              ),
-            ),
-            const Expanded(flex: 1, child: SizedBox()),
-            Flexible(
-              flex: 24,
-              child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  clipBehavior: Clip.hardEdge,
-                  child: PostMediaImage(postMedia: postMedia[1]),
-                ),
-              ),
-            ),
+    return PostMediaCollageContainer(
+      item: Right(
+        PostMediaCollageRow(
+          items: [
+            Left(PostMediaCollageCell(postMedia: postMedia[0])),
+            Left(PostMediaCollageCell(postMedia: postMedia[1]))
           ],
         ),
       ),
@@ -61,51 +33,16 @@ class PostMediaCollage extends StatelessWidget {
   }
 
   Widget build3(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      clipBehavior: Clip.antiAlias,
-      child: SizedBox(
-        height: 240,
-        width: double.infinity,
-        child: Row(
-          children: [
-            Flexible(
-              flex: 24,
-              child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  clipBehavior: Clip.hardEdge,
-                  child: PostMediaImage(postMedia: postMedia.first),
-                ),
-              ),
-            ),
-            const Expanded(flex: 1, child: SizedBox()),
-            Flexible(
-              flex: 24,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Flexible(
-                    flex: 24,
-                    child: SizedBox.expand(
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        clipBehavior: Clip.hardEdge,
-                        child: PostMediaImage(postMedia: postMedia[1]),
-                      ),
-                    ),
-                  ),
-                  const Expanded(flex: 1, child: SizedBox()),
-                  Flexible(
-                    flex: 24,
-                    child: SizedBox.expand(
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        clipBehavior: Clip.hardEdge,
-                        child: PostMediaImage(postMedia: postMedia[2]),
-                      ),
-                    ),
-                  ),
+    return PostMediaCollageContainer(
+      item: Right(
+        PostMediaCollageRow(
+          items: [
+            Left(PostMediaCollageCell(postMedia: postMedia[0])),
+            Right(
+              PostMediaCollageColumn(
+                cells: [
+                  PostMediaCollageCell(postMedia: postMedia[1]),
+                  PostMediaCollageCell(postMedia: postMedia[2])
                 ],
               ),
             ),
@@ -116,73 +53,26 @@ class PostMediaCollage extends StatelessWidget {
   }
 
   Widget build4(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      clipBehavior: Clip.antiAlias,
-      child: SizedBox(
-        height: 240,
-        width: double.infinity,
-        child: Row(
-          children: [
-            Flexible(
-              flex: 24,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Flexible(
-                    flex: 24,
-                    child: SizedBox.expand(
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        clipBehavior: Clip.hardEdge,
-                        child: PostMediaImage(postMedia: postMedia.first),
-                      ),
-                    ),
-                  ),
-                  const Expanded(flex: 1, child: SizedBox()),
-                  Flexible(
-                    flex: 24,
-                    child: SizedBox.expand(
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        clipBehavior: Clip.hardEdge,
-                        child: PostMediaImage(postMedia: postMedia[2]),
-                      ),
-                    ),
-                  ),
+    return PostMediaCollageContainer(
+      item: Right(
+        PostMediaCollageRow(
+          items: [
+            Right(
+              PostMediaCollageColumn(
+                cells: [
+                  PostMediaCollageCell(postMedia: postMedia[0]),
+                  PostMediaCollageCell(postMedia: postMedia[2])
                 ],
               ),
             ),
-            const Expanded(flex: 1, child: SizedBox()),
-            Flexible(
-              flex: 24,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Flexible(
-                    flex: 24,
-                    child: SizedBox.expand(
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        clipBehavior: Clip.hardEdge,
-                        child: PostMediaImage(postMedia: postMedia[1]),
-                      ),
-                    ),
-                  ),
-                  const Expanded(flex: 1, child: SizedBox()),
-                  Flexible(
-                    flex: 24,
-                    child: SizedBox.expand(
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        clipBehavior: Clip.hardEdge,
-                        child: PostMediaImage(postMedia: postMedia[3]),
-                      ),
-                    ),
-                  ),
+            Right(
+              PostMediaCollageColumn(
+                cells: [
+                  PostMediaCollageCell(postMedia: postMedia[1]),
+                  PostMediaCollageCell(postMedia: postMedia[3])
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
