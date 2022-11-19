@@ -1,20 +1,37 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/pages/media_carousel.dart';
 import 'package:pill_city_flutter/src/widgets/post_media_image.dart';
 
 class PostMediaCollageCell extends StatelessWidget {
-  const PostMediaCollageCell({super.key, required this.postMedia});
+  const PostMediaCollageCell(
+      {super.key, required this.postMedia, required this.index});
 
-  final MediaUrlV2 postMedia;
+  final BuiltList<MediaUrlV2> postMedia;
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: FittedBox(
-        fit: BoxFit.cover,
-        clipBehavior: Clip.hardEdge,
-        child: PostMediaImage(postMedia: postMedia),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context, rootNavigator: true).push(
+          MaterialPageRoute(
+            builder: (context) => MediaCarousel(
+              media: postMedia,
+              initialPage: index,
+            ),
+          ),
+        );
+      },
+      child: SizedBox.expand(
+        child: FittedBox(
+          fit: BoxFit.cover,
+          clipBehavior: Clip.hardEdge,
+          child: PostMediaImage(postMedia: postMedia[index]),
+        ),
       ),
     );
   }

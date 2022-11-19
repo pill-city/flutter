@@ -12,9 +12,7 @@ class PostMediaCollage extends StatelessWidget {
   Widget build1(BuildContext context) {
     return PostMediaCollageContainer(
       item: Left(
-        PostMediaCollageCell(
-          postMedia: postMedia[0],
-        ),
+        PostMediaCollageCell(postMedia: postMedia, index: 0),
       ),
     );
   }
@@ -24,8 +22,8 @@ class PostMediaCollage extends StatelessWidget {
       item: Right(
         PostMediaCollageRow(
           items: [
-            Left(PostMediaCollageCell(postMedia: postMedia[0])),
-            Left(PostMediaCollageCell(postMedia: postMedia[1]))
+            Left(PostMediaCollageCell(postMedia: postMedia, index: 0)),
+            Left(PostMediaCollageCell(postMedia: postMedia, index: 1)),
           ],
         ),
       ),
@@ -37,12 +35,12 @@ class PostMediaCollage extends StatelessWidget {
       item: Right(
         PostMediaCollageRow(
           items: [
-            Left(PostMediaCollageCell(postMedia: postMedia[0])),
+            Left(PostMediaCollageCell(postMedia: postMedia, index: 0)),
             Right(
               PostMediaCollageColumn(
                 cells: [
-                  PostMediaCollageCell(postMedia: postMedia[1]),
-                  PostMediaCollageCell(postMedia: postMedia[2])
+                  PostMediaCollageCell(postMedia: postMedia, index: 1),
+                  PostMediaCollageCell(postMedia: postMedia, index: 2),
                 ],
               ),
             ),
@@ -60,16 +58,16 @@ class PostMediaCollage extends StatelessWidget {
             Right(
               PostMediaCollageColumn(
                 cells: [
-                  PostMediaCollageCell(postMedia: postMedia[0]),
-                  PostMediaCollageCell(postMedia: postMedia[2])
+                  PostMediaCollageCell(postMedia: postMedia, index: 0),
+                  PostMediaCollageCell(postMedia: postMedia, index: 2),
                 ],
               ),
             ),
             Right(
               PostMediaCollageColumn(
                 cells: [
-                  PostMediaCollageCell(postMedia: postMedia[1]),
-                  PostMediaCollageCell(postMedia: postMedia[3])
+                  PostMediaCollageCell(postMedia: postMedia, index: 1),
+                  PostMediaCollageCell(postMedia: postMedia, index: 3),
                 ],
               ),
             )
