@@ -30,22 +30,32 @@ class ReactionsWidget extends StatelessWidget {
       return b.emoji.codeUnitAt(0) - a.emoji.codeUnitAt(0);
     });
 
-    return SizedBox(
-      height: 48,
-      child: Row(
-        children: [
-          for (final reaction in renderedReactions)
-            Container(
-              padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Colors.grey[800],
+    return Row(
+      children: [
+        for (final reaction in renderedReactions)
+          Row(
+            children: [
+              SizedBox(
+                width: 48,
+                height: 32,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.grey[800],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      "${reaction.emoji} ${reaction.count}",
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ),
               ),
-              child: Text("${reaction.emoji} ${reaction.count}"),
-            ),
-        ],
-      ),
+              const SizedBox(width: 8),
+            ],
+          )
+      ],
     );
   }
 }
