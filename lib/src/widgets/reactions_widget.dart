@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:twemoji/twemoji.dart';
 
 class RenderedReaction {
   final String emoji;
@@ -48,9 +49,25 @@ class ReactionsWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Center(
-                      child: Text(
-                        "${reaction.emoji} ${reaction.count}",
-                        style: const TextStyle(fontSize: 14),
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TwemojiTextSpan(
+                              text: reaction.emoji,
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                            TextSpan(
+                              text: " ${reaction.count}",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.black
+                                    : Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

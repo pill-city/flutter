@@ -23,6 +23,7 @@ dependencies:
       ref: cc9c4927de1314c542619a00938676bf756f6b0c
   url_launcher: ^6.1.6
   either_dart: ^0.3.0
+  twemoji: ^0.4.3
 
 dev_dependencies:
   flutter_test:

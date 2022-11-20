@@ -137,6 +137,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -168,6 +175,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
+  io:
+    dependency: transitive
+    description:
+      name: io
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   js:
     dependency: transitive
     description:
@@ -238,6 +252,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
   pill_city:
     dependency: "direct main"
     description:
@@ -315,6 +350,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
+  twemoji:
+    dependency: "direct main"
+    description:
+      name: twemoji
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.3"
   typed_data:
     dependency: transitive
     description:
@@ -385,6 +427,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.0"
+  yaml:
+    dependency: transitive
+    description:
+      name: yaml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
 sdks:
   dart: ">=2.18.4 <3.0.0"
   flutter: ">=3.3.0"
