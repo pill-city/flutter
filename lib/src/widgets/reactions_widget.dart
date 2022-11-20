@@ -10,6 +10,50 @@ class RenderedReaction {
   RenderedReaction(this.emoji, this.count);
 }
 
+class ReactionWidget extends StatelessWidget {
+  const ReactionWidget({Key? key, required this.reaction}) : super(key: key);
+
+  final RenderedReaction reaction;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: reaction.count.toString().length == 1
+          ? 48
+          : reaction.count.toString().length == 2
+              ? 64
+              : 80,
+      height: 32,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.grey[200]
+              : Colors.grey[800],
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Twemoji(
+                emoji: reaction.emoji,
+                width: 16,
+                height: 16,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                reaction.count.toString().length < 3
+                    ? reaction.count.toString()
+                    : '99+',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ReactionsWidget extends StatelessWidget {
   const ReactionsWidget({Key? key, required this.reactions}) : super(key: key);
 
@@ -36,43 +80,7 @@ class ReactionsWidget extends StatelessWidget {
         for (final reaction in renderedReactions)
           Row(
             children: [
-              SizedBox(
-                width: 48,
-                height: 32,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey[200]
-                        : Colors.grey[800],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Center(
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TwemojiTextSpan(
-                              text: reaction.emoji,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            TextSpan(
-                              text: " ${reaction.count}",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? Colors.black
-                                    : Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              ReactionWidget(reaction: reaction),
               const SizedBox(width: 8),
             ],
           )
