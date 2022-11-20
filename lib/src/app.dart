@@ -34,62 +34,63 @@ class App extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.light),
       darkTheme: ThemeData(
           primarySwatch: Colors.deepOrange, brightness: Brightness.dark),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       routerConfig: GoRouter(
-          initialLocation: '/home',
-          redirect: (context, state) async {
-            final appGlobalState =
-                Provider.of<AppGlobalState>(context, listen: false);
-            if ((await appGlobalState.getAccessToken()) == null) {
-              return '/signin';
-            }
-            return null;
-          },
-          routes: [
-            GoRoute(
-                path: '/signin',
+        initialLocation: '/home',
+        redirect: (context, state) async {
+          final appGlobalState =
+              Provider.of<AppGlobalState>(context, listen: false);
+          if ((await appGlobalState.getAccessToken()) == null) {
+            return '/signin';
+          }
+          return null;
+        },
+        routes: [
+          GoRoute(
+              path: '/signin',
+              builder: (BuildContext context, GoRouterState state) {
+                return const Scaffold(body: SignInPage());
+              }),
+          ShellRoute(
+            navigatorKey: _shellNavigatorKey,
+            builder: (BuildContext context, GoRouterState state, Widget child) {
+              return MyScaffold(child: child);
+            },
+            routes: [
+              GoRoute(
+                path: '/scopes',
                 builder: (BuildContext context, GoRouterState state) {
-                  return const Scaffold(body: SignInPage());
-                }),
-            ShellRoute(
-                navigatorKey: _shellNavigatorKey,
-                builder:
-                    (BuildContext context, GoRouterState state, Widget child) {
-                  return MyScaffold(child: child);
+                  return ScopesPage();
                 },
-                routes: [
-                  GoRoute(
-                    path: '/scopes',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return ScopesPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: '/users',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return UsersPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: '/home',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const HomePage();
-                    },
-                  ),
-                  GoRoute(
-                    path: '/notifications',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return NotificationsPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: '/profile',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return ProfilePage();
-                    },
-                  ),
-                ])
-          ]),
+              ),
+              GoRoute(
+                path: '/users',
+                builder: (BuildContext context, GoRouterState state) {
+                  return UsersPage();
+                },
+              ),
+              GoRoute(
+                path: '/home',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const HomePage();
+                },
+              ),
+              GoRoute(
+                path: '/notifications',
+                builder: (BuildContext context, GoRouterState state) {
+                  return NotificationsPage();
+                },
+              ),
+              GoRoute(
+                path: '/profile',
+                builder: (BuildContext context, GoRouterState state) {
+                  return ProfilePage();
+                },
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -105,37 +106,39 @@ class MyScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            body: child,
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              selectedFontSize: 12,
-              unselectedFontSize: 12,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.visibility),
-                  label: AppLocalizations.of(context)!.scopes,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.people),
-                  label: AppLocalizations.of(context)!.users,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.home),
-                  label: AppLocalizations.of(context)!.home,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.notifications),
-                  label: AppLocalizations.of(context)!.notifications,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.account_circle),
-                  label: AppLocalizations.of(context)!.profile,
-                ),
-              ],
-              currentIndex: _calculateSelectedIndex(context),
-              onTap: (int idx) => _onItemTapped(idx, context),
-            )));
+      child: Scaffold(
+        body: child,
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.visibility),
+              label: AppLocalizations.of(context)!.scopes,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.people),
+              label: AppLocalizations.of(context)!.users,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: AppLocalizations.of(context)!.home,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.notifications),
+              label: AppLocalizations.of(context)!.notifications,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.account_circle),
+              label: AppLocalizations.of(context)!.profile,
+            ),
+          ],
+          currentIndex: _calculateSelectedIndex(context),
+          onTap: (int idx) => _onItemTapped(idx, context),
+        ),
+      ),
+    );
   }
 
   static int _calculateSelectedIndex(BuildContext context) {
