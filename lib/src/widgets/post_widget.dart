@@ -6,6 +6,7 @@ import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
+import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dart';
 
 import 'link_previews_widget.dart';
 
@@ -20,6 +21,10 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool hasMedia = post.mediaUrlsV2 != null && post.mediaUrlsV2!.isNotEmpty;
+    bool hasLinkPreview =
+        post.linkPreviews != null && post.linkPreviews!.isNotEmpty;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,16 +70,23 @@ class PostWidget extends StatelessWidget {
                 if (post.content != null)
                   Text(post.content!,
                       maxLines: contentMaxLines, overflow: TextOverflow.fade),
-                if (post.mediaUrlsV2 != null && post.mediaUrlsV2!.isNotEmpty)
+                if (hasMedia)
                   Column(children: [
                     const SizedBox(height: 8),
                     MediaCollage(mediaList: post.mediaUrlsV2!)
                   ]),
-                if (post.linkPreviews != null && post.linkPreviews!.isNotEmpty)
-                  Column(children: [
-                    const SizedBox(height: 8),
-                    LinkPreviewsWidget(linkPreviews: post.linkPreviews!)
-                  ]),
+                if (hasLinkPreview)
+                  hasMedia
+                      ? Column(children: [
+                          const SizedBox(height: 8),
+                          ShowMoreLinkPreviewsWidget(
+                            linkPreviews: post.linkPreviews!,
+                          )
+                        ])
+                      : Column(children: [
+                          const SizedBox(height: 8),
+                          LinkPreviewsWidget(linkPreviews: post.linkPreviews!)
+                        ]),
                 if (post.reactions != null && post.reactions!.isNotEmpty)
                   Column(children: [
                     const SizedBox(height: 8),

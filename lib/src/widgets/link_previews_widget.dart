@@ -36,10 +36,13 @@ class LinkPreviewsWidget extends StatelessWidget {
           .toList();
 
       children.add(const SizedBox(height: 8));
-      children
-          .add(ShowMoreLinkPreviewsWidget(linkPreviews: hiddenLinkPreviews));
+      children.add(ShowMoreLinkPreviewsWidget(
+          linkPreviews: BuiltList.from(hiddenLinkPreviews)));
     }
 
-    return Column(children: children);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
+    );
   }
 }
