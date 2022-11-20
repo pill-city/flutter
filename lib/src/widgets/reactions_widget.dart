@@ -45,9 +45,11 @@ class ReactionsWidget extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: Text(
-                      "${reaction.emoji} ${reaction.count}",
-                      style: const TextStyle(fontSize: 14),
+                    child: Center(
+                      child: Text(
+                        "${reaction.emoji} ${reaction.count}",
+                        style: const TextStyle(fontSize: 14),
+                      ),
                     ),
                   ),
                 ),
