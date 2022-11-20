@@ -34,8 +34,10 @@ class ShowMoreLinkPreviewsWidget extends StatelessWidget {
                 children: [
                   Text(AppLocalizations.of(context)!.more_link_previews),
                   const SizedBox(height: 16),
-                  SingleChildScrollView(
-                    child: Column(children: children),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(children: children),
+                    ),
                   ),
                 ],
               ),
