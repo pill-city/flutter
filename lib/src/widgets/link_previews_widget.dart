@@ -1,7 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dart';
 
 import 'link_preview_widget.dart';
 
@@ -31,48 +31,13 @@ class LinkPreviewsWidget extends StatelessWidget {
       }
     }
     if (fetchedLinkPreviews.length > maxLinkPreviews) {
+      var hiddenLinkPreviews = fetchedLinkPreviews.reversed
+          .take(fetchedLinkPreviews.length - maxLinkPreviews)
+          .toList();
+
       children.add(const SizedBox(height: 8));
-      children.add(
-        GestureDetector(
-          onTap: () {
-            var hiddenLinkPreviews = fetchedLinkPreviews.reversed
-                .take(fetchedLinkPreviews.length - maxLinkPreviews)
-                .toList();
-
-            showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                final List<Widget> children = [];
-                for (var i = 0; i < hiddenLinkPreviews.length; i++) {
-                  final linkPreview = hiddenLinkPreviews[i];
-                  children.add(
-                    LinkPreviewWidget(linkPreview: linkPreview),
-                  );
-                  if (i != hiddenLinkPreviews.length - 1) {
-                    children.add(const SizedBox(height: 16));
-                  }
-                }
-
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SingleChildScrollView(
-                    child: Column(children: children),
-                  ),
-                );
-              },
-            );
-          },
-          child: Text(
-            AppLocalizations.of(context)!.and_more_link_previews(
-                fetchedLinkPreviews.length - maxLinkPreviews),
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-      );
+      children
+          .add(ShowMoreLinkPreviewsWidget(linkPreviews: hiddenLinkPreviews));
     }
 
     return Column(children: children);
