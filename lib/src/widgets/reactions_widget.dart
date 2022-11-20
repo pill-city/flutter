@@ -41,7 +41,9 @@ class ReactionsWidget extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    color: Colors.grey[800],
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.grey[200]
+                        : Colors.grey[800],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8),

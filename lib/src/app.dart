@@ -31,7 +31,7 @@ class App extends StatelessWidget {
         Locale('en', ''),
         Locale('zh', ''),
       ],
-      theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.dark),
+      theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.light),
       darkTheme: ThemeData(
           primarySwatch: Colors.deepOrange, brightness: Brightness.dark),
       themeMode: ThemeMode.light,

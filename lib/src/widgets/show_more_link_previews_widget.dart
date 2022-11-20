@@ -49,7 +49,6 @@ class ShowMoreLinkPreviewsWidget extends StatelessWidget {
         AppLocalizations.of(context)!
             .and_more_link_previews(linkPreviews.length),
         style: const TextStyle(
-          fontSize: 12,
           color: Colors.grey,
           decoration: TextDecoration.underline,
         ),
