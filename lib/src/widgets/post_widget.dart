@@ -28,45 +28,54 @@ class PostWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          leading: post.author.avatarUrlV2 != null
-              ? CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      post.author.avatarUrlV2!.processed
-                          ? post.author.avatarUrlV2!.processedUrl!
-                          : post.author.avatarUrlV2!.originalUrl),
-                  backgroundColor: post.author.avatarUrlV2!.processed
-                      ? HexColor.fromHex(
-                          post.author.avatarUrlV2!.dominantColorHex!)
-                      : Colors.grey,
-                )
-              : CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  child: Text(post.author.id[0]),
-                ),
-          title: RichText(
-            text: TextSpan(
-              text: getUserPrimaryName(post.author),
-              style: DefaultTextStyle.of(context).style,
-              children: [
-                if (getUserSecondaryName(post.author) != null)
-                  TextSpan(
-                    text: ' @${post.author.id}',
-                    style: subTextStyle,
-                  ),
-              ],
-            ),
-          ),
-          subtitle: Text(
-            "▸ ${post.isPublic ? AppLocalizations.of(context)!.public : post.circles != null && post.circles!.isNotEmpty ? AppLocalizations.of(context)!.circles(post.circles!.length) : AppLocalizations.of(context)!.only_you} · ${formatDuration(post.createdAtSeconds)}",
-            style: subTextStyle,
-          ),
-        ),
         Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    post.author.avatarUrlV2 != null
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                post.author.avatarUrlV2!.processed
+                                    ? post.author.avatarUrlV2!.processedUrl!
+                                    : post.author.avatarUrlV2!.originalUrl),
+                            backgroundColor: post.author.avatarUrlV2!.processed
+                                ? HexColor.fromHex(
+                                    post.author.avatarUrlV2!.dominantColorHex!)
+                                : Colors.grey,
+                          )
+                        : CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            child: Text(post.author.id[0]),
+                          ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            text: getUserPrimaryName(post.author),
+                            style: DefaultTextStyle.of(context).style,
+                            children: [
+                              if (getUserSecondaryName(post.author) != null)
+                                TextSpan(
+                                  text: ' @${post.author.id}',
+                                  style: subTextStyle,
+                                ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          "▸ ${post.isPublic ? AppLocalizations.of(context)!.public : post.circles != null && post.circles!.isNotEmpty ? AppLocalizations.of(context)!.circles(post.circles!.length) : AppLocalizations.of(context)!.only_you} · ${formatDuration(post.createdAtSeconds)}",
+                          style: subTextStyle,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
                 if (post.content != null)
                   Text(post.content!,
                       maxLines: contentMaxLines, overflow: TextOverflow.fade),

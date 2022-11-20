@@ -43,6 +43,7 @@ class HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               if (index < home.posts.length) {
                 return Column(children: [
+                  const SizedBox(height: 8),
                   PostWidget(post: home.posts[index]),
                   const SizedBox(height: 8),
                   const Divider()
