@@ -17,18 +17,25 @@ class LinkPreviewWidget extends StatelessWidget {
       parsedUrl = Uri.parse(linkPreview.url);
     } on FormatException {}
 
-    return Card(
-      margin: EdgeInsets.zero,
-      child: InkWell(
-        onTap: () {
-          if (parsedUrl == null) {
-            return;
-          }
-          launchUrl(
-            Uri.parse(linkPreview.url),
-            mode: LaunchMode.externalApplication,
-          );
-        },
+    return GestureDetector(
+      onTap: () {
+        if (parsedUrl == null) {
+          return;
+        }
+        launchUrl(
+          Uri.parse(linkPreview.url),
+          mode: LaunchMode.externalApplication,
+        );
+      },
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: Theme
+              .of(context)
+              .brightness == Brightness.light
+              ? Colors.grey[200]
+              : Colors.grey[800],
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
@@ -37,12 +44,12 @@ class LinkPreviewWidget extends StatelessWidget {
                 height: 80,
                 width: 64,
                 child: linkPreview.imageUrls != null &&
-                        linkPreview.imageUrls!.isNotEmpty
+                    linkPreview.imageUrls!.isNotEmpty
                     ? Image.network(
-                        linkPreview.imageUrls![0],
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.broken_image),
-                      )
+                  linkPreview.imageUrls![0],
+                  errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.broken_image),
+                )
                     : const Icon(Icons.link),
               ),
               const SizedBox(width: 16),
@@ -85,6 +92,7 @@ class LinkPreviewWidget extends StatelessWidget {
             ],
           ),
         ),
+
       ),
     );
   }
