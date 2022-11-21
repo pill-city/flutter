@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image/flutter_image.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/utils/default_network_image_fetch_strategy.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkPreviewWidget extends StatelessWidget {
@@ -30,9 +32,7 @@ class LinkPreviewWidget extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
-          color: Theme
-              .of(context)
-              .brightness == Brightness.light
+          color: Theme.of(context).brightness == Brightness.light
               ? Colors.grey[200]
               : Colors.grey[800],
         ),
@@ -44,12 +44,15 @@ class LinkPreviewWidget extends StatelessWidget {
                 height: 80,
                 width: 64,
                 child: linkPreview.imageUrls != null &&
-                    linkPreview.imageUrls!.isNotEmpty
-                    ? Image.network(
-                  linkPreview.imageUrls![0],
-                  errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.broken_image),
-                )
+                        linkPreview.imageUrls!.isNotEmpty
+                    ? Image(
+                        image: NetworkImageWithRetry(
+                          linkPreview.imageUrls![0],
+                          fetchStrategy: defaultNetworkImageFetchStrategy,
+                        ),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.broken_image),
+                      )
                     : const Icon(Icons.link),
               ),
               const SizedBox(width: 16),
@@ -92,7 +95,6 @@ class LinkPreviewWidget extends StatelessWidget {
             ],
           ),
         ),
-
       ),
     );
   }

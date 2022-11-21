@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_image/flutter_image.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/utils/default_network_image_fetch_strategy.dart';
 import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
@@ -37,10 +39,12 @@ class PostWidget extends StatelessWidget {
                   children: [
                     post.author.avatarUrlV2 != null
                         ? CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                post.author.avatarUrlV2!.processed
-                                    ? post.author.avatarUrlV2!.processedUrl!
-                                    : post.author.avatarUrlV2!.originalUrl),
+                            backgroundImage: NetworkImageWithRetry(
+                              post.author.avatarUrlV2!.processed
+                                  ? post.author.avatarUrlV2!.processedUrl!
+                                  : post.author.avatarUrlV2!.originalUrl,
+                              fetchStrategy: defaultNetworkImageFetchStrategy,
+                            ),
                             backgroundColor: post.author.avatarUrlV2!.processed
                                 ? HexColor.fromHex(
                                     post.author.avatarUrlV2!.dominantColorHex!)
