@@ -3,7 +3,7 @@ import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/rendered_reaction.dart';
 import 'package:twemoji/twemoji.dart';
 
-const reactionFullDisplayNameMaxLength = 9;
+const reactionFullDisplayNameMaxLength = 14;
 const reactionFullDisplayNameTotalLengthThreshold = 20;
 
 class ReactionFullWidget extends StatelessWidget {
