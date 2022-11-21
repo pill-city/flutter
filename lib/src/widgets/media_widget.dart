@@ -16,23 +16,18 @@ class MediaWidget extends StatelessWidget {
         return child;
       }
       if (!media.processed) {
-        return const Icon(Icons.image);
+        return const Center(
+          child: Icon(Icons.image),
+        );
       }
-      return AspectRatio(
-        aspectRatio: media.width!.toDouble() / media.height!.toDouble(),
-        child: Container(
-          color: HexColor.fromHex(
-            media.dominantColorHex!,
-          ),
+      return Container(
+        color: HexColor.fromHex(
+          media.dominantColorHex!,
         ),
       );
     }, errorBuilder: (context, error, stackTrace) {
-      if (!media.processed) {
-        return const Icon(Icons.broken_image);
-      }
-      return AspectRatio(
-        aspectRatio: media.width!.toDouble() / media.height!.toDouble(),
-        child: const Icon(Icons.broken_image),
+      return const Center(
+        child: Icon(Icons.broken_image),
       );
     });
   }

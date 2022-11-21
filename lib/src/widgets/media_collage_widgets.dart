@@ -48,9 +48,9 @@ class MediaCollageColumn extends StatelessWidget {
 
     for (var i = 0; i < cells.length; i++) {
       final cell = cells[i];
-      children.add(Flexible(flex: 24, child: cell));
+      children.add(Flexible(child: cell));
       if (i < cells.length - 1) {
-        children.add(const Expanded(flex: 1, child: SizedBox()));
+        children.add(const SizedBox(height: 4));
       }
     }
 
@@ -72,10 +72,9 @@ class MediaCollageRow extends StatelessWidget {
 
     for (var i = 0; i < items.length; i++) {
       final item = items[i];
-      children
-          .add(Flexible(flex: 24, child: item.isLeft ? item.left : item.right));
+      children.add(Flexible(child: item.isLeft ? item.left : item.right));
       if (i < items.length - 1) {
-        children.add(const Expanded(flex: 1, child: SizedBox()));
+        children.add(const SizedBox(width: 4));
       }
     }
 
