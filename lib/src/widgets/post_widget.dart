@@ -75,10 +75,16 @@ class PostWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 if (post.content != null)
-                  Text(post.content!,
-                      maxLines: contentMaxLines, overflow: TextOverflow.fade),
+                  Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      Text(post.content!,
+                          maxLines: contentMaxLines,
+                          overflow: TextOverflow.fade),
+                    ],
+                  ),
                 const SizedBox(height: 8),
                 if (hasMedia)
                   Column(children: [
@@ -97,6 +103,7 @@ class PostWidget extends StatelessWidget {
                           const SizedBox(height: 8),
                           LinkPreviewsWidget(linkPreviews: post.linkPreviews!)
                         ]),
+                const SizedBox(height: 8),
                 if (post.reactions != null && post.reactions!.isNotEmpty)
                   Column(children: [
                     const SizedBox(height: 8),
