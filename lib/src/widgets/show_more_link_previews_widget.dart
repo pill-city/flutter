@@ -16,6 +16,11 @@ class ShowMoreLinkPreviewsWidget extends StatelessWidget {
       onTap: () {
         showModalBottomSheet(
           context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(8),
+            ),
+          ),
           builder: (BuildContext context) {
             final List<Widget> children = [];
             for (var i = 0; i < linkPreviews.length; i++) {
