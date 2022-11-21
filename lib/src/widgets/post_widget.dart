@@ -50,7 +50,7 @@ class PostWidget extends StatelessWidget {
                             backgroundColor: Colors.grey,
                             child: Text(post.author.id[0]),
                           ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
