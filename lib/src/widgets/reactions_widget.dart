@@ -1,58 +1,10 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
-import 'package:twemoji/twemoji.dart';
-
-class RenderedReaction {
-  final String emoji;
-  final List<User> users;
-
-  RenderedReaction(this.emoji, this.users);
-}
-
-class ReactionWidget extends StatelessWidget {
-  const ReactionWidget({Key? key, required this.reaction}) : super(key: key);
-
-  final RenderedReaction reaction;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: reaction.users.length.toString().length == 1
-          ? 48
-          : reaction.users.length.toString().length == 2
-              ? 64
-              : 80,
-      height: 32,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: Theme.of(context).brightness == Brightness.light
-              ? Colors.grey[200]
-              : Colors.grey[800],
-        ),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Twemoji(
-                emoji: reaction.emoji,
-                width: 16,
-                height: 16,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                reaction.users.length.toString().length < 3
-                    ? reaction.users.length.toString()
-                    : '99+',
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+import 'package:pill_city_flutter/src/utils/get_user_names.dart';
+import 'package:pill_city_flutter/src/utils/rendered_reaction.dart';
+import 'package:pill_city_flutter/src/widgets/reaction_count_widget.dart';
+import 'package:pill_city_flutter/src/widgets/reaction_full_widget.dart';
 
 class ReactionsWidget extends StatelessWidget {
   const ReactionsWidget({Key? key, required this.reactions}) : super(key: key);
@@ -76,12 +28,23 @@ class ReactionsWidget extends StatelessWidget {
       return b.emoji.codeUnitAt(0) - a.emoji.codeUnitAt(0);
     });
 
+    bool useFull = renderedReactions
+            .map((r) => r.users)
+            .expand((e) => e)
+            .map((u) => getUserPrimaryName(u,
+                    displayNameMaxLength: reactionFullDisplayNameMaxLength)
+                .length)
+            .reduce((a, b) => a + b) <
+        reactionFullDisplayNameTotalLengthThreshold;
+
     return Row(
       children: [
         for (final reaction in renderedReactions)
           Row(
             children: [
-              ReactionWidget(reaction: reaction),
+              useFull
+                  ? ReactionFullWidget(reaction: reaction)
+                  : ReactionCountWidget(reaction: reaction),
               const SizedBox(width: 8),
             ],
           )

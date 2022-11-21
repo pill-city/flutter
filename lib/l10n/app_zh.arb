@@ -4,7 +4,7 @@
   "signin": "登陆",
   "valid_id_please": "请输入一个正确的 ID (不是邮箱)",
   "valid_password_please": "请输入一个正确的密码",
-  "signing_in": "登陆中...",
+  "signing_in": "登陆中…",
   "error": "错误",
   "unknown_error": "未知错误",
   "scopes": "范围",
