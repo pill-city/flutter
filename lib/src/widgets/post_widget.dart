@@ -79,6 +79,7 @@ class PostWidget extends StatelessWidget {
                 if (post.content != null)
                   Text(post.content!,
                       maxLines: contentMaxLines, overflow: TextOverflow.fade),
+                const SizedBox(height: 8),
                 if (hasMedia)
                   Column(children: [
                     const SizedBox(height: 8),
