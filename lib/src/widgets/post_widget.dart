@@ -74,7 +74,7 @@ class PostWidget extends StatelessWidget {
       ),
     );
 
-    if (post.content != null) {
+    if (post.content != null && post.content!.isNotEmpty) {
       widgets.add(
         Text(
           post.content!,
