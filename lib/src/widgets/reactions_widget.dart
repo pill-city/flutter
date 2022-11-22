@@ -6,7 +6,7 @@ import 'package:pill_city_flutter/src/utils/aggregated_reaction.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/widgets/reaction_count_widget.dart';
 import 'package:pill_city_flutter/src/widgets/reaction_full_widget.dart';
-import 'package:pill_city_flutter/src/widgets/reactions_full_detail_widget.dart';
+import 'package:twemoji/twemoji.dart';
 
 const nonFullReactionCount = 2;
 
@@ -27,7 +27,58 @@ class ReactionsWidget extends StatelessWidget {
         ),
       ),
       builder: (BuildContext context) {
-        return ReactionsFullDetailWidget(reactions: aggregatedReactions);
+        final List<Widget> children = [];
+        for (var i = 0; i < aggregatedReactions.length; i++) {
+          final aggregatedReaction = aggregatedReactions[i];
+          children.add(
+            Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Twemoji(
+                      emoji: aggregatedReaction.emoji,
+                      width: 16,
+                      height: 16,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(aggregatedReaction.users.length.toString()),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Text(
+                      aggregatedReaction.users
+                          .map((u) => getPrimaryName(u))
+                          .join(", "),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+          if (i != reactions.length - 1) {
+            children.add(const SizedBox(height: 16));
+          }
+        }
+
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text(AppLocalizations.of(context)!.all_reactions),
+              const SizedBox(height: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: children,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

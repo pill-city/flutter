@@ -4,6 +4,7 @@ import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
+import 'package:pill_city_flutter/src/widgets/comments_widget.dart';
 import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
 import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dart';
@@ -109,6 +110,12 @@ class PostWidget extends StatelessWidget {
                   Column(children: [
                     const SizedBox(height: 8),
                     ReactionsWidget(reactions: post.reactions!)
+                  ]),
+                const SizedBox(height: 8),
+                if (post.comments != null && post.comments!.isNotEmpty)
+                  Column(children: [
+                    const SizedBox(height: 8),
+                    CommentsWidget(comments: post.comments!)
                   ]),
               ],
             ))
