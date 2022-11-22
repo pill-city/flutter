@@ -37,5 +37,12 @@
     "placeholders": {
       "count": { }
     }
+  },
+  "and_more_comments": "{count, plural, =0{没有评论}, =1{还有 1 个评论}, other{还有 {count} 个评论}}",
+  "@and_more_comments": {
+    "description": "The number of comments",
+    "placeholders": {
+      "count": { }
+    }
   }
 }

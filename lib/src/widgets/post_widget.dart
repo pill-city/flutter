@@ -44,9 +44,8 @@ class PostWidget extends StatelessWidget {
                         )
                       : Colors.grey,
                 )
-              : CircleAvatar(
+              : const CircleAvatar(
                   backgroundColor: Colors.grey,
-                  child: Text(post.author.id[0]),
                 ),
           const SizedBox(width: 16),
           Column(

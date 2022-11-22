@@ -31,9 +31,8 @@ class CommentWidget extends StatelessWidget {
                       ? HexColor.fromHex(author.avatarUrlV2!.dominantColorHex!)
                       : Colors.grey,
                 )
-              : CircleAvatar(
+              : const CircleAvatar(
                   backgroundColor: Colors.grey,
-                  child: Text(author.id[0]),
                 ),
         ),
         const SizedBox(width: 8),
