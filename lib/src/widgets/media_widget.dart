@@ -9,29 +9,26 @@ class MediaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image(
-        image: Image.network(
-          media.processed ? media.processedUrl! : media.originalUrl,
-        ).image,
+    return Image.network(
+        media.processed ? media.processedUrl! : media.originalUrl,
         loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) {
-            return child;
-          }
-          if (!media.processed) {
-            return const Center(
-              child: Icon(Icons.image),
-            );
-          }
-          return Container(
-            color: HexColor.fromHex(
-              media.dominantColorHex!,
-            ),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return const Center(
-            child: Icon(Icons.broken_image),
-          );
-        });
+      if (loadingProgress == null) {
+        return child;
+      }
+      if (!media.processed) {
+        return const Center(
+          child: Icon(Icons.image),
+        );
+      }
+      return Container(
+        color: HexColor.fromHex(
+          media.dominantColorHex!,
+        ),
+      );
+    }, errorBuilder: (context, error, stackTrace) {
+      return const Center(
+        child: Icon(Icons.broken_image),
+      );
+    });
   }
 }

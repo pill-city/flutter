@@ -37,11 +37,11 @@ class PostWidget extends StatelessWidget {
                   children: [
                     post.author.avatarUrlV2 != null
                         ? CircleAvatar(
-                            backgroundImage: Image.network(
+                            backgroundImage: NetworkImage(
                               post.author.avatarUrlV2!.processed
                                   ? post.author.avatarUrlV2!.processedUrl!
                                   : post.author.avatarUrlV2!.originalUrl,
-                            ).image,
+                            ),
                             backgroundColor: post.author.avatarUrlV2!.processed
                                 ? HexColor.fromHex(
                                     post.author.avatarUrlV2!.dominantColorHex!)

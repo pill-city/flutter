@@ -43,13 +43,7 @@ class _MediaCarouselState extends State<MediaCarousel> {
           },
           itemBuilder: (context, pagePosition) {
             return InteractiveViewer(
-              child: Image(
-                image:
-                    Image.network(widget.media[pagePosition].originalUrl).image,
-                errorBuilder: (context, error, stackTrace) => const Center(
-                  child: Icon(Icons.broken_image),
-                ),
-              ),
+              child: Image.network(widget.media[pagePosition].originalUrl),
             );
           },
         ),

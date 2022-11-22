@@ -43,8 +43,8 @@ class LinkPreviewWidget extends StatelessWidget {
                 width: 64,
                 child: linkPreview.imageUrls != null &&
                         linkPreview.imageUrls!.isNotEmpty
-                    ? Image(
-                        image: Image.network(linkPreview.imageUrls![0]).image,
+                    ? Image.network(
+                        linkPreview.imageUrls![0],
                         errorBuilder: (context, error, stackTrace) =>
                             const Icon(Icons.broken_image),
                       )
