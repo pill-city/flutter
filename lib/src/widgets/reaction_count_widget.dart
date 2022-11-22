@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pill_city_flutter/src/utils/rendered_reaction.dart';
+import 'package:pill_city_flutter/src/utils/aggregated_reaction.dart';
 import 'package:twemoji/twemoji.dart';
 
 class ReactionCountWidget extends StatelessWidget {
   const ReactionCountWidget({Key? key, required this.reaction})
       : super(key: key);
 
-  final RenderedReaction reaction;
+  final AggregatedReaction reaction;
 
   @override
   Widget build(BuildContext context) {

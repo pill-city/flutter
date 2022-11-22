@@ -60,10 +60,10 @@ class PostWidget extends StatelessWidget {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: getUserPrimaryName(post.author),
+                            text: getPrimaryName(post.author),
                             style: DefaultTextStyle.of(context).style,
                             children: [
-                              if (getUserSecondaryName(post.author) != null)
+                              if (getSecondaryName(post.author) != null)
                                 TextSpan(
                                   text: ' @${post.author.id}',
                                   style: subTextStyle,

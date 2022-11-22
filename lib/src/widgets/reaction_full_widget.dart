@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pill_city_flutter/src/utils/aggregated_reaction.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
-import 'package:pill_city_flutter/src/utils/rendered_reaction.dart';
 import 'package:twemoji/twemoji.dart';
 
-const reactionFullDisplayNameMaxLength = 14;
+const reactionFullDisplayNameMaxLength = 6;
 const reactionFullDisplayNameTotalLengthThreshold = 20;
 
 class ReactionFullWidget extends StatelessWidget {
   const ReactionFullWidget({Key? key, required this.reaction})
       : super(key: key);
 
-  final RenderedReaction reaction;
+  final AggregatedReaction reaction;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,7 @@ class ReactionFullWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(reaction.users
-                    .map((u) => getUserPrimaryName(u,
-                        displayNameMaxLength: reactionFullDisplayNameMaxLength))
+                    .map((u) => getInferredFirstName(u))
                     .join(", ")),
               ],
             ),
