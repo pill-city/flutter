@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_image/flutter_image.dart';
 import 'package:pill_city/pill_city.dart';
-import 'package:pill_city_flutter/src/utils/default_network_image_fetch_strategy.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkPreviewWidget extends StatelessWidget {
@@ -46,10 +44,7 @@ class LinkPreviewWidget extends StatelessWidget {
                 child: linkPreview.imageUrls != null &&
                         linkPreview.imageUrls!.isNotEmpty
                     ? Image(
-                        image: NetworkImageWithRetry(
-                          linkPreview.imageUrls![0],
-                          fetchStrategy: defaultNetworkImageFetchStrategy,
-                        ),
+                        image: Image.network(linkPreview.imageUrls![0]).image,
                         errorBuilder: (context, error, stackTrace) =>
                             const Icon(Icons.broken_image),
                       )

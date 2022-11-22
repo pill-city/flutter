@@ -1,8 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image/flutter_image.dart';
 import 'package:pill_city/pill_city.dart';
-import 'package:pill_city_flutter/src/utils/default_network_image_fetch_strategy.dart';
 
 class MediaCarousel extends StatefulWidget {
   const MediaCarousel(
@@ -46,10 +44,8 @@ class _MediaCarouselState extends State<MediaCarousel> {
           itemBuilder: (context, pagePosition) {
             return InteractiveViewer(
               child: Image(
-                image: NetworkImageWithRetry(
-                  widget.media[pagePosition].originalUrl,
-                  fetchStrategy: defaultNetworkImageFetchStrategy,
-                ),
+                image:
+                    Image.network(widget.media[pagePosition].originalUrl).image,
                 errorBuilder: (context, error, stackTrace) => const Center(
                   child: Icon(Icons.broken_image),
                 ),
