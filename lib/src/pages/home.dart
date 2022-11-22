@@ -43,17 +43,20 @@ class HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               if (index < home.posts.length) {
                 return Column(children: [
-                  const SizedBox(height: 8),
-                  PostWidget(post: home.posts[index]),
-                  const SizedBox(height: 8),
-                  const Divider()
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 8),
+                    child: PostWidget(post: home.posts[index]),
+                  ),
+                  const Divider(
+                    thickness: 1,
+                  )
                 ]);
               } else {
                 if (home.morePostsError == null) {
                   if (!home.loadingMorePosts) {
                     home.loadMorePosts(context);
                   }
-                  return const LinearProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 } else {
                   return Column(
                     children: [

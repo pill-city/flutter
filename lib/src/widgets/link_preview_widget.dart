@@ -17,6 +17,48 @@ class LinkPreviewWidget extends StatelessWidget {
       parsedUrl = Uri.parse(linkPreview.url);
     } on FormatException {}
 
+    List<Widget> textWidgets = [];
+    if (linkPreview.title != null) {
+      textWidgets.add(
+        Text(
+          linkPreview.title!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textScaleFactor: 0.9,
+        ),
+      );
+    }
+    if (linkPreview.subtitle != null) {
+      textWidgets.add(
+        Text(
+          linkPreview.subtitle!,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textScaleFactor: 0.8,
+          style: const TextStyle(color: Colors.grey),
+        ),
+      );
+    }
+    if (parsedUrl != null) {
+      textWidgets.add(
+        Text(
+          parsedUrl.host,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textScaleFactor: 0.7,
+          style: const TextStyle(color: Colors.grey),
+        ),
+      );
+    }
+
+    List<Widget> textChildren = [];
+    for (int i = 0; i < textWidgets.length; i++) {
+      textChildren.add(textWidgets[i]);
+      if (i < textWidgets.length - 1) {
+        textChildren.add(const SizedBox(height: 4));
+      }
+    }
+
     return GestureDetector(
       onTap: () {
         if (parsedUrl == null) {
@@ -54,37 +96,7 @@ class LinkPreviewWidget extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (linkPreview.title != null)
-                      Text(
-                        linkPreview.title!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textScaleFactor: 0.9,
-                      ),
-                    if (linkPreview.subtitle != null)
-                      Column(children: [
-                        const SizedBox(height: 4),
-                        Text(
-                          linkPreview.subtitle!,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textScaleFactor: 0.8,
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                      ]),
-                    if (parsedUrl != null)
-                      Column(children: [
-                        const SizedBox(height: 4),
-                        Text(
-                          parsedUrl.host,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textScaleFactor: 0.7,
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                      ])
-                  ],
+                  children: textChildren,
                 ),
               )
             ],

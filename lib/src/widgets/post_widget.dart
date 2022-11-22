@@ -26,99 +26,119 @@ class PostWidget extends StatelessWidget {
     bool hasLinkPreview =
         post.linkPreviews != null && post.linkPreviews!.isNotEmpty;
 
+    List<Widget> widgets = [];
+
+    widgets.add(
+      Row(
+        children: [
+          post.author.avatarUrlV2 != null
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    post.author.avatarUrlV2!.processed
+                        ? post.author.avatarUrlV2!.processedUrl!
+                        : post.author.avatarUrlV2!.originalUrl,
+                  ),
+                  backgroundColor: post.author.avatarUrlV2!.processed
+                      ? HexColor.fromHex(
+                          post.author.avatarUrlV2!.dominantColorHex!,
+                        )
+                      : Colors.grey,
+                )
+              : CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  child: Text(post.author.id[0]),
+                ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                text: TextSpan(
+                  text: getPrimaryName(post.author),
+                  style: DefaultTextStyle.of(context).style,
+                  children: [
+                    if (getSecondaryName(post.author) != null)
+                      TextSpan(
+                        text: ' @${post.author.id}',
+                        style: subTextStyle,
+                      ),
+                  ],
+                ),
+              ),
+              Text(
+                "▸ ${post.isPublic ? AppLocalizations.of(context)!.public : post.circles != null && post.circles!.isNotEmpty ? AppLocalizations.of(context)!.circles(post.circles!.length) : AppLocalizations.of(context)!.only_you} · ${formatDuration(post.createdAtSeconds)}",
+                style: subTextStyle,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    if (post.content != null) {
+      widgets.add(
+        Text(
+          post.content!,
+          maxLines: contentMaxLines,
+          overflow: TextOverflow.fade,
+        ),
+      );
+    }
+
+    if (hasMedia) {
+      widgets.add(
+        MediaCollage(mediaList: post.mediaUrlsV2!),
+      );
+    }
+
+    if (hasLinkPreview) {
+      if (hasMedia) {
+        widgets.add(ShowMoreLinkPreviewsWidget(
+          linkPreviews: post.linkPreviews!,
+        ));
+      } else {
+        widgets.add(
+          LinkPreviewsWidget(
+            linkPreviews: post.linkPreviews!,
+          ),
+        );
+      }
+    }
+
+    if (post.reactions != null && post.reactions!.isNotEmpty) {
+      widgets.add(
+        ReactionsWidget(
+          reactions: post.reactions!,
+        ),
+      );
+    }
+
+    if (post.comments != null && post.comments!.isNotEmpty) {
+      widgets.add(
+        CommentsWidget(
+          comments: post.comments!,
+        ),
+      );
+    }
+
+    List<Widget> children = [];
+    for (var i = 0; i < widgets.length; i++) {
+      children.add(widgets[i]);
+      if (i < widgets.length - 1) {
+        children.add(const SizedBox(height: 16));
+      }
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    post.author.avatarUrlV2 != null
-                        ? CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              post.author.avatarUrlV2!.processed
-                                  ? post.author.avatarUrlV2!.processedUrl!
-                                  : post.author.avatarUrlV2!.originalUrl,
-                            ),
-                            backgroundColor: post.author.avatarUrlV2!.processed
-                                ? HexColor.fromHex(
-                                    post.author.avatarUrlV2!.dominantColorHex!)
-                                : Colors.grey,
-                          )
-                        : CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            child: Text(post.author.id[0]),
-                          ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: getPrimaryName(post.author),
-                            style: DefaultTextStyle.of(context).style,
-                            children: [
-                              if (getSecondaryName(post.author) != null)
-                                TextSpan(
-                                  text: ' @${post.author.id}',
-                                  style: subTextStyle,
-                                ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          "▸ ${post.isPublic ? AppLocalizations.of(context)!.public : post.circles != null && post.circles!.isNotEmpty ? AppLocalizations.of(context)!.circles(post.circles!.length) : AppLocalizations.of(context)!.only_you} · ${formatDuration(post.createdAtSeconds)}",
-                          style: subTextStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                if (post.content != null)
-                  Column(
-                    children: [
-                      const SizedBox(height: 8),
-                      Text(post.content!,
-                          maxLines: contentMaxLines,
-                          overflow: TextOverflow.fade),
-                    ],
-                  ),
-                const SizedBox(height: 8),
-                if (hasMedia)
-                  Column(children: [
-                    const SizedBox(height: 8),
-                    MediaCollage(mediaList: post.mediaUrlsV2!)
-                  ]),
-                if (hasLinkPreview)
-                  hasMedia
-                      ? Column(children: [
-                          const SizedBox(height: 8),
-                          ShowMoreLinkPreviewsWidget(
-                            linkPreviews: post.linkPreviews!,
-                          )
-                        ])
-                      : Column(children: [
-                          const SizedBox(height: 8),
-                          LinkPreviewsWidget(linkPreviews: post.linkPreviews!)
-                        ]),
-                const SizedBox(height: 8),
-                if (post.reactions != null && post.reactions!.isNotEmpty)
-                  Column(children: [
-                    const SizedBox(height: 8),
-                    ReactionsWidget(reactions: post.reactions!)
-                  ]),
-                const SizedBox(height: 8),
-                if (post.comments != null && post.comments!.isNotEmpty)
-                  Column(children: [
-                    const SizedBox(height: 8),
-                    CommentsWidget(comments: post.comments!)
-                  ]),
-              ],
-            ))
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children,
+          ),
+        ),
       ],
     );
   }
