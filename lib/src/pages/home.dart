@@ -15,8 +15,14 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
-    Provider.of<HomeState>(context, listen: false).loadInitialPosts(context);
     super.initState();
+    // https://stackoverflow.com/questions/60734770/flutter-setstate-or-markneedsbuild-called-during-build-with-provider
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        Provider.of<HomeState>(context, listen: false)
+            .loadInitialPosts(context);
+      },
+    );
   }
 
   @override

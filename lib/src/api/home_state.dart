@@ -30,6 +30,7 @@ class HomeState extends ChangeNotifier {
       if (response.data == null) {
         return Future.error("Failed to load initial posts");
       }
+      _posts.clear();
       _posts.addAll(response.data!);
     } on DioError catch (errorCaught) {
       initialPostsError = errorCaught;
