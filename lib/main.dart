@@ -11,7 +11,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => AppGlobalState()),
         ChangeNotifierProvider(create: (context) => HomeState()),
       ],
-      child: const App(),
+      child: App(),
     ),
   );
 }

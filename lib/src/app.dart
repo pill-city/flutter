@@ -15,7 +15,9 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class App extends StatelessWidget {
-  const App({super.key});
+  App({super.key});
+
+  final ScrollController _homeScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,10 @@ class App extends StatelessWidget {
           ShellRoute(
             navigatorKey: _shellNavigatorKey,
             builder: (BuildContext context, GoRouterState state, Widget child) {
-              return MyScaffold(child: child);
+              return MyScaffold(
+                homeScrollController: _homeScrollController,
+                child: child,
+              );
             },
             routes: [
               GoRoute(
@@ -72,7 +77,9 @@ class App extends StatelessWidget {
               GoRoute(
                 path: '/home',
                 builder: (BuildContext context, GoRouterState state) {
-                  return const HomePage();
+                  return HomePage(
+                    scrollController: _homeScrollController,
+                  );
                 },
               ),
               GoRoute(
@@ -97,11 +104,13 @@ class App extends StatelessWidget {
 
 class MyScaffold extends StatelessWidget {
   const MyScaffold({
-    required this.child,
     Key? key,
+    required this.child,
+    required this.homeScrollController,
   }) : super(key: key);
 
   final Widget child;
+  final ScrollController homeScrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +180,11 @@ class MyScaffold extends StatelessWidget {
         break;
       case 2:
         GoRouter.of(context).go('/home');
+        homeScrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
+        );
         break;
       case 3:
         GoRouter.of(context).go('/notifications');

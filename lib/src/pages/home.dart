@@ -7,7 +7,9 @@ import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.scrollController});
+
+  final ScrollController scrollController;
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -107,6 +109,7 @@ class HomePageState extends State<HomePage> {
           return RefreshIndicator(
             onRefresh: _loadLatestPosts,
             child: ListView.builder(
+              controller: widget.scrollController,
               itemCount: home.posts.length + 1,
               itemBuilder: (context, index) {
                 if (index < home.posts.length) {
