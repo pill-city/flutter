@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pill_city_flutter/src/api/app_global_state.dart';
 import 'package:pill_city_flutter/src/pages/home.dart';
 import 'package:pill_city_flutter/src/pages/notifications.dart';
 import 'package:pill_city_flutter/src/pages/profile.dart';
 import 'package:pill_city_flutter/src/pages/scopes.dart';
 import 'package:pill_city_flutter/src/pages/signin.dart';
 import 'package:pill_city_flutter/src/pages/users.dart';
+import 'package:pill_city_flutter/src/state/app_global_state.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> _shellNavigatorKey =

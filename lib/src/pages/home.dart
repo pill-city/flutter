@@ -1,6 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pill_city_flutter/src/api/home_state.dart';
+import 'package:pill_city_flutter/src/state/home_state.dart';
 import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
@@ -13,38 +14,70 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  bool _loadingInitialPosts = true;
+  DioError? _loadingInitialPostsError;
+  bool _loadingMorePosts = false;
+  DioError? _loadingMorePostsError;
+
   @override
   void initState() {
     super.initState();
-    // https://stackoverflow.com/questions/60734770/flutter-setstate-or-markneedsbuild-called-during-build-with-provider
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        Provider.of<HomeState>(context, listen: false)
-            .loadInitialPosts(context);
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialPosts();
+    });
+  }
+
+  _loadInitialPosts() async {
+    try {
+      await Provider.of<HomeState>(context, listen: false)
+          .loadInitialPosts(context);
+    } on DioError catch (errorCaught) {
+      setState(() {
+        _loadingInitialPostsError = errorCaught;
+      });
+    } finally {
+      setState(() {
+        _loadingInitialPosts = false;
+      });
+    }
+  }
+
+  _loadMorePosts() async {
+    try {
+      await Provider.of<HomeState>(context, listen: false)
+          .loadMorePosts(context);
+    } on DioError catch (errorCaught) {
+      setState(() {
+        _loadingMorePostsError = errorCaught;
+      });
+    } finally {
+      setState(() {
+        _loadingMorePosts = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeState>(builder: (context, home, child) {
-      if (home.loadingInitialPosts) {
-        return const Center(child: CircularProgressIndicator());
-      } else if (home.initialPostsError != null) {
-        return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(getErrorMessage(home.initialPostsError!) ??
-                  AppLocalizations.of(context)!.unknown_error),
-              ElevatedButton(
-                  onPressed: () {
-                    home.loadInitialPosts(context);
-                  },
-                  child: Text(AppLocalizations.of(context)!.retry))
-            ]);
-      } else {
-        return ListView.builder(
+    return Consumer<HomeState>(
+      builder: (context, home, child) {
+        if (_loadingInitialPosts) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (_loadingInitialPostsError != null) {
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(getErrorMessage(_loadingInitialPostsError!) ??
+                    AppLocalizations.of(context)!.unknown_error),
+                ElevatedButton(
+                    onPressed: () {
+                      home.loadInitialPosts(context);
+                    },
+                    child: Text(AppLocalizations.of(context)!.retry))
+              ]);
+        } else {
+          return ListView.builder(
             itemCount: home.posts.length + 1,
             itemBuilder: (context, index) {
               if (index < home.posts.length) {
@@ -58,15 +91,12 @@ class HomePageState extends State<HomePage> {
                   )
                 ]);
               } else {
-                if (home.morePostsError == null) {
-                  if (!home.loadingMorePosts) {
-                    home.loadMorePosts(context);
-                  }
+                if (_loadingMorePosts) {
                   return const Center(child: CircularProgressIndicator());
-                } else {
+                } else if (_loadingMorePostsError != null) {
                   return Column(
                     children: [
-                      Text(getErrorMessage(home.morePostsError!) ??
+                      Text(getErrorMessage(_loadingMorePostsError!) ??
                           AppLocalizations.of(context)!.unknown_error),
                       ElevatedButton(
                           onPressed: () {
@@ -75,10 +105,15 @@ class HomePageState extends State<HomePage> {
                           child: Text(AppLocalizations.of(context)!.retry))
                     ],
                   );
+                } else {
+                  _loadMorePosts();
+                  return const Center(child: CircularProgressIndicator());
                 }
               }
-            });
-      }
-    });
+            },
+          );
+        }
+      },
+    );
   }
 }
