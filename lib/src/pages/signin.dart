@@ -82,11 +82,8 @@ class SignInPage extends StatelessWidget {
             } on DioError catch (error) {
               if (!mounted) return;
               Navigator.of(context).pop();
-              showOkDialog(
-                  context,
-                  AppLocalizations.of(context)!.error,
-                  getErrorMessage(error) ??
-                      AppLocalizations.of(context)!.please_retry);
+              showOkDialog(context, AppLocalizations.of(context)!.error,
+                  getErrorMessage(error));
             }
           },
         ));

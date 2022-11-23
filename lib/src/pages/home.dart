@@ -68,11 +68,14 @@ class HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(getErrorMessage(_loadingInitialPostsError!) ??
-                    AppLocalizations.of(context)!.please_retry),
+                Text(getErrorMessage(_loadingInitialPostsError!)),
                 ElevatedButton(
                     onPressed: () {
-                      home.loadInitialPosts(context);
+                      setState(() {
+                        _loadingInitialPosts = true;
+                        _loadingInitialPostsError = null;
+                      });
+                      _loadInitialPosts();
                     },
                     child: Text(AppLocalizations.of(context)!.retry))
               ]);
@@ -96,11 +99,14 @@ class HomePageState extends State<HomePage> {
                 } else if (_loadingMorePostsError != null) {
                   return Column(
                     children: [
-                      Text(getErrorMessage(_loadingMorePostsError!) ??
-                          AppLocalizations.of(context)!.please_retry),
+                      Text(getErrorMessage(_loadingMorePostsError!)),
                       ElevatedButton(
                           onPressed: () {
-                            home.loadMorePosts(context);
+                            setState(() {
+                              _loadingMorePosts = true;
+                              _loadingMorePostsError = null;
+                            });
+                            _loadMorePosts();
                           },
                           child: Text(AppLocalizations.of(context)!.retry))
                     ],
