@@ -68,7 +68,7 @@ class SignInPage extends StatelessWidget {
               Navigator.of(context).pop();
               if (response.data == null) {
                 showOkDialog(context, AppLocalizations.of(context)!.error,
-                    AppLocalizations.of(context)!.unknown_error);
+                    AppLocalizations.of(context)!.please_retry);
               } else {
                 String accessToken = response.data!.accessToken;
                 num expires = response.data!.expires;
@@ -86,7 +86,7 @@ class SignInPage extends StatelessWidget {
                   context,
                   AppLocalizations.of(context)!.error,
                   getErrorMessage(error) ??
-                      AppLocalizations.of(context)!.unknown_error);
+                      AppLocalizations.of(context)!.please_retry);
             }
           },
         ));

@@ -6,7 +6,7 @@
   "valid_password_please": "Please enter a valid password",
   "signing_in": "Sign in…",
   "error": "Error",
-  "unknown_error": "Unknown error",
+  "please_retry": "Error, please retry",
   "scopes": "Scopes",
   "users": "Users",
   "home": "Home",

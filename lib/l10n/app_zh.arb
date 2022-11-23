@@ -6,7 +6,7 @@
   "valid_password_please": "请输入一个正确的密码",
   "signing_in": "登陆中…",
   "error": "错误",
-  "unknown_error": "未知错误",
+  "please_retry": "错误, 请重试",
   "scopes": "范围",
   "users": "用户",
   "home": "首页",

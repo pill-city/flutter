@@ -69,7 +69,7 @@ class HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(getErrorMessage(_loadingInitialPostsError!) ??
-                    AppLocalizations.of(context)!.unknown_error),
+                    AppLocalizations.of(context)!.please_retry),
                 ElevatedButton(
                     onPressed: () {
                       home.loadInitialPosts(context);
@@ -97,7 +97,7 @@ class HomePageState extends State<HomePage> {
                   return Column(
                     children: [
                       Text(getErrorMessage(_loadingMorePostsError!) ??
-                          AppLocalizations.of(context)!.unknown_error),
+                          AppLocalizations.of(context)!.please_retry),
                       ElevatedButton(
                           onPressed: () {
                             home.loadMorePosts(context);
