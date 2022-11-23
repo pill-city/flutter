@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pill_city/pill_city.dart';
@@ -39,7 +40,17 @@ class AppGlobalState extends ChangeNotifier {
     if (accessToken == null) {
       return Future.error("No access token");
     }
-    var api = PillCity();
+    Dio dio = Dio(
+      BaseOptions(
+        baseUrl: PillCity.basePath,
+        connectTimeout: 60 * 1000, // 60 seconds
+        receiveTimeout: 60 * 1000, // 60 seconds
+      ),
+    );
+
+    var api = PillCity(
+      dio: dio,
+    );
     api.setBearerAuth("bearer", accessToken);
     return api;
   }
