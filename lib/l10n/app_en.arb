@@ -44,5 +44,12 @@
     "placeholders": {
       "count": { }
     }
+  },
+  "new_posts": "{count, plural, =0{No new posts}, =1{Got 1 new post}, other{Got {count} new posts}}",
+  "@new_posts": {
+    "description": "The number of new posts",
+    "placeholders": {
+      "count": { }
+    }
   }
 }

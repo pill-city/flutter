@@ -57,6 +57,30 @@ class HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _loadLatestPosts() async {
+    try {
+      int newPosts = await Provider.of<HomeState>(context, listen: false)
+          .loadLatestPosts(context);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.new_posts(newPosts),
+          ),
+        ),
+      );
+    } on DioError catch (errorCaught) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            getErrorMessage(errorCaught),
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeState>(
@@ -80,43 +104,46 @@ class HomePageState extends State<HomePage> {
                     child: Text(AppLocalizations.of(context)!.retry))
               ]);
         } else {
-          return ListView.builder(
-            itemCount: home.posts.length + 1,
-            itemBuilder: (context, index) {
-              if (index < home.posts.length) {
-                return Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: 8),
-                    child: PostWidget(post: home.posts[index]),
-                  ),
-                  const Divider(
-                    thickness: 1,
-                  )
-                ]);
-              } else {
-                if (_loadingMorePosts) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (_loadingMorePostsError != null) {
-                  return Column(
-                    children: [
-                      Text(getErrorMessage(_loadingMorePostsError!)),
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _loadingMorePosts = true;
-                              _loadingMorePostsError = null;
-                            });
-                            _loadMorePosts();
-                          },
-                          child: Text(AppLocalizations.of(context)!.retry))
-                    ],
-                  );
+          return RefreshIndicator(
+            onRefresh: _loadLatestPosts,
+            child: ListView.builder(
+              itemCount: home.posts.length + 1,
+              itemBuilder: (context, index) {
+                if (index < home.posts.length) {
+                  return Column(children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
+                      child: PostWidget(post: home.posts[index]),
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    )
+                  ]);
                 } else {
-                  _loadMorePosts();
-                  return const Center(child: CircularProgressIndicator());
+                  if (_loadingMorePosts) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (_loadingMorePostsError != null) {
+                    return Column(
+                      children: [
+                        Text(getErrorMessage(_loadingMorePostsError!)),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _loadingMorePosts = true;
+                                _loadingMorePostsError = null;
+                              });
+                              _loadMorePosts();
+                            },
+                            child: Text(AppLocalizations.of(context)!.retry))
+                      ],
+                    );
+                  } else {
+                    _loadMorePosts();
+                    return const Center(child: CircularProgressIndicator());
+                  }
                 }
-              }
-            },
+              },
+            ),
           );
         }
       },

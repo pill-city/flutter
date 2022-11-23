@@ -5,7 +5,7 @@ import 'package:pill_city_flutter/src/state/app_global_state.dart';
 import 'package:provider/provider.dart';
 
 class HomeState extends ChangeNotifier {
-  final List<Post> _posts = [];
+  List<Post> _posts = [];
 
   UnmodifiableListView<Post> get posts => UnmodifiableListView(_posts);
 
@@ -19,8 +19,7 @@ class HomeState extends ChangeNotifier {
     if (response.data == null) {
       return Future.error("Failed to load initial posts");
     }
-    _posts.clear();
-    _posts.addAll(response.data!);
+    _posts = response.data!.toList();
   }
 
   Future<void> loadMorePosts(BuildContext context) async {
@@ -34,5 +33,19 @@ class HomeState extends ChangeNotifier {
       return Future.error("Failed to load more posts");
     }
     _posts.addAll(response.data!);
+  }
+
+  Future<int> loadLatestPosts(BuildContext context) async {
+    if (_posts.isEmpty) {
+      return 0;
+    }
+    final appGlobalState = Provider.of<AppGlobalState>(context, listen: false);
+    final api = await appGlobalState.getAuthenticatedApi();
+    final response = await api.getCoreApi().getHome(toId: _posts.first.id);
+    if (response.data == null) {
+      return Future.error("Failed to load more posts");
+    }
+    _posts = [...response.data!, ..._posts];
+    return response.data!.length;
   }
 }
