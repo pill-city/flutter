@@ -90,6 +90,21 @@ class PostWidget extends StatelessWidget {
       );
     }
 
+    if (post.isUpdateAvatar != null && post.isUpdateAvatar!) {
+      widgets.add(
+        GestureDetector(
+          onTap: () {
+            GoRouter.of(context).push("/post/${post.id}");
+          },
+          child: Text(
+            "${getInferredFirstName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
+            maxLines: contentMaxLines,
+            overflow: TextOverflow.fade,
+          ),
+        ),
+      );
+    }
+
     if (hasMedia) {
       widgets.add(
         MediaCollage(mediaList: post.mediaUrlsV2!),
