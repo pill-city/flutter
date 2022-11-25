@@ -8,75 +8,76 @@ import '../utils/get_user_names.dart';
 const commentMaxLines = 1;
 
 class CommentWidget extends StatelessWidget {
-  CommentWidget({Key? key, required this.author, this.content, this.media})
+  const CommentWidget(
+      {Key? key, required this.author, this.content, this.media})
       : super(key: key);
 
   final User author;
-  String? content;
-  BuiltList<MediaUrlV2>? media;
+  final String? content;
+  final BuiltList<MediaUrlV2>? media;
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = [];
-    widgets.add(
-      SizedBox(
-        height: 16,
-        width: 16,
-        child: author.avatarUrlV2 != null
-            ? CircleAvatar(
-                backgroundImage: NetworkImage(
-                  author.avatarUrlV2!.processed
-                      ? author.avatarUrlV2!.processedUrl!
-                      : author.avatarUrlV2!.originalUrl,
+    List<InlineSpan> spans = [];
+    spans.add(
+      WidgetSpan(
+        child: SizedBox(
+          height: 16,
+          width: 16,
+          child: author.avatarUrlV2 != null
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    author.avatarUrlV2!.processed
+                        ? author.avatarUrlV2!.processedUrl!
+                        : author.avatarUrlV2!.originalUrl,
+                  ),
+                  backgroundColor: author.avatarUrlV2!.processed
+                      ? HexColor.fromHex(author.avatarUrlV2!.dominantColorHex!)
+                      : Colors.grey,
+                )
+              : const CircleAvatar(
+                  backgroundColor: Colors.grey,
                 ),
-                backgroundColor: author.avatarUrlV2!.processed
-                    ? HexColor.fromHex(author.avatarUrlV2!.dominantColorHex!)
-                    : Colors.grey,
-              )
-            : const CircleAvatar(
-                backgroundColor: Colors.grey,
-              ),
-      ),
-    );
-    widgets.add(
-      Text(
-        getInferredFirstName(author),
-      ),
-    );
-    if (content != null && content!.isNotEmpty) {
-      widgets.add(
-        Expanded(
-          child: Text(
-            content!,
-            overflow: TextOverflow.ellipsis,
-            maxLines: commentMaxLines,
-          ),
         ),
-      );
-    }
+      ),
+    );
+    spans.add(
+      const WidgetSpan(
+        child: SizedBox(
+          width: 4,
+        ),
+      ),
+    );
+    spans.add(
+      TextSpan(
+        text: getInferredFirstName(author),
+      ),
+    );
+    spans.add(
+      const TextSpan(text: ": "),
+    );
     if (media != null && media!.isNotEmpty) {
-      widgets.add(
-        const SizedBox(
+      spans.add(
+        const WidgetSpan(
           child: Icon(
+            size: 16,
             Icons.image,
           ),
         ),
       );
     }
-
-    List<Widget> children = [];
-    for (var i = 0; i < widgets.length; i++) {
-      children.add(widgets[i]);
-      if (i < widgets.length - 1) {
-        children.add(
-          const SizedBox(width: 4),
-        );
-      }
+    if (content != null && content!.isNotEmpty) {
+      spans.add(
+        TextSpan(text: content!),
+      );
     }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: children,
+    return RichText(
+      text: TextSpan(
+        children: spans,
+      ),
+      maxLines: commentMaxLines,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

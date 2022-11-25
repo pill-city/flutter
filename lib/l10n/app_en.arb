@@ -51,5 +51,6 @@
     "placeholders": {
       "count": { }
     }
-  }
+  },
+  "has_a_new_avatar": "has a new avatar!"
 }
