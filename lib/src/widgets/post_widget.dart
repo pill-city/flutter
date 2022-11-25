@@ -75,22 +75,39 @@ class PostWidget extends StatelessWidget {
       ),
     );
 
-    if (post.content != null && post.content!.isNotEmpty) {
+    if (post.deleted != null && post.deleted!) {
       widgets.add(
         GestureDetector(
           onTap: () {
             GoRouter.of(context).push("/post/${post.id}");
           },
           child: Text(
-            post.content!,
+            AppLocalizations.of(context)!.post_deleted,
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
           ),
         ),
       );
-    }
-
-    if (post.isUpdateAvatar != null && post.isUpdateAvatar!) {
+    } else if (post.blocked != null && post.blocked!) {
+      widgets.add(
+        GestureDetector(
+          onTap: () {
+            GoRouter.of(context).push("/post/${post.id}");
+          },
+          child: Text(
+            AppLocalizations.of(context)!.author_blocked,
+            maxLines: contentMaxLines,
+            overflow: TextOverflow.fade,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+      );
+    } else if (post.isUpdateAvatar != null && post.isUpdateAvatar!) {
       widgets.add(
         GestureDetector(
           onTap: () {
@@ -98,6 +115,22 @@ class PostWidget extends StatelessWidget {
           },
           child: Text(
             "${getInferredFirstName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
+            maxLines: contentMaxLines,
+            overflow: TextOverflow.fade,
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+      );
+    } else if (post.content != null && post.content!.isNotEmpty) {
+      widgets.add(
+        GestureDetector(
+          onTap: () {
+            GoRouter.of(context).push("/post/${post.id}");
+          },
+          child: Text(
+            post.content!,
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,
           ),

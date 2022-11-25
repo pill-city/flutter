@@ -52,5 +52,7 @@
       "count": { }
     }
   },
-  "has_a_new_avatar": "has a new avatar!"
+  "has_a_new_avatar": "has a new avatar!",
+  "post_deleted": "This post has been deleted, but we are still showing others' interactions with it.",
+  "author_blocked": "This author has been blocked, but we are still showing others' interactions with the post."
 }

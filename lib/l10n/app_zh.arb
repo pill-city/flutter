@@ -52,5 +52,7 @@
       "count": { }
     }
   },
-  "has_a_new_avatar": "有新头像辣"
+  "has_a_new_avatar": "有新头像辣",
+  "post_deleted": "此 po 已经被删除，但是与此 po 的互动仍会被显示",
+  "author_blocked": "此 po 的作者已经被您屏蔽，但是与此 po 的互动仍会被显示"
 }

@@ -11,7 +11,9 @@ class HomeState extends ChangeNotifier {
 
   bool _shouldShowPost(Post post) {
     return !(post.deleted != null && post.deleted!) ||
-        !(post.blocked != null && post.blocked!);
+        !(post.blocked != null && post.blocked!) ||
+        !(post.reactions != null && post.reactions!.isNotEmpty) ||
+        !(post.comments != null && post.comments!.isNotEmpty);
   }
 
   Future<void> loadInitialPosts(BuildContext context) async {
