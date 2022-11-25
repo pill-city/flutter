@@ -15,33 +15,67 @@ class CommentsWidget extends StatelessWidget {
 
   final BuiltList<Comment> comments;
 
+  bool _shouldShowComment(Comment comment) {
+    return !(comment.deleted != null && comment.deleted!) ||
+        !(comment.blocked != null && comment.blocked!) ||
+        !(comment.comments != null &&
+            comment.comments!.where((nestedComment) {
+              return _shouldShowNestedComment(nestedComment, comment);
+            }).isNotEmpty);
+  }
+
+  bool _isNestedCommentRepliedTo(NestedComment nestedComment, Comment comment) {
+    for (var otherComment in comment.comments!) {
+      if (otherComment.replyToCommentId == nestedComment.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool _shouldShowNestedComment(NestedComment nestedComment, Comment comment) {
+    return !(nestedComment.deleted != null && nestedComment.deleted!) ||
+        !(nestedComment.blocked != null && nestedComment.blocked!) ||
+        _isNestedCommentRepliedTo(nestedComment, comment);
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Comment> showingComments = comments.where(_shouldShowComment).toList();
+
     List<Widget> commentWidgets = [];
 
-    int totalComments = comments.length +
-        comments.map((comment) {
+    int totalComments = showingComments.length +
+        showingComments.map((comment) {
           if (comment.comments != null) {
-            return comment.comments!.length;
+            return comment.comments!.where((nestedComment) {
+              return _shouldShowNestedComment(nestedComment, comment);
+            }).length;
           }
           return 0;
         }).reduce((a, b) => a + b);
     int displayedComments = 0;
-    for (var i = 0; i < min(comments.length, maxComments); i++) {
-      var comment = comments[i];
+    for (var i = 0; i < min(showingComments.length, maxComments); i++) {
+      var comment = showingComments[i];
       commentWidgets.add(
         CommentWidget(
           author: comment.author,
           content: comment.content,
           media: comment.mediaUrlsV2,
+          deleted: comment.deleted,
+          blocked: comment.blocked,
         ),
       );
       displayedComments++;
-      if (comment.comments != null && comment.comments!.isNotEmpty) {
+      if (comment.comments != null) {
+        List<NestedComment> showingNestedComments =
+            comment.comments!.where((nestedComment) {
+          return _shouldShowNestedComment(nestedComment, comment);
+        }).toList();
         for (var j = 0;
-            j < min(comment.comments!.length, maxNestedComments);
+            j < min(showingNestedComments.length, maxNestedComments);
             j++) {
-          var nestedComment = comment.comments![j];
+          var nestedComment = showingNestedComments[j];
           commentWidgets.add(
             Padding(
               padding: const EdgeInsets.only(left: 32),
@@ -49,6 +83,8 @@ class CommentsWidget extends StatelessWidget {
                 author: nestedComment.author,
                 content: nestedComment.content,
                 media: nestedComment.mediaUrlsV2,
+                deleted: comment.deleted,
+                blocked: comment.blocked,
               ),
             ),
           );

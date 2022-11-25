@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 
@@ -9,12 +10,19 @@ const commentMaxLines = 1;
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget(
-      {Key? key, required this.author, this.content, this.media})
+      {Key? key,
+      required this.author,
+      this.content,
+      this.media,
+      this.deleted,
+      this.blocked})
       : super(key: key);
 
   final User author;
   final String? content;
   final BuiltList<MediaUrlV2>? media;
+  final bool? deleted;
+  final bool? blocked;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +32,7 @@ class CommentWidget extends StatelessWidget {
         child: SizedBox(
           height: 16,
           width: 16,
-          child: author.avatarUrlV2 != null
+          child: author.avatarUrlV2 != null && !(blocked ?? false)
               ? CircleAvatar(
                   backgroundImage: NetworkImage(
                     author.avatarUrlV2!.processed
@@ -48,28 +56,48 @@ class CommentWidget extends StatelessWidget {
         ),
       ),
     );
-    spans.add(
-      TextSpan(
-        text: getInferredFirstName(author),
-      ),
-    );
-    spans.add(
-      const TextSpan(text: ": "),
-    );
-    if (media != null && media!.isNotEmpty) {
+    if (!(blocked ?? false) && !(deleted ?? false)) {
       spans.add(
-        const WidgetSpan(
-          child: Icon(
-            size: 16,
-            Icons.image,
+        TextSpan(text: getInferredFirstName(author)),
+      );
+      spans.add(
+        const TextSpan(text: ": "),
+      );
+    }
+    if (blocked ?? false) {
+      spans.add(
+        TextSpan(
+          text: AppLocalizations.of(context)!.comment_author_blocked,
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
           ),
         ),
       );
-    }
-    if (content != null && content!.isNotEmpty) {
+    } else if (deleted ?? false) {
       spans.add(
-        TextSpan(text: content!),
+        TextSpan(
+          text: AppLocalizations.of(context)!.comment_deleted,
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
+          ),
+        ),
       );
+    } else {
+      if (media != null && media!.isNotEmpty) {
+        spans.add(
+          const WidgetSpan(
+            child: Icon(
+              size: 16,
+              Icons.image,
+            ),
+          ),
+        );
+      }
+      if (content != null && content!.isNotEmpty) {
+        spans.add(
+          TextSpan(text: content!),
+        );
+      }
     }
 
     return Text.rich(

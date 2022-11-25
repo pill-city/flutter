@@ -53,7 +53,9 @@
     }
   },
   "has_a_new_avatar": "has a new avatar!",
-  "post_deleted": "This post has been deleted, but we are still showing others' interactions with it.",
-  "author_blocked": "This author has been blocked, but we are still showing others' interactions with the post.",
-  "blocked_user": "Blocked user"
+  "post_deleted": "This post has been deleted, but we are still showing others' interactions with the post.",
+  "post_author_blocked": "The post author is blocked by you, but we are still showing others' interactions with the post.",
+  "blocked_user": "Blocked user",
+  "comment_deleted": "This comment has been deleted, but we are still showing others' interactions with the comment.",
+  "comment_author_blocked": "The comment author is blocked by you, but we are still showing others' interactions with the comment."
 }

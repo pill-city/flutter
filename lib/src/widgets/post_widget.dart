@@ -86,7 +86,7 @@ class PostWidget extends StatelessWidget {
             GoRouter.of(context).push("/post/${post.id}");
           },
           child: Text(
-            AppLocalizations.of(context)!.author_blocked,
+            AppLocalizations.of(context)!.post_author_blocked,
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,
             style: const TextStyle(

@@ -54,6 +54,8 @@
   },
   "has_a_new_avatar": "有新头像辣",
   "post_deleted": "此 po 已经被删除，但是与此 po 的互动仍会被显示",
-  "author_blocked": "此 po 的作者已经被您屏蔽，但是与此 po 的互动仍会被显示",
-  "blocked_user": "被屏蔽用户"
+  "post_author_blocked": "此 po 的作者已经被您屏蔽，但是与此 po 的互动仍会被显示",
+  "blocked_user": "被屏蔽用户",
+  "comment_deleted": "此评论已经被删除，但是与此评论的互动仍会被显示",
+  "comment_author_blocked": "此评论的作者已经被您屏蔽，但是与此评论的互动仍会被显示"
 }
