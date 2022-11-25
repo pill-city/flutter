@@ -6,11 +6,11 @@ import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/comments_widget.dart';
-import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
 import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dart';
 
 import 'link_previews_widget.dart';
+import 'media_collage.dart';
 
 const contentMaxLines = 20;
 
@@ -23,6 +23,8 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool blocked = post.blocked ?? false;
+    bool deleted = post.deleted ?? false;
     bool hasMedia = post.mediaUrlsV2 != null && post.mediaUrlsV2!.isNotEmpty;
     bool hasLinkPreview =
         post.linkPreviews != null && post.linkPreviews!.isNotEmpty;
@@ -32,7 +34,7 @@ class PostWidget extends StatelessWidget {
     widgets.add(
       Row(
         children: [
-          post.author.avatarUrlV2 != null
+          post.author.avatarUrlV2 != null && !blocked
               ? CircleAvatar(
                   backgroundImage: NetworkImage(
                     post.author.avatarUrlV2!.processed
@@ -54,7 +56,9 @@ class PostWidget extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  text: getPrimaryName(post.author),
+                  text: !blocked
+                      ? getPrimaryName(post.author)
+                      : AppLocalizations.of(context)!.blocked_user,
                   style: DefaultTextStyle.of(context).style,
                   children: [
                     if (getSecondaryName(post.author) != null)
@@ -75,14 +79,14 @@ class PostWidget extends StatelessWidget {
       ),
     );
 
-    if (post.deleted != null && post.deleted!) {
+    if (blocked) {
       widgets.add(
         GestureDetector(
           onTap: () {
             GoRouter.of(context).push("/post/${post.id}");
           },
           child: Text(
-            AppLocalizations.of(context)!.post_deleted,
+            AppLocalizations.of(context)!.author_blocked,
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,
             style: const TextStyle(
@@ -91,14 +95,14 @@ class PostWidget extends StatelessWidget {
           ),
         ),
       );
-    } else if (post.blocked != null && post.blocked!) {
+    } else if (deleted) {
       widgets.add(
         GestureDetector(
           onTap: () {
             GoRouter.of(context).push("/post/${post.id}");
           },
           child: Text(
-            AppLocalizations.of(context)!.author_blocked,
+            AppLocalizations.of(context)!.post_deleted,
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,
             style: const TextStyle(
@@ -138,23 +142,25 @@ class PostWidget extends StatelessWidget {
       );
     }
 
-    if (hasMedia) {
-      widgets.add(
-        MediaCollage(mediaList: post.mediaUrlsV2!),
-      );
-    }
-
-    if (hasLinkPreview) {
+    if (!blocked && !deleted) {
       if (hasMedia) {
-        widgets.add(ShowMoreLinkPreviewsWidget(
-          linkPreviews: post.linkPreviews!,
-        ));
-      } else {
         widgets.add(
-          LinkPreviewsWidget(
-            linkPreviews: post.linkPreviews!,
-          ),
+          MediaCollage(mediaList: post.mediaUrlsV2!),
         );
+      }
+
+      if (hasLinkPreview) {
+        if (hasMedia) {
+          widgets.add(ShowMoreLinkPreviewsWidget(
+            linkPreviews: post.linkPreviews!,
+          ));
+        } else {
+          widgets.add(
+            LinkPreviewsWidget(
+              linkPreviews: post.linkPreviews!,
+            ),
+          );
+        }
       }
     }
 
