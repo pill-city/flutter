@@ -72,8 +72,8 @@ class CommentWidget extends StatelessWidget {
       );
     }
 
-    return RichText(
-      text: TextSpan(
+    return Text.rich(
+      TextSpan(
         children: spans,
       ),
       maxLines: commentMaxLines,

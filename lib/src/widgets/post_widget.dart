@@ -52,8 +52,8 @@ class PostWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   text: getPrimaryName(post.author),
                   style: DefaultTextStyle.of(context).style,
                   children: [
