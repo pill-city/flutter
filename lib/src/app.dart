@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pill_city_flutter/src/pages/home.dart';
 import 'package:pill_city_flutter/src/pages/notifications.dart';
+import 'package:pill_city_flutter/src/pages/post.dart';
 import 'package:pill_city_flutter/src/pages/profile.dart';
 import 'package:pill_city_flutter/src/pages/scopes.dart';
 import 'package:pill_city_flutter/src/pages/signin.dart';
@@ -52,6 +53,15 @@ class App extends StatelessWidget {
               path: '/signin',
               builder: (BuildContext context, GoRouterState state) {
                 return const Scaffold(body: SignInPage());
+              }),
+          GoRoute(
+              path: '/post/:postId',
+              builder: (BuildContext context, GoRouterState state) {
+                return Scaffold(
+                  body: PostPage(
+                    postId: state.params["postId"]!,
+                  ),
+                );
               }),
           ShellRoute(
             navigatorKey: _shellNavigatorKey,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
@@ -76,10 +77,15 @@ class PostWidget extends StatelessWidget {
 
     if (post.content != null && post.content!.isNotEmpty) {
       widgets.add(
-        Text(
-          post.content!,
-          maxLines: contentMaxLines,
-          overflow: TextOverflow.fade,
+        GestureDetector(
+          onTap: () {
+            GoRouter.of(context).push("/post/${post.id}");
+          },
+          child: Text(
+            post.content!,
+            maxLines: contentMaxLines,
+            overflow: TextOverflow.fade,
+          ),
         ),
       );
     }
@@ -114,8 +120,13 @@ class PostWidget extends StatelessWidget {
 
     if (post.comments != null && post.comments!.isNotEmpty) {
       widgets.add(
-        CommentsWidget(
-          comments: post.comments!,
+        GestureDetector(
+          onTap: () {
+            GoRouter.of(context).push("/post/${post.id}");
+          },
+          child: CommentsWidget(
+            comments: post.comments!,
+          ),
         ),
       );
     }
