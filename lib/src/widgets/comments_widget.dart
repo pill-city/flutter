@@ -33,6 +33,7 @@ class CommentsWidget extends StatelessWidget {
         CommentWidget(
           author: comment.author,
           content: comment.content,
+          media: comment.mediaUrlsV2,
         ),
       );
       displayedComments++;
@@ -47,6 +48,7 @@ class CommentsWidget extends StatelessWidget {
               child: CommentWidget(
                 author: nestedComment.author,
                 content: nestedComment.content,
+                media: nestedComment.mediaUrlsV2,
               ),
             ),
           );
