@@ -9,6 +9,11 @@ class HomeState extends ChangeNotifier {
 
   UnmodifiableListView<Post> get posts => UnmodifiableListView(_posts);
 
+  bool _shouldShowPost(Post post) {
+    return !(post.deleted != null && post.deleted!) ||
+        !(post.blocked != null && post.blocked!);
+  }
+
   Future<void> loadInitialPosts(BuildContext context) async {
     if (_posts.isNotEmpty) {
       return;
@@ -19,7 +24,7 @@ class HomeState extends ChangeNotifier {
     if (response.data == null) {
       return Future.error("Failed to load initial posts");
     }
-    _posts = response.data!.toList();
+    _posts = response.data!.where(_shouldShowPost).toList();
   }
 
   Future<void> loadMorePosts(BuildContext context) async {
@@ -32,7 +37,7 @@ class HomeState extends ChangeNotifier {
     if (response.data == null) {
       return Future.error("Failed to load more posts");
     }
-    _posts.addAll(response.data!);
+    _posts.addAll(response.data!.where(_shouldShowPost));
   }
 
   Future<int> loadLatestPosts(BuildContext context) async {
@@ -45,7 +50,8 @@ class HomeState extends ChangeNotifier {
     if (response.data == null) {
       return Future.error("Failed to load more posts");
     }
-    _posts = [...response.data!, ..._posts];
-    return response.data!.length;
+    var data = response.data!.where(_shouldShowPost);
+    _posts = [...data, ..._posts];
+    return data.length;
   }
 }
