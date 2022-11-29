@@ -279,7 +279,7 @@ packages:
       path: "."
       ref: "1e5e085bd678f69bca599a172eeb351917e3dd26"
       resolved-ref: "1e5e085bd678f69bca599a172eeb351917e3dd26"
-      url: "git@github.com:pill-city/dart-sdk.git"
+      url: "https://github.com/pill-city/dart-sdk.git"
     source: git
     version: "1.0.0"
   plugin_platform_interface:
