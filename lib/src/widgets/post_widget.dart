@@ -21,6 +21,13 @@ class PostWidget extends StatelessWidget {
 
   final Post post;
 
+  void goToPost(BuildContext context) {
+    final postRoute = '/post/${post.id}';
+    if (GoRouter.of(context).location != postRoute) {
+      GoRouter.of(context).push("/post/${post.id}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool blocked = post.blocked ?? false;
@@ -83,7 +90,7 @@ class PostWidget extends StatelessWidget {
       widgets.add(
         GestureDetector(
           onTap: () {
-            GoRouter.of(context).push("/post/${post.id}");
+            goToPost(context);
           },
           child: Text(
             AppLocalizations.of(context)!.post_author_blocked,
@@ -99,7 +106,7 @@ class PostWidget extends StatelessWidget {
       widgets.add(
         GestureDetector(
           onTap: () {
-            GoRouter.of(context).push("/post/${post.id}");
+            goToPost(context);
           },
           child: Text(
             AppLocalizations.of(context)!.post_deleted,
@@ -115,7 +122,7 @@ class PostWidget extends StatelessWidget {
       widgets.add(
         GestureDetector(
           onTap: () {
-            GoRouter.of(context).push("/post/${post.id}");
+            goToPost(context);
           },
           child: Text(
             "${getInferredFirstName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
@@ -131,7 +138,7 @@ class PostWidget extends StatelessWidget {
       widgets.add(
         GestureDetector(
           onTap: () {
-            GoRouter.of(context).push("/post/${post.id}");
+            goToPost(context);
           },
           child: Text(
             post.content!,
@@ -176,7 +183,7 @@ class PostWidget extends StatelessWidget {
       widgets.add(
         GestureDetector(
           onTap: () {
-            GoRouter.of(context).push("/post/${post.id}");
+            goToPost(context);
           },
           child: CommentsWidget(
             comments: post.comments!,

@@ -75,8 +75,9 @@ class PostPageState extends State<PostPage> {
         onRefresh: _loadPost,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.only(top: 16),
+            height: MediaQuery.of(context).size.height,
             child: PostWidget(post: _post!),
           ),
         ),
