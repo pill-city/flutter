@@ -6,6 +6,13 @@ import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
 
+const homeContentMaxLines = 20;
+const homeMaxLinkPreviews = 1;
+const homeFullReactionMaxUsers = 2;
+const homeCommentMaxLines = 1;
+const homeMaxComments = 3;
+const homeMaxNestedComments = 6;
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.scrollController});
 
@@ -116,7 +123,16 @@ class HomePageState extends State<HomePage> {
                   return Column(children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: PostWidget(post: home.posts[index]),
+                      child: PostWidget(
+                        post: home.posts[index],
+                        contentMaxLines: homeContentMaxLines,
+                        maxLinkPreviews: homeMaxLinkPreviews,
+                        fullReactionMaxUsers: homeFullReactionMaxUsers,
+                        commentMaxLines: homeCommentMaxLines,
+                        maxComments: homeMaxComments,
+                        maxNestedComments: homeMaxNestedComments,
+                        showMedia: false,
+                      ),
                     ),
                     const Divider(
                       thickness: 1,

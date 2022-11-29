@@ -2,11 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/pages/home.dart';
 import 'package:pill_city_flutter/src/state/app_global_state.dart';
 import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
+
+const postCommentMaxLines = 1000;
 
 class PostPage extends StatefulWidget {
   const PostPage({super.key, required this.postId});
@@ -75,10 +78,18 @@ class PostPageState extends State<PostPage> {
         onRefresh: _loadPost,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
-            padding: const EdgeInsets.only(top: 16),
-            height: MediaQuery.of(context).size.height,
-            child: PostWidget(post: _post!),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16, bottom: 16),
+            child: PostWidget(
+              post: _post!,
+              contentMaxLines: double.maxFinite.toInt(),
+              maxLinkPreviews: double.maxFinite.toInt(),
+              fullReactionMaxUsers: homeFullReactionMaxUsers,
+              commentMaxLines: postCommentMaxLines,
+              maxComments: double.maxFinite.toInt(),
+              maxNestedComments: double.maxFinite.toInt(),
+              showMedia: true,
+            ),
           ),
         ),
       );

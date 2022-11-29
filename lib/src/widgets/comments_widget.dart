@@ -6,14 +6,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/widgets/comment_widget.dart';
 
-const commentMaxLines = 1;
-const maxComments = 3;
-const maxNestedComments = 6;
-
 class CommentsWidget extends StatelessWidget {
-  const CommentsWidget({Key? key, required this.comments}) : super(key: key);
+  const CommentsWidget({
+    Key? key,
+    required this.comments,
+    required this.commentMaxLines,
+    required this.maxComments,
+    required this.maxNestedComments,
+    required this.showMedia,
+  }) : super(key: key);
 
   final BuiltList<Comment> comments;
+  final int commentMaxLines;
+  final int maxComments;
+  final int maxNestedComments;
+  final bool showMedia;
 
   bool _shouldShowComment(Comment comment) {
     return !(comment.deleted != null && comment.deleted!) ||
@@ -64,6 +71,8 @@ class CommentsWidget extends StatelessWidget {
           media: comment.mediaUrlsV2,
           deleted: comment.deleted,
           blocked: comment.blocked,
+          maxLines: commentMaxLines,
+          showMedia: showMedia,
         ),
       );
       displayedComments++;
@@ -85,6 +94,8 @@ class CommentsWidget extends StatelessWidget {
                 media: nestedComment.mediaUrlsV2,
                 deleted: comment.deleted,
                 blocked: comment.blocked,
+                maxLines: commentMaxLines,
+                showMedia: showMedia,
               ),
             ),
           );

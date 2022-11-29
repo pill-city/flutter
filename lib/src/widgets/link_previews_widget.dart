@@ -5,12 +5,15 @@ import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dar
 
 import 'link_preview_widget.dart';
 
-const maxLinkPreviews = 1;
-
 class LinkPreviewsWidget extends StatelessWidget {
-  const LinkPreviewsWidget({super.key, required this.linkPreviews});
+  const LinkPreviewsWidget({
+    super.key,
+    required this.linkPreviews,
+    required this.maxLinkPreviews,
+  });
 
   final BuiltList<LinkPreview> linkPreviews;
+  final int maxLinkPreviews;
 
   @override
   Widget build(BuildContext context) {

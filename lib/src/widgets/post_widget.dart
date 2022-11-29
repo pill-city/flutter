@@ -12,14 +12,29 @@ import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dar
 import 'link_previews_widget.dart';
 import 'media_collage.dart';
 
-const contentMaxLines = 20;
-
 const subTextStyle = TextStyle(fontSize: 12, color: Colors.grey);
 
 class PostWidget extends StatelessWidget {
-  const PostWidget({super.key, required this.post});
+  const PostWidget({
+    super.key,
+    required this.post,
+    required this.contentMaxLines,
+    required this.maxLinkPreviews,
+    required this.fullReactionMaxUsers,
+    required this.commentMaxLines,
+    required this.maxComments,
+    required this.maxNestedComments,
+    required this.showMedia,
+  });
 
   final Post post;
+  final int contentMaxLines;
+  final int maxLinkPreviews;
+  final int fullReactionMaxUsers;
+  final int commentMaxLines;
+  final int maxComments;
+  final int maxNestedComments;
+  final bool showMedia;
 
   void goToPost(BuildContext context) {
     final postRoute = '/post/${post.id}';
@@ -165,6 +180,7 @@ class PostWidget extends StatelessWidget {
           widgets.add(
             LinkPreviewsWidget(
               linkPreviews: post.linkPreviews!,
+              maxLinkPreviews: maxLinkPreviews,
             ),
           );
         }
@@ -175,6 +191,7 @@ class PostWidget extends StatelessWidget {
       widgets.add(
         ReactionsWidget(
           reactions: post.reactions!,
+          fullReactionMaxUsers: fullReactionMaxUsers,
         ),
       );
     }
@@ -187,6 +204,10 @@ class PostWidget extends StatelessWidget {
           },
           child: CommentsWidget(
             comments: post.comments!,
+            commentMaxLines: commentMaxLines,
+            maxComments: maxComments,
+            maxNestedComments: maxNestedComments,
+            showMedia: showMedia,
           ),
         ),
       );

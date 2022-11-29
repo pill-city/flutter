@@ -3,26 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
+import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 
 import '../utils/get_user_names.dart';
 
-const commentMaxLines = 1;
-
 class CommentWidget extends StatelessWidget {
-  const CommentWidget(
-      {Key? key,
-      required this.author,
-      this.content,
-      this.media,
-      this.deleted,
-      this.blocked})
-      : super(key: key);
+  const CommentWidget({
+    Key? key,
+    required this.author,
+    this.content,
+    this.media,
+    this.deleted,
+    this.blocked,
+    required this.maxLines,
+    required this.showMedia,
+  }) : super(key: key);
 
   final User author;
   final String? content;
   final BuiltList<MediaUrlV2>? media;
   final bool? deleted;
   final bool? blocked;
+  final int maxLines;
+  final bool showMedia;
 
   @override
   Widget build(BuildContext context) {
@@ -84,14 +87,27 @@ class CommentWidget extends StatelessWidget {
       );
     } else {
       if (media != null && media!.isNotEmpty) {
-        spans.add(
-          const WidgetSpan(
-            child: Icon(
-              size: 16,
-              Icons.image,
+        if (showMedia) {
+          spans.add(
+            WidgetSpan(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                child: MediaCollage(
+                  mediaList: media!,
+                ),
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          spans.add(
+            const WidgetSpan(
+              child: Icon(
+                size: 16,
+                Icons.image,
+              ),
+            ),
+          );
+        }
       }
       if (content != null && content!.isNotEmpty) {
         spans.add(
@@ -104,7 +120,7 @@ class CommentWidget extends StatelessWidget {
       TextSpan(
         children: spans,
       ),
-      maxLines: commentMaxLines,
+      maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
     );
   }

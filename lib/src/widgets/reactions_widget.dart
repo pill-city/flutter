@@ -8,12 +8,15 @@ import 'package:pill_city_flutter/src/widgets/reaction_count_widget.dart';
 import 'package:pill_city_flutter/src/widgets/reaction_full_widget.dart';
 import 'package:twemoji/twemoji.dart';
 
-const nonFullReactionCount = 2;
-
 class ReactionsWidget extends StatelessWidget {
-  const ReactionsWidget({Key? key, required this.reactions}) : super(key: key);
+  const ReactionsWidget({
+    Key? key,
+    required this.reactions,
+    required this.fullReactionMaxUsers,
+  }) : super(key: key);
 
   final BuiltList<Reaction> reactions;
+  final int fullReactionMaxUsers;
 
   void showReactionsFullDetail(
     BuildContext context,
@@ -46,14 +49,12 @@ class ReactionsWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(
-                      aggregatedReaction.users
-                          .map((u) => getPrimaryName(u))
-                          .join(", "),
-                    ),
-                  ],
+                Flexible(
+                  child: Text(
+                    aggregatedReaction.users
+                        .map((u) => getPrimaryName(u))
+                        .join(", "),
+                  ),
                 ),
               ],
             ),
@@ -100,12 +101,12 @@ class ReactionsWidget extends StatelessWidget {
       return b.emoji.codeUnitAt(0) - a.emoji.codeUnitAt(0);
     });
 
-    bool useFull = aggregatedReactions
-            .map((r) => r.users)
-            .expand((e) => e)
-            .map((u) => getInferredFirstName(u).length)
-            .reduce((a, b) => a + b) <
-        reactionFullDisplayNameTotalLengthThreshold;
+    int totalNamesLength = aggregatedReactions
+        .map((r) => r.users)
+        .expand((e) => e)
+        .map((u) => getInferredFirstName(u).length)
+        .reduce((a, b) => a + b);
+    bool useFull = totalNamesLength < fullReactionMaxUsers * 10;
 
     int allReactionsCount =
         aggregatedReactions.map((r) => r.users.length).reduce((a, b) => a + b);
@@ -114,19 +115,17 @@ class ReactionsWidget extends StatelessWidget {
       onLongPress: () {
         showReactionsFullDetail(context, aggregatedReactions);
       },
-      child: Row(
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 4,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           for (final reaction in useFull
               ? aggregatedReactions
-              : aggregatedReactions.take(nonFullReactionCount))
-            Row(
-              children: [
-                useFull
-                    ? ReactionFullWidget(reaction: reaction)
-                    : ReactionCountWidget(reaction: reaction),
-                const SizedBox(width: 8),
-              ],
-            ),
+              : aggregatedReactions.take(fullReactionMaxUsers))
+            useFull
+                ? ReactionFullWidget(reaction: reaction)
+                : ReactionCountWidget(reaction: reaction),
           if (!useFull)
             GestureDetector(
               onTap: () {
