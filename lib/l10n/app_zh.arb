@@ -57,5 +57,7 @@
   "post_author_blocked": "此 po 的作者已经被您屏蔽，但是与此 po 的互动仍会被显示",
   "blocked_user": "被屏蔽用户",
   "comment_deleted": "此评论已经被删除，但是与此评论的互动仍会被显示",
-  "comment_author_blocked": "此评论的作者已经被您屏蔽，但是与此评论的互动仍会被显示"
+  "comment_author_blocked": "此评论的作者已经被您屏蔽，但是与此评论的互动仍会被显示",
+  "loading_post": "Po 载入中…",
+  "someone_s_post": " 的 po"
 }
