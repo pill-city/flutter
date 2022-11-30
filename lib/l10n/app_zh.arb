@@ -4,6 +4,7 @@
   "signin": "登陆",
   "valid_id_please": "请输入一个正确的 ID (不是邮箱)",
   "valid_password_please": "请输入一个正确的密码",
+  "invalid_signin_input": "请输入一个正确的 ID (不是邮箱) 和密码",
   "signing_in": "登陆中…",
   "error": "错误",
   "please_retry": "错误, 请重试",
@@ -62,5 +63,16 @@
   "someone_s_post": " 的 po",
   "new_post": "发 Po",
   "say_something": "说点什么吧",
-  "public_post": "公开 po"
+  "public_post": "公开 po",
+  "reshareable_post": "Po 可被分享",
+  "post_to_public": "发布公开 po",
+  "post_to_circles": "{count, plural, =0{发布到 0 个圈子里}, =1{发布到 1 个圈子里}, other{发布到 {count} 个圈子里}",
+  "@post_to_circles": {
+    "description": "The number of circles",
+    "placeholders": {
+      "count": { }
+    }
+  },
+  "invalid_create_post_input": "Po 必须被公开发布或发布到至少一个圈子里",
+  "posting": "发 po 中…"
 }

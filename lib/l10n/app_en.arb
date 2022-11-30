@@ -4,6 +4,7 @@
   "signin": "Sign In",
   "valid_id_please": "Please enter a valid ID (not your email)",
   "valid_password_please": "Please enter a valid password",
+  "invalid_signin_input": "Please enter a valid ID and password",
   "signing_in": "Sign in…",
   "error": "Error",
   "please_retry": "Error, please retry",
@@ -62,5 +63,16 @@
   "someone_s_post": "'s post",
   "new_post": "New post",
   "say_something": "Say something…",
-  "public_post": "Public post"
+  "public_post": "Public post",
+  "reshareable_post": "Reshareable post",
+  "post_to_public": "Post to public",
+  "post_to_circles": "{count, plural, =0{Post to 0 circle}, =1{Post to 1 circle}, other{Post to {count} circles}}",
+  "@post_to_circles": {
+    "description": "The number of circles",
+    "placeholders": {
+      "count": { }
+    }
+  },
+  "invalid_create_post_input": "Post should be either for public or for at least 1 circle",
+  "posting": "Posting…"
 }

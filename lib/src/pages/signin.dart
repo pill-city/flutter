@@ -15,21 +15,22 @@ class SignInPage extends StatelessWidget {
 
   showOkDialog(BuildContext context, String title, String message) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        });
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   showLoaderDialog(BuildContext context) {
@@ -53,39 +54,39 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context, [bool mounted = true]) {
     return Padding(
-        padding: const EdgeInsets.all(32),
-        child: SignInForm(
-          onSignIn: (id, password) async {
-            var builder = SignInRequestBuilder();
-            builder.id = id;
-            builder.password = password;
+      padding: const EdgeInsets.all(32),
+      child: SignInForm(
+        onSignIn: (signInRequest) async {
+          showLoaderDialog(context);
 
-            showLoaderDialog(context);
-
-            try {
-              var response = await api.signIn(signInRequest: builder.build());
-              if (!mounted) return;
-              Navigator.of(context).pop();
-              if (response.data == null) {
-                showOkDialog(context, AppLocalizations.of(context)!.error,
-                    AppLocalizations.of(context)!.please_retry);
-              } else {
-                String accessToken = response.data!.accessToken;
-                num expires = response.data!.expires;
-                final appGlobalState =
-                    Provider.of<AppGlobalState>(context, listen: false);
-                await appGlobalState.setAccessToken(
-                    accessToken, expires.toString());
-                if (!mounted) return;
-                GoRouter.of(context).go('/home');
-              }
-            } on DioError catch (error) {
-              if (!mounted) return;
-              Navigator.of(context).pop();
+          try {
+            var response = await api.signIn(signInRequest: signInRequest);
+            if (!mounted) return;
+            Navigator.of(context).pop();
+            if (response.data == null) {
               showOkDialog(context, AppLocalizations.of(context)!.error,
-                  getErrorMessage(error));
+                  AppLocalizations.of(context)!.please_retry);
+            } else {
+              String accessToken = response.data!.accessToken;
+              num expires = response.data!.expires;
+              final appGlobalState =
+                  Provider.of<AppGlobalState>(context, listen: false);
+              await appGlobalState.setAccessToken(
+                  accessToken, expires.toString());
+              if (!mounted) return;
+              GoRouter.of(context).go('/home');
             }
-          },
-        ));
+          } on DioError catch (error) {
+            if (!mounted) return;
+            Navigator.of(context).pop();
+            showOkDialog(
+              context,
+              AppLocalizations.of(context)!.error,
+              getErrorMessage(error),
+            );
+          }
+        },
+      ),
+    );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pill_city/pill_city.dart';
 
 final idRegex = RegExp(r'^[a-zA-Z0-9_-]{1,15}$');
 
-typedef SignInCallback = void Function(String, String);
+typedef SignInCallback = void Function(SignInRequest);
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -64,12 +65,37 @@ class SignInFormState extends State<SignInForm> {
             widthFactor: 0.6,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32)),
-                  minimumSize: const Size(double.infinity, 48)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                minimumSize: const Size(double.infinity, 48),
+              ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  widget.onSignIn(idController.text, passwordController.text);
+                  var builder = SignInRequestBuilder();
+                  builder.id = idController.text;
+                  builder.password = passwordController.text;
+
+                  widget.onSignIn(builder.build());
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(AppLocalizations.of(context)!.error),
+                        content: Text(
+                            AppLocalizations.of(context)!.invalid_signin_input),
+                        actions: [
+                          TextButton(
+                            child: const Text("OK"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
               },
               child: Text(AppLocalizations.of(context)!.signin),

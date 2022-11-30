@@ -5,6 +5,7 @@ import 'package:pill_city/pill_city.dart';
 const ellipse = '…';
 const primaryNameMaxLength = 15;
 const inferredFirstNameMaxLength = 6;
+const circleNameMaxLength = 10;
 
 String getPrimaryName(User user) {
   if (user.displayName != null) {
@@ -33,4 +34,11 @@ String? getSecondaryName(User user) {
     return '@${user.id}';
   }
   return null;
+}
+
+String getCircleName(String circleName) {
+  if (circleName.length <= circleNameMaxLength) {
+    return circleName;
+  }
+  return "${circleName.substring(0, max(ellipse.length, circleNameMaxLength))}…";
 }
