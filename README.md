@@ -2,6 +2,13 @@
 
 Flutter client for pill.city
 
-**NOTICE: `--no-sound-null-safety` is currently required**
+## Pre-requisites
+[Install Flutter](https://docs.flutter.dev/get-started/install)
 
-Generate localizations `flutter gen-l10n `
+## Install on Android
+```bash
+flutter pub get
+flutter gen-l10n
+flutter build apk --debug
+adb install build/app/outputs/flutter-apk/app-debug.apk
+```

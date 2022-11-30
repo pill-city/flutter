@@ -15,7 +15,9 @@ class LinkPreviewWidget extends StatelessWidget {
     Uri? parsedUrl;
     try {
       parsedUrl = Uri.parse(linkPreview.url);
-    } on FormatException {}
+    } on FormatException {
+      return const SizedBox.shrink();
+    }
 
     List<Widget> textWidgets = [];
     if (linkPreview.title != null) {
@@ -39,17 +41,15 @@ class LinkPreviewWidget extends StatelessWidget {
         ),
       );
     }
-    if (parsedUrl != null) {
-      textWidgets.add(
-        Text(
-          parsedUrl.host,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textScaleFactor: 0.7,
-          style: const TextStyle(color: Colors.grey),
-        ),
-      );
-    }
+    textWidgets.add(
+      Text(
+        parsedUrl.host,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textScaleFactor: 0.7,
+        style: const TextStyle(color: Colors.grey),
+      ),
+    );
 
     List<Widget> textChildren = [];
     for (int i = 0; i < textWidgets.length; i++) {

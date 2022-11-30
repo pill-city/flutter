@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ScopesPage extends StatelessWidget {
-  ScopesPage({super.key});
+  const ScopesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Text("scopes");
+    return const Text("scopes");
   }
 }

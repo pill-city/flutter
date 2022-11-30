@@ -75,13 +75,13 @@ class App extends StatelessWidget {
               GoRoute(
                 path: '/scopes',
                 builder: (BuildContext context, GoRouterState state) {
-                  return ScopesPage();
+                  return const ScopesPage();
                 },
               ),
               GoRoute(
                 path: '/users',
                 builder: (BuildContext context, GoRouterState state) {
-                  return UsersPage();
+                  return const UsersPage();
                 },
               ),
               GoRoute(
@@ -95,13 +95,13 @@ class App extends StatelessWidget {
               GoRoute(
                 path: '/notifications',
                 builder: (BuildContext context, GoRouterState state) {
-                  return NotificationsPage();
+                  return const NotificationsPage();
                 },
               ),
               GoRoute(
                 path: '/profile',
                 builder: (BuildContext context, GoRouterState state) {
-                  return ProfilePage();
+                  return const ProfilePage();
                 },
               ),
             ],
