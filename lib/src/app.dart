@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pill_city_flutter/src/pages/create_post.dart';
 import 'package:pill_city_flutter/src/pages/home.dart';
 import 'package:pill_city_flutter/src/pages/notifications.dart';
 import 'package:pill_city_flutter/src/pages/post.dart';
@@ -117,16 +118,19 @@ class MyScaffold extends StatelessWidget {
     Key? key,
     required this.child,
     required this.homeScrollController,
+    this.fab,
   }) : super(key: key);
 
   final Widget child;
   final ScrollController homeScrollController;
+  final FloatingActionButton? fab;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: child,
+        floatingActionButton: _fab(context),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           selectedFontSize: 12,
@@ -203,5 +207,22 @@ class MyScaffold extends StatelessWidget {
         GoRouter.of(context).go('/profile');
         break;
     }
+  }
+
+  FloatingActionButton? _fab(BuildContext context) {
+    final String location = GoRouterState.of(context).location;
+    if (location == '/home') {
+      return FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true).push(
+            MaterialPageRoute(
+              builder: (context) => const CreatePost(),
+            ),
+          );
+        },
+      );
+    }
+    return null;
   }
 }

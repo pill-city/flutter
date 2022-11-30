@@ -20,7 +20,7 @@ dependencies:
   pill_city:
     git:
       url: https://github.com/pill-city/dart-sdk.git
-      ref: 1e5e085bd678f69bca599a172eeb351917e3dd26
+      ref: aa42bd7a4c8dac074c17dd43eeb69fcbcc2639b9
   url_launcher: ^6.1.6
   either_dart: ^0.3.0
   twemoji: ^0.4.3

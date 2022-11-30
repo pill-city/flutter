@@ -59,5 +59,8 @@
   "comment_deleted": "此评论已经被删除，但是与此评论的互动仍会被显示",
   "comment_author_blocked": "此评论的作者已经被您屏蔽，但是与此评论的互动仍会被显示",
   "loading_post": "Po 载入中…",
-  "someone_s_post": " 的 po"
+  "someone_s_post": " 的 po",
+  "new_post": "发 Po",
+  "say_something": "说点什么吧",
+  "public_post": "公开 po"
 }

@@ -59,5 +59,8 @@
   "comment_deleted": "This comment has been deleted, but we are still showing others' interactions with the comment.",
   "comment_author_blocked": "The comment author is blocked by you, but we are still showing others' interactions with the comment.",
   "loading_post": "Loading post…",
-  "someone_s_post": "'s post"
+  "someone_s_post": "'s post",
+  "new_post": "New post",
+  "say_something": "Say something…",
+  "public_post": "Public post"
 }

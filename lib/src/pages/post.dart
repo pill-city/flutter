@@ -31,7 +31,6 @@ class PostPageState extends State<PostPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadPost();
     });
-    _loadPost();
   }
 
   Future<void> _loadPost() async {
