@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pill_city_flutter/src/pages/create_post.dart';
 import 'package:pill_city_flutter/src/state/home_state.dart';
 import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/widgets/loading_and_retry_widget.dart';
@@ -93,81 +94,102 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeState>(
-      builder: (context, home, child) {
-        return LoadingAndRetryWidget(
-          loading: _loadingInitialPosts,
-          error: _loadingInitialPostsError,
-          builder: (BuildContext buildContext) {
-            return RefreshIndicator(
+    return LoadingAndRetryWidget(
+      loading: _loadingInitialPosts,
+      error: _loadingInitialPostsError,
+      builder: (BuildContext buildContext) {
+        return Stack(
+          children: [
+            RefreshIndicator(
               onRefresh: _loadLatestPosts,
-              child: ListView.builder(
-                controller: widget.scrollController,
-                itemCount: home.posts.length + 1,
-                itemBuilder: (context, index) {
-                  if (index < home.posts.length) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8, bottom: 8),
-                          child: PostWidget(
-                            post: home.posts[index],
-                            contentMaxLines: homeContentMaxLines,
-                            maxLinkPreviews: homeMaxLinkPreviews,
-                            fullReactionMaxUsers: homeFullReactionMaxUsers,
-                            commentMaxLines: homeCommentMaxLines,
-                            maxComments: homeMaxComments,
-                            maxNestedComments: homeMaxNestedComments,
-                            showMedia: false,
-                          ),
-                        ),
-                        const Divider(
-                          thickness: 1,
-                        )
-                      ],
-                    );
-                  } else {
-                    if (_loadingMorePosts) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (_loadingMorePostsError != null) {
-                      return Column(
-                        children: [
-                          Text(
-                            getErrorMessage(_loadingMorePostsError!),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _loadingMorePosts = true;
-                                _loadingMorePostsError = null;
-                              });
-                              _loadMorePosts();
-                            },
-                            child: Text(AppLocalizations.of(context)!.retry),
-                          ),
-                        ],
-                      );
-                    } else {
-                      _loadMorePosts();
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }
+              child: Consumer<HomeState>(
+                builder: (context, home, child) {
+                  return ListView.builder(
+                    controller: widget.scrollController,
+                    itemCount: home.posts.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index < home.posts.length) {
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8, bottom: 8),
+                              child: PostWidget(
+                                post: home.posts[index],
+                                contentMaxLines: homeContentMaxLines,
+                                maxLinkPreviews: homeMaxLinkPreviews,
+                                fullReactionMaxUsers: homeFullReactionMaxUsers,
+                                commentMaxLines: homeCommentMaxLines,
+                                maxComments: homeMaxComments,
+                                maxNestedComments: homeMaxNestedComments,
+                                showMedia: false,
+                              ),
+                            ),
+                            const Divider(
+                              thickness: 1,
+                            )
+                          ],
+                        );
+                      } else {
+                        if (_loadingMorePosts) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (_loadingMorePostsError != null) {
+                          return Column(
+                            children: [
+                              Text(
+                                getErrorMessage(_loadingMorePostsError!),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _loadingMorePosts = true;
+                                    _loadingMorePostsError = null;
+                                  });
+                                  _loadMorePosts();
+                                },
+                                child:
+                                    Text(AppLocalizations.of(context)!.retry),
+                              ),
+                            ],
+                          );
+                        } else {
+                          _loadMorePosts();
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }
+                    },
+                  );
                 },
               ),
-            );
-          },
-          onRetry: () {
-            setState(() {
-              _loadingInitialPosts = true;
-              _loadingInitialPostsError = null;
-            });
-            _loadInitialPosts();
-          },
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                        builder: (context) => const CreatePost(),
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ),
+          ],
         );
+      },
+      onRetry: () {
+        setState(() {
+          _loadingInitialPosts = true;
+          _loadingInitialPostsError = null;
+        });
+        _loadInitialPosts();
       },
     );
   }
