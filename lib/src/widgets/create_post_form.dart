@@ -104,6 +104,9 @@ class _CreatePostFormState extends State<CreatePostForm> {
             Row(
               children: [
                 Switch(
+                  activeColor: Theme.of(context).brightness == Brightness.light
+                      ? Colors.redAccent
+                      : Colors.deepOrangeAccent,
                   value: _isPublic,
                   onChanged: (bool checked) {
                     setState(
@@ -119,6 +122,9 @@ class _CreatePostFormState extends State<CreatePostForm> {
                 const SizedBox(width: 4),
                 Text(AppLocalizations.of(context)!.public_post),
                 Switch(
+                  activeColor: Theme.of(context).brightness == Brightness.light
+                      ? Colors.redAccent
+                      : Colors.deepOrangeAccent,
                   value: _isReshareable,
                   onChanged: (bool checked) {
                     setState(
