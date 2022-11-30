@@ -30,6 +30,11 @@ class _MediaCarouselState extends State<MediaCarousel> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           title: Text('${activePage + 1}/${widget.media.length}'),
         ),
         body: PageView.builder(

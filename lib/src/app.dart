@@ -34,9 +34,30 @@ class App extends StatelessWidget {
         Locale('en', ''),
         Locale('zh', ''),
       ],
-      theme: ThemeData(primarySwatch: Colors.red, brightness: Brightness.light),
-      darkTheme: ThemeData(
-          primarySwatch: Colors.deepOrange, brightness: Brightness.dark),
+      theme: ThemeData.light().copyWith(
+        colorScheme: ThemeData.light().colorScheme.copyWith(
+              primary: Colors.red,
+              secondary: Colors.redAccent,
+            ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+          },
+        ),
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: ThemeData.dark().colorScheme.copyWith(
+              primary: Colors.deepOrange,
+              secondary: Colors.deepOrangeAccent,
+            ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+          },
+        ),
+      ),
       themeMode: ThemeMode.system,
       routerConfig: GoRouter(
         initialLocation: '/home',

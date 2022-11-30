@@ -93,6 +93,11 @@ class PostPageState extends State<PostPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           title: Text(_loading
               ? AppLocalizations.of(context)!.loading_post
               : getInferredFirstName(_post!.author) +

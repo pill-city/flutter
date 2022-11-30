@@ -135,6 +135,11 @@ class _CreatePostState extends State<CreatePost> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           title: Text(AppLocalizations.of(context)!.new_post),
         ),
         body: _buildBody(context),
