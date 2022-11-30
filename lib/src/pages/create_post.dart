@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/state/app_global_state.dart';
-import 'package:pill_city_flutter/src/utils/get_error_message.dart';
-import 'package:pill_city_flutter/src/utils/get_user_names.dart';
-import 'package:pill_city_flutter/src/utils/hex_color.dart';
-import 'package:pill_city_flutter/src/widgets/post_widget.dart';
+import 'package:pill_city_flutter/src/widgets/create_post_form.dart';
+import 'package:pill_city_flutter/src/widgets/loading_and_retry_widget.dart';
 import 'package:provider/provider.dart';
 
 class CreatePost extends StatefulWidget {
@@ -20,8 +18,6 @@ class _CreatePostState extends State<CreatePost> {
   bool _loading = true;
   User? _me;
   DioError? _error;
-  bool _isPublic = true;
-  List<String> _circlesIds = ["fa", "fa2"];
 
   final TextEditingController contentController = TextEditingController();
 
@@ -54,94 +50,20 @@ class _CreatePostState extends State<CreatePost> {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (_error != null) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(getErrorMessage(_error!)),
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _loading = true;
-                  _error = null;
-                });
-                _loadMe();
-              },
-              child: Text(AppLocalizations.of(context)!.retry))
-        ],
-      );
-    } else {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  _me!.avatarUrlV2 != null
-                      ? CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            _me!.avatarUrlV2!.processed
-                                ? _me!.avatarUrlV2!.processedUrl!
-                                : _me!.avatarUrlV2!.originalUrl,
-                          ),
-                          backgroundColor: _me!.avatarUrlV2!.processed
-                              ? HexColor.fromHex(
-                                  _me!.avatarUrlV2!.dominantColorHex!,
-                                )
-                              : Colors.grey,
-                        )
-                      : const CircleAvatar(
-                          backgroundColor: Colors.grey,
-                        ),
-                  const SizedBox(width: 16),
-                  Text.rich(
-                    TextSpan(
-                      text: getPrimaryName(_me!),
-                      children: [
-                        if (getSecondaryName(_me!) != null)
-                          TextSpan(
-                            text: ' @${_me!.id}',
-                            style: subTextStyle,
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: contentController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: AppLocalizations.of(context)!.say_something,
-                ),
-                maxLines: 10,
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(AppLocalizations.of(context)!.public_post),
-                  const SizedBox(width: 4),
-                  Switch(
-                    value: _isPublic,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _isPublic = value;
-                      });
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      );
-    }
+    return LoadingAndRetryWidget(
+      loading: _loading,
+      error: _error,
+      onRetry: () {
+        setState(() {
+          _loading = true;
+          _error = null;
+        });
+        _loadMe();
+      },
+      builder: (BuildContext context) {
+        return CreatePostForm(me: _me!);
+      },
+    );
   }
 
   @override

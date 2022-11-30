@@ -4,8 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/pages/home.dart';
 import 'package:pill_city_flutter/src/state/app_global_state.dart';
-import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
+import 'package:pill_city_flutter/src/widgets/loading_and_retry_widget.dart';
 import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -54,45 +54,38 @@ class PostPageState extends State<PostPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (_error != null) {
-      return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(getErrorMessage(_error!)),
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _loading = true;
-                    _error = null;
-                  });
-                  _loadPost();
-                },
-                child: Text(AppLocalizations.of(context)!.retry))
-          ]);
-    } else {
-      return RefreshIndicator(
-        onRefresh: _loadPost,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 16),
-            child: PostWidget(
-              post: _post!,
-              contentMaxLines: double.maxFinite.toInt(),
-              maxLinkPreviews: double.maxFinite.toInt(),
-              fullReactionMaxUsers: homeFullReactionMaxUsers,
-              commentMaxLines: postCommentMaxLines,
-              maxComments: double.maxFinite.toInt(),
-              maxNestedComments: double.maxFinite.toInt(),
-              showMedia: true,
+    return LoadingAndRetryWidget(
+      loading: _loading,
+      error: _error,
+      builder: (BuildContext context) {
+        return RefreshIndicator(
+          onRefresh: _loadPost,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 16),
+              child: PostWidget(
+                post: _post!,
+                contentMaxLines: double.maxFinite.toInt(),
+                maxLinkPreviews: double.maxFinite.toInt(),
+                fullReactionMaxUsers: homeFullReactionMaxUsers,
+                commentMaxLines: postCommentMaxLines,
+                maxComments: double.maxFinite.toInt(),
+                maxNestedComments: double.maxFinite.toInt(),
+                showMedia: true,
+              ),
             ),
           ),
-        ),
-      );
-    }
+        );
+      },
+      onRetry: () {
+        setState(() {
+          _loading = true;
+          _error = null;
+        });
+        _loadPost();
+      },
+    );
   }
 
   @override

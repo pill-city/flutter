@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city_flutter/src/state/home_state.dart';
 import 'package:pill_city_flutter/src/utils/get_error_message.dart';
+import 'package:pill_city_flutter/src/widgets/loading_and_retry_widget.dart';
 import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -94,58 +95,49 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer<HomeState>(
       builder: (context, home, child) {
-        if (_loadingInitialPosts) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (_loadingInitialPostsError != null) {
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(getErrorMessage(_loadingInitialPostsError!)),
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _loadingInitialPosts = true;
-                        _loadingInitialPostsError = null;
-                      });
-                      _loadInitialPosts();
-                    },
-                    child: Text(AppLocalizations.of(context)!.retry))
-              ]);
-        } else {
-          return RefreshIndicator(
-            onRefresh: _loadLatestPosts,
-            child: ListView.builder(
-              controller: widget.scrollController,
-              itemCount: home.posts.length + 1,
-              itemBuilder: (context, index) {
-                if (index < home.posts.length) {
-                  return Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: PostWidget(
-                        post: home.posts[index],
-                        contentMaxLines: homeContentMaxLines,
-                        maxLinkPreviews: homeMaxLinkPreviews,
-                        fullReactionMaxUsers: homeFullReactionMaxUsers,
-                        commentMaxLines: homeCommentMaxLines,
-                        maxComments: homeMaxComments,
-                        maxNestedComments: homeMaxNestedComments,
-                        showMedia: false,
-                      ),
-                    ),
-                    const Divider(
-                      thickness: 1,
-                    )
-                  ]);
-                } else {
-                  if (_loadingMorePosts) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (_loadingMorePostsError != null) {
+        return LoadingAndRetryWidget(
+          loading: _loadingInitialPosts,
+          error: _loadingInitialPostsError,
+          builder: (BuildContext buildContext) {
+            return RefreshIndicator(
+              onRefresh: _loadLatestPosts,
+              child: ListView.builder(
+                controller: widget.scrollController,
+                itemCount: home.posts.length + 1,
+                itemBuilder: (context, index) {
+                  if (index < home.posts.length) {
                     return Column(
                       children: [
-                        Text(getErrorMessage(_loadingMorePostsError!)),
-                        ElevatedButton(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
+                          child: PostWidget(
+                            post: home.posts[index],
+                            contentMaxLines: homeContentMaxLines,
+                            maxLinkPreviews: homeMaxLinkPreviews,
+                            fullReactionMaxUsers: homeFullReactionMaxUsers,
+                            commentMaxLines: homeCommentMaxLines,
+                            maxComments: homeMaxComments,
+                            maxNestedComments: homeMaxNestedComments,
+                            showMedia: false,
+                          ),
+                        ),
+                        const Divider(
+                          thickness: 1,
+                        )
+                      ],
+                    );
+                  } else {
+                    if (_loadingMorePosts) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (_loadingMorePostsError != null) {
+                      return Column(
+                        children: [
+                          Text(
+                            getErrorMessage(_loadingMorePostsError!),
+                          ),
+                          ElevatedButton(
                             onPressed: () {
                               setState(() {
                                 _loadingMorePosts = true;
@@ -153,18 +145,29 @@ class HomePageState extends State<HomePage> {
                               });
                               _loadMorePosts();
                             },
-                            child: Text(AppLocalizations.of(context)!.retry))
-                      ],
-                    );
-                  } else {
-                    _loadMorePosts();
-                    return const Center(child: CircularProgressIndicator());
+                            child: Text(AppLocalizations.of(context)!.retry),
+                          ),
+                        ],
+                      );
+                    } else {
+                      _loadMorePosts();
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                   }
-                }
-              },
-            ),
-          );
-        }
+                },
+              ),
+            );
+          },
+          onRetry: () {
+            setState(() {
+              _loadingInitialPosts = true;
+              _loadingInitialPostsError = null;
+            });
+            _loadInitialPosts();
+          },
+        );
       },
     );
   }
