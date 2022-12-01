@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/state/app_global_state.dart';
+import 'package:pill_city_flutter/src/widgets/custom_server_settings_form.dart';
+import 'package:provider/provider.dart';
 
 final idRegex = RegExp(r'^[a-zA-Z0-9_-]{1,15}$');
 
@@ -70,6 +73,37 @@ class SignInFormState extends State<SignInForm> {
                 ),
                 minimumSize: const Size(double.infinity, 48),
               ),
+              onLongPress: () {
+                showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(8),
+                    ),
+                  ),
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          const Text("Custom server settings"),
+                          const SizedBox(height: 16),
+                          CustomServerSettingsForm(
+                            onSettingsApplied: (enabled, address) {
+                              Navigator.pop(context);
+                              final appGlobalState =
+                                  Provider.of<AppGlobalState>(context,
+                                      listen: false);
+                              appGlobalState.writeCustomServerSettings(
+                                  enabled, address);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   var builder = SignInRequestBuilder();

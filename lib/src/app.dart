@@ -64,7 +64,7 @@ class App extends StatelessWidget {
         redirect: (context, state) async {
           final appGlobalState =
               Provider.of<AppGlobalState>(context, listen: false);
-          if ((await appGlobalState.getAccessToken()) == null) {
+          if ((await appGlobalState.readAccessToken()) == null) {
             return '/signin';
           }
           return null;

@@ -2,13 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/state/app_global_state.dart';
 import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/widgets/signin_form.dart';
 import 'package:provider/provider.dart';
-
-final api = PillCity().getCoreApi();
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -60,7 +57,11 @@ class SignInPage extends StatelessWidget {
           showLoaderDialog(context);
 
           try {
-            var response = await api.signIn(signInRequest: signInRequest);
+            final appGlobalState =
+                Provider.of<AppGlobalState>(context, listen: false);
+            final api = await appGlobalState.getUnauthenticatedApi();
+            var response =
+                await api.getCoreApi().signIn(signInRequest: signInRequest);
             if (!mounted) return;
             Navigator.of(context).pop();
             if (response.data == null) {
@@ -71,7 +72,7 @@ class SignInPage extends StatelessWidget {
               num expires = response.data!.expires;
               final appGlobalState =
                   Provider.of<AppGlobalState>(context, listen: false);
-              await appGlobalState.setAccessToken(
+              await appGlobalState.writeAccessToken(
                   accessToken, expires.toString());
               if (!mounted) return;
               GoRouter.of(context).go('/home');
