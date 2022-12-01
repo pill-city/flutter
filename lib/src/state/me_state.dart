@@ -33,4 +33,9 @@ class MeState extends ChangeNotifier {
     }
     circles = response.data;
   }
+
+  void reset() {
+    me = null;
+    circles = null;
+  }
 }

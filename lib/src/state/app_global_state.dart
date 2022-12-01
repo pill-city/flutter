@@ -37,7 +37,7 @@ class AppGlobalState extends ChangeNotifier {
     return accessToken;
   }
 
-  Future<void> clearAccessToken() async {
+  Future<void> resetAccessToken() async {
     await secureStorage.delete(key: secureStorageAccessTokenKey);
     await secureStorage.delete(key: secureStorageExpiresKey);
   }

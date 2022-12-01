@@ -56,4 +56,8 @@ class HomeState extends ChangeNotifier {
     _posts = [...data, ..._posts];
     return data.length;
   }
+
+  void reset() {
+    _posts = [];
+  }
 }

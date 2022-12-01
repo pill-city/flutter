@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pill_city_flutter/src/state/app_global_state.dart';
+import 'package:pill_city_flutter/src/state/home_state.dart';
+import 'package:pill_city_flutter/src/state/me_state.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -54,8 +56,12 @@ class ProfilePage extends StatelessWidget {
 
               final appGlobalState =
                   Provider.of<AppGlobalState>(context, listen: false);
-              await appGlobalState.clearAccessToken();
+              await appGlobalState.resetAccessToken();
               if (!mounted) return;
+              final homeState = Provider.of<HomeState>(context, listen: false);
+              homeState.reset();
+              final meState = Provider.of<MeState>(context, listen: false);
+              meState.reset();
               GoRouter.of(context).go('/signin');
             },
             child: Text(AppLocalizations.of(context)!.signout),
