@@ -35,6 +35,11 @@ class AppGlobalState extends ChangeNotifier {
     return accessToken;
   }
 
+  Future<void> clearAccessToken() async {
+    await secureStorage.delete(key: secureStorageAccessTokenKey);
+    await secureStorage.delete(key: secureStorageExpiresKey);
+  }
+
   Future<PillCity> getAuthenticatedApi() async {
     var accessToken = await getAccessToken();
     if (accessToken == null) {
