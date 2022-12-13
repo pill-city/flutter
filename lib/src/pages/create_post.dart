@@ -132,18 +132,16 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text(AppLocalizations.of(context)!.new_post),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: _buildBody(context),
+        title: Text(AppLocalizations.of(context)!.new_post),
       ),
+      body: SafeArea(child: _buildBody(context)),
     );
   }
 }

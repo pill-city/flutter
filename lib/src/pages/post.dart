@@ -99,20 +99,20 @@ class PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text(_loading
-              ? AppLocalizations.of(context)!.loading_post
-              : getInferredFirstName(_post!.author) +
-                  AppLocalizations.of(context)!.someone_s_post),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: _buildBody(context),
+        title: Text(_loading
+            ? AppLocalizations.of(context)!.loading_post
+            : getInferredFirstName(_post!.author) +
+                AppLocalizations.of(context)!.someone_s_post),
+      ),
+      body: SafeArea(
+        child: _buildBody(context),
       ),
     );
   }

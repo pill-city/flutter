@@ -147,38 +147,38 @@ class MyScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: child,
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.visibility),
-              label: AppLocalizations.of(context)!.scopes,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.people),
-              label: AppLocalizations.of(context)!.users,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: AppLocalizations.of(context)!.home,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.notifications),
-              label: AppLocalizations.of(context)!.notifications,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.account_circle),
-              label: AppLocalizations.of(context)!.profile,
-            ),
-          ],
-          currentIndex: _calculateSelectedIndex(context),
-          onTap: (int idx) => _onItemTapped(idx, context),
-        ),
+    return Scaffold(
+      body: SafeArea(
+        child: child,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.visibility),
+            label: AppLocalizations.of(context)!.scopes,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.people),
+            label: AppLocalizations.of(context)!.users,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.home,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.notifications),
+            label: AppLocalizations.of(context)!.notifications,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.account_circle),
+            label: AppLocalizations.of(context)!.profile,
+          ),
+        ],
+        currentIndex: _calculateSelectedIndex(context),
+        onTap: (int idx) => _onItemTapped(idx, context),
       ),
     );
   }

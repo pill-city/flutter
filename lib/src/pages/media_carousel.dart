@@ -27,17 +27,17 @@ class _MediaCarouselState extends State<MediaCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text('${activePage + 1}/${widget.media.length}'),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: PageView.builder(
+        title: Text('${activePage + 1}/${widget.media.length}'),
+      ),
+      body: SafeArea(
+        child: PageView.builder(
           itemCount: widget.media.length,
           pageSnapping: true,
           controller: _pageController,
