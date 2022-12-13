@@ -64,15 +64,24 @@ class PostPageState extends State<PostPage> {
             physics: const AlwaysScrollableScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.only(top: 16, bottom: 16),
-              child: PostWidget(
-                post: _post!,
-                contentMaxLines: double.maxFinite.toInt(),
-                maxLinkPreviews: double.maxFinite.toInt(),
-                fullReactionMaxUsers: homeFullReactionMaxUsers,
-                commentMaxLines: postCommentMaxLines,
-                maxComments: double.maxFinite.toInt(),
-                maxNestedComments: double.maxFinite.toInt(),
-                showMedia: true,
+              child: Column(
+                children: [
+                  PostWidget(
+                    post: _post!,
+                    contentMaxLines: double.maxFinite.toInt(),
+                    maxLinkPreviews: double.maxFinite.toInt(),
+                    fullReactionMaxUsers: homeFullReactionMaxUsers,
+                    commentMaxLines: postCommentMaxLines,
+                    maxComments: double.maxFinite.toInt(),
+                    maxNestedComments: double.maxFinite.toInt(),
+                    showMedia: true,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!.end_of_post,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ],
               ),
             ),
           ),

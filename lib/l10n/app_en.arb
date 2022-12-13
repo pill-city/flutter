@@ -77,5 +77,6 @@
   "posting": "Posting…",
   "use_this_feature_on_webapp": "This feature is not implemented yet, but tap me to use it on the webapp.",
   "signout": "Sign out",
-  "signing_out": "Signing out…"
+  "signing_out": "Signing out…",
+  "end_of_post": "End of post"
 }

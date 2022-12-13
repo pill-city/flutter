@@ -77,5 +77,6 @@
   "posting": "发 po 中…",
   "use_this_feature_on_webapp": "这项功能尚未实现，但是点击我在网页版中使用它",
   "signout": "登出",
-  "signing_out": "登出中…"
+  "signing_out": "登出中…",
+  "end_of_post": "Po 没有了"
 }
