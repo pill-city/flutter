@@ -78,6 +78,10 @@ class HomePageState extends State<HomePage> {
           content: Text(
             AppLocalizations.of(context)!.new_posts(newPosts),
           ),
+          width: 288,
+          padding: const EdgeInsets.all(16),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(milliseconds: 3000),
         ),
       );
     } on DioError catch (errorCaught) {
@@ -87,6 +91,10 @@ class HomePageState extends State<HomePage> {
           content: Text(
             getErrorMessage(errorCaught),
           ),
+          width: 288,
+          padding: const EdgeInsets.all(16),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(milliseconds: 3000),
         ),
       );
     }
