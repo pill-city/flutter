@@ -4,15 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class FormattedContentWidget extends StatelessWidget {
-  const FormattedContentWidget(
-      {super.key, required this.content, required this.maxLines});
+List<TextSpan> getTextSpans(FormattedContent content) {
+  BuiltList<String> references = content.references;
 
-  final FormattedContent content;
-  final int maxLines;
-
-  TextSpan segmentToTextSpan(
-      FormattedContentSegment segment, BuiltList<String> references) {
+  return content.segments.map((FormattedContentSegment segment) {
     String? useUrl;
     String? useMention;
 
@@ -75,18 +70,5 @@ class FormattedContentWidget extends StatelessWidget {
         style: style,
       );
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        children: content.segments.map((FormattedContentSegment segment) {
-          return segmentToTextSpan(segment, content.references);
-        }).toList(),
-      ),
-      maxLines: maxLines,
-      overflow: TextOverflow.fade,
-    );
-  }
+  }).toList();
 }

@@ -150,15 +150,18 @@ class PostWidget extends StatelessWidget {
           ),
         ),
       );
-    } else if (post.content != null && post.content!.isNotEmpty) {
+    } else if (post.formattedContent != null) {
       widgets.add(
         GestureDetector(
           onTap: () {
             goToPost(context);
           },
-          child: FormattedContentWidget(
-            content: post.formattedContent!,
+          child: RichText(
+            text: TextSpan(
+              children: getTextSpans(post.formattedContent!),
+            ),
             maxLines: contentMaxLines,
+            overflow: TextOverflow.fade,
           ),
         ),
       );

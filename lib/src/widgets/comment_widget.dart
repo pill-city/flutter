@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
+import 'package:pill_city_flutter/src/widgets/formatted_content_widget.dart';
 import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 
 import '../utils/get_user_names.dart';
@@ -12,6 +13,7 @@ class CommentWidget extends StatelessWidget {
     Key? key,
     required this.author,
     this.content,
+    this.formattedContent,
     this.media,
     this.deleted,
     this.blocked,
@@ -21,6 +23,7 @@ class CommentWidget extends StatelessWidget {
 
   final User author;
   final String? content;
+  final FormattedContent? formattedContent;
   final BuiltList<MediaUrlV2>? media;
   final bool? deleted;
   final bool? blocked;
@@ -109,10 +112,8 @@ class CommentWidget extends StatelessWidget {
           );
         }
       }
-      if (content != null && content!.isNotEmpty) {
-        spans.add(
-          TextSpan(text: content!),
-        );
+      if (formattedContent != null) {
+        spans.addAll(getTextSpans(formattedContent!));
       }
     }
 
