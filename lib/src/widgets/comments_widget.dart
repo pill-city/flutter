@@ -73,8 +73,9 @@ class CommentsWidget extends StatelessWidget {
                 author: nestedComment.author,
                 formattedContent: nestedComment.formattedContent,
                 media: nestedComment.mediaUrlsV2,
-                deleted: comment.state == NestedCommentStateEnum.deleted,
-                blocked: comment.state == NestedCommentStateEnum.authorBlocked,
+                deleted: nestedComment.state == NestedCommentStateEnum.deleted,
+                blocked:
+                    nestedComment.state == NestedCommentStateEnum.authorBlocked,
                 maxLines: commentMaxLines,
                 showMedia: showMedia,
               ),
