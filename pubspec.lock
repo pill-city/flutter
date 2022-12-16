@@ -277,8 +277,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "444abb9fc82ba57d467502c0c3fdd5e6bdec48bd"
-      resolved-ref: "444abb9fc82ba57d467502c0c3fdd5e6bdec48bd"
+      ref: cc2437b031939265ea89374b438d29a081b9cbaa
+      resolved-ref: cc2437b031939265ea89374b438d29a081b9cbaa
       url: "https://github.com/pill-city/dart-sdk.git"
     source: git
     version: "1.0.0"

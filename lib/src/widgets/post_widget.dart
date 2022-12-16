@@ -46,8 +46,8 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool blocked = post.blocked ?? false;
-    bool deleted = post.deleted ?? false;
+    bool blocked = post.state == PostStateEnum.authorBlocked;
+    bool deleted = post.state == PostStateEnum.deleted;
     bool hasMedia = post.mediaUrlsV2 != null && post.mediaUrlsV2!.isNotEmpty;
     bool hasLinkPreview =
         post.linkPreviews != null && post.linkPreviews!.isNotEmpty;

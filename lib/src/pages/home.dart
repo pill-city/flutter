@@ -27,6 +27,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   List<Post> _posts = [];
+  String? _headPostId;
+  String? _tailPostId;
   bool _loadingInitialPosts = true;
   DioError? _loadingInitialPostsError;
   bool _loadingMorePosts = false;
@@ -38,13 +40,6 @@ class HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialPosts();
     });
-  }
-
-  bool _shouldShowPost(Post post) {
-    return !(post.deleted != null && post.deleted!) ||
-        !(post.blocked != null && post.blocked!) ||
-        !(post.reactions != null && post.reactions!.isNotEmpty) ||
-        !(post.comments != null && post.comments!.isNotEmpty);
   }
 
   _loadInitialPosts() async {
@@ -60,8 +55,12 @@ class HomePageState extends State<HomePage> {
       if (response.data == null) {
         return Future.error("Failed to load initial posts");
       }
+      List<Post> posts = response.data!.toList();
+      _headPostId = posts.first.id;
+      _tailPostId = posts.last.id;
       setState(() {
-        _posts = response.data!.where(_shouldShowPost).toList();
+        _posts =
+            posts.where((p) => p.state != PostStateEnum.invisible).toList();
       });
     } on DioError catch (errorCaught) {
       setState(() {
@@ -75,7 +74,7 @@ class HomePageState extends State<HomePage> {
   }
 
   _loadMorePosts() async {
-    if (_posts.isEmpty) {
+    if (_tailPostId == null) {
       return;
     }
 
@@ -83,12 +82,16 @@ class HomePageState extends State<HomePage> {
       final appGlobalState =
           Provider.of<AppGlobalState>(context, listen: false);
       final api = await appGlobalState.getAuthenticatedApi();
-      final response = await api.getCoreApi().getHome(fromId: _posts.last.id);
+      final response = await api.getCoreApi().getHome(fromId: _tailPostId);
       if (response.data == null) {
         return Future.error("Failed to load more posts");
       }
+      List<Post> posts = response.data!.toList();
+      _tailPostId = posts.last.id;
       setState(() {
-        _posts.addAll(response.data!.where(_shouldShowPost));
+        _posts.addAll(
+          posts.where((p) => p.state != PostStateEnum.invisible).toList(),
+        );
       });
     } on DioError catch (errorCaught) {
       setState(() {
@@ -102,7 +105,7 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadLatestPosts() async {
-    if (_posts.isEmpty) {
+    if (_headPostId == null) {
       return;
     }
 
@@ -110,15 +113,16 @@ class HomePageState extends State<HomePage> {
       final appGlobalState =
           Provider.of<AppGlobalState>(context, listen: false);
       final api = await appGlobalState.getAuthenticatedApi();
-      final response = await api.getCoreApi().getHome(toId: _posts.first.id);
+      final response = await api.getCoreApi().getHome(toId: _headPostId);
       if (response.data == null) {
         return Future.error("Failed to load more posts");
       }
-      var data = response.data!.where(_shouldShowPost);
+      List<Post> posts = response.data!.toList();
+      _headPostId = posts.first.id;
       setState(() {
-        _posts = [...data, ..._posts];
+        _posts = [...posts, ..._posts];
       });
-      int newPosts = data.length;
+      int newPosts = posts.length;
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -159,7 +163,10 @@ class HomePageState extends State<HomePage> {
               onRefresh: _loadLatestPosts,
               child: ListView.builder(
                 controller: widget.scrollController,
-                itemCount: _posts.length + 1,
+                itemCount: _posts
+                        .where((p) => p.state != PostStateEnum.invisible)
+                        .length +
+                    1,
                 itemBuilder: (context, index) {
                   if (index < _posts.length) {
                     return Column(

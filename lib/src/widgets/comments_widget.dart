@@ -22,69 +22,50 @@ class CommentsWidget extends StatelessWidget {
   final int maxNestedComments;
   final bool showMedia;
 
-  bool _shouldShowComment(Comment comment) {
-    return !(comment.deleted != null && comment.deleted!) ||
-        !(comment.blocked != null && comment.blocked!) ||
-        !(comment.comments != null &&
-            comment.comments!.where((nestedComment) {
-              return _shouldShowNestedComment(nestedComment, comment);
-            }).isNotEmpty);
-  }
-
-  bool _isNestedCommentRepliedTo(NestedComment nestedComment, Comment comment) {
-    for (var otherComment in comment.comments!) {
-      if (otherComment.replyToCommentId == nestedComment.id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  bool _shouldShowNestedComment(NestedComment nestedComment, Comment comment) {
-    return !(nestedComment.deleted != null && nestedComment.deleted!) ||
-        !(nestedComment.blocked != null && nestedComment.blocked!) ||
-        _isNestedCommentRepliedTo(nestedComment, comment);
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<Comment> showingComments = comments.where(_shouldShowComment).toList();
+    List<Comment> visibleComments = comments
+        .where(
+          (c) => c.state != CommentStateEnum.invisible,
+        )
+        .toList();
 
     List<Widget> commentWidgets = [];
 
-    int totalComments = showingComments.length +
-        showingComments.map((comment) {
-          if (comment.comments != null) {
-            return comment.comments!.where((nestedComment) {
-              return _shouldShowNestedComment(nestedComment, comment);
-            }).length;
-          }
-          return 0;
-        }).reduce((a, b) => a + b);
+    int totalComments = visibleComments.length +
+        visibleComments.map(
+          (comment) {
+            if (comment.comments != null) {
+              return comment.comments!
+                  .where((c) => c.state != NestedCommentStateEnum.invisible)
+                  .length;
+            }
+            return 0;
+          },
+        ).reduce((a, b) => a + b);
     int displayedComments = 0;
-    for (var i = 0; i < min(showingComments.length, maxComments); i++) {
-      var comment = showingComments[i];
+    for (var i = 0; i < min(visibleComments.length, maxComments); i++) {
+      var comment = visibleComments[i];
       commentWidgets.add(
         CommentWidget(
           author: comment.author,
           formattedContent: comment.formattedContent,
           media: comment.mediaUrlsV2,
-          deleted: comment.deleted,
-          blocked: comment.blocked,
+          deleted: comment.state == CommentStateEnum.deleted,
+          blocked: comment.state == CommentStateEnum.authorBlocked,
           maxLines: commentMaxLines,
           showMedia: showMedia,
         ),
       );
       displayedComments++;
       if (comment.comments != null) {
-        List<NestedComment> showingNestedComments =
-            comment.comments!.where((nestedComment) {
-          return _shouldShowNestedComment(nestedComment, comment);
-        }).toList();
+        List<NestedComment> visibleNestedComments = comment.comments!
+            .where((c) => c.state != NestedCommentStateEnum.invisible)
+            .toList();
         for (var j = 0;
-            j < min(showingNestedComments.length, maxNestedComments);
+            j < min(visibleNestedComments.length, maxNestedComments);
             j++) {
-          var nestedComment = showingNestedComments[j];
+          var nestedComment = visibleNestedComments[j];
           commentWidgets.add(
             Padding(
               padding: const EdgeInsets.only(left: 32),
@@ -92,8 +73,8 @@ class CommentsWidget extends StatelessWidget {
                 author: nestedComment.author,
                 formattedContent: nestedComment.formattedContent,
                 media: nestedComment.mediaUrlsV2,
-                deleted: comment.deleted,
-                blocked: comment.blocked,
+                deleted: comment.state == NestedCommentStateEnum.deleted,
+                blocked: comment.state == NestedCommentStateEnum.authorBlocked,
                 maxLines: commentMaxLines,
                 showMedia: showMedia,
               ),
