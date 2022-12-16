@@ -11,6 +11,7 @@ import 'package:pill_city_flutter/src/pages/signin.dart';
 import 'package:pill_city_flutter/src/pages/users.dart';
 import 'package:pill_city_flutter/src/state/app_global_state.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
@@ -18,7 +19,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 class App extends StatelessWidget {
   App({super.key});
 
-  final ScrollController _homeScrollController = ScrollController();
+  final ItemScrollController _homeItemScrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class App extends StatelessWidget {
             navigatorKey: _shellNavigatorKey,
             builder: (BuildContext context, GoRouterState state, Widget child) {
               return MyScaffold(
-                homeScrollController: _homeScrollController,
+                homeItemScrollController: _homeItemScrollController,
                 child: child,
               );
             },
@@ -109,7 +110,7 @@ class App extends StatelessWidget {
                 path: '/home',
                 builder: (BuildContext context, GoRouterState state) {
                   return HomePage(
-                    scrollController: _homeScrollController,
+                    itemScrollController: _homeItemScrollController,
                   );
                 },
               ),
@@ -137,12 +138,12 @@ class MyScaffold extends StatelessWidget {
   const MyScaffold({
     Key? key,
     required this.child,
-    required this.homeScrollController,
+    required this.homeItemScrollController,
     this.fab,
   }) : super(key: key);
 
   final Widget child;
-  final ScrollController homeScrollController;
+  final ItemScrollController homeItemScrollController;
   final FloatingActionButton? fab;
 
   @override
@@ -213,8 +214,8 @@ class MyScaffold extends StatelessWidget {
         break;
       case 2:
         GoRouter.of(context).go('/home');
-        homeScrollController.animateTo(
-          0,
+        homeItemScrollController.scrollTo(
+          index: 0,
           duration: const Duration(milliseconds: 300),
           curve: Curves.ease,
         );

@@ -8,6 +8,7 @@ import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/widgets/loading_and_retry_widget.dart';
 import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 const homeContentMaxLines = 20;
 const homeMaxLinkPreviews = 1;
@@ -17,9 +18,9 @@ const homeMaxComments = 3;
 const homeMaxNestedComments = 6;
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.scrollController});
+  const HomePage({super.key, required this.itemScrollController});
 
-  final ScrollController scrollController;
+  final ItemScrollController itemScrollController;
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -33,6 +34,9 @@ class HomePageState extends State<HomePage> {
   DioError? _loadingInitialPostsError;
   bool _loadingMorePosts = false;
   DioError? _loadingMorePostsError;
+
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
 
   @override
   void initState() {
@@ -122,13 +126,12 @@ class HomePageState extends State<HomePage> {
       List<Post> posts = response.data!.toList();
       if (posts.isNotEmpty) {
         _headPostId = posts.first.id;
-        setState(() {
-          _posts = [
-            ...posts.where((p) => p.state != PostStateEnum.invisible),
-            ..._posts
-          ];
-        });
       }
+      posts = posts.where((p) => p.state != PostStateEnum.invisible).toList();
+      setState(() {
+        _posts = [...posts, ..._posts];
+      });
+      widget.itemScrollController.jumpTo(index: posts.length);
       int newPosts = posts.length;
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -162,8 +165,9 @@ class HomePageState extends State<HomePage> {
           children: [
             RefreshIndicator(
               onRefresh: _loadLatestPosts,
-              child: ListView.builder(
-                controller: widget.scrollController,
+              child: ScrollablePositionedList.builder(
+                itemScrollController: widget.itemScrollController,
+                itemPositionsListener: itemPositionsListener,
                 itemCount: _posts
                         .where((p) => p.state != PostStateEnum.invisible)
                         .length +
