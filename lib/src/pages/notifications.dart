@@ -20,7 +20,6 @@ class NotificationsPage extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             decoration: TextDecoration.underline,
-            fontStyle: FontStyle.italic,
           ),
         ),
       ),

@@ -75,7 +75,7 @@
   },
   "invalid_create_post_input": "Post should be either for public or for at least 1 circle",
   "posting": "Posting…",
-  "use_this_feature_on_webapp": "This feature is not implemented yet, but tap me to use it on the webapp.",
+  "use_this_feature_on_webapp": "This feature is not implemented yet, but you can use it on the webapp.",
   "signout": "Sign out",
   "signing_out": "Signing out…",
   "end_of_post": "End of post"

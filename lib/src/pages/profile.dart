@@ -46,7 +46,6 @@ class ProfilePage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               decoration: TextDecoration.underline,
-              fontStyle: FontStyle.italic,
             ),
           ),
           const SizedBox(height: 8),
