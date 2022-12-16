@@ -56,6 +56,7 @@ class HomePageState extends State<HomePage> {
         return Future.error("Failed to load initial posts");
       }
       List<Post> posts = response.data!.toList();
+      if (posts.isEmpty) return;
       _headPostId = posts.first.id;
       _tailPostId = posts.last.id;
       setState(() {
@@ -87,6 +88,7 @@ class HomePageState extends State<HomePage> {
         return Future.error("Failed to load more posts");
       }
       List<Post> posts = response.data!.toList();
+      if (posts.isEmpty) return;
       _tailPostId = posts.last.id;
       setState(() {
         _posts.addAll(
@@ -118,10 +120,15 @@ class HomePageState extends State<HomePage> {
         return Future.error("Failed to load more posts");
       }
       List<Post> posts = response.data!.toList();
-      _headPostId = posts.first.id;
-      setState(() {
-        _posts = [...posts, ..._posts];
-      });
+      if (posts.isNotEmpty) {
+        _headPostId = posts.first.id;
+        setState(() {
+          _posts = [
+            ...posts.where((p) => p.state != PostStateEnum.invisible),
+            ..._posts
+          ];
+        });
+      }
       int newPosts = posts.length;
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -129,9 +136,6 @@ class HomePageState extends State<HomePage> {
           content: Text(
             AppLocalizations.of(context)!.new_posts(newPosts),
           ),
-          width: 288,
-          padding: const EdgeInsets.all(16),
-          behavior: SnackBarBehavior.floating,
           duration: const Duration(milliseconds: 3000),
         ),
       );
@@ -142,9 +146,6 @@ class HomePageState extends State<HomePage> {
           content: Text(
             getErrorMessage(errorCaught),
           ),
-          width: 288,
-          padding: const EdgeInsets.all(16),
-          behavior: SnackBarBehavior.floating,
           duration: const Duration(milliseconds: 3000),
         ),
       );
