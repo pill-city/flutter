@@ -35,7 +35,11 @@ class ReactionFullWidget extends StatelessWidget {
                       height: 16,
                     ),
                     const SizedBox(width: 8),
-                    for (var u in reaction.users) Text(getInferredFirstName(u))
+                    Text(
+                      reaction.users
+                          .map((u) => getInferredFirstName(u))
+                          .join(', '),
+                    )
                   ],
                 ),
               ),
