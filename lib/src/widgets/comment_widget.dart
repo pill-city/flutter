@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
-import 'package:pill_city_flutter/src/widgets/formatted_content_widget.dart';
+import 'package:pill_city_flutter/src/widgets/formatted_content.dart';
 import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 
 import '../utils/get_user_names.dart';
@@ -12,7 +12,6 @@ class CommentWidget extends StatelessWidget {
   const CommentWidget({
     Key? key,
     required this.author,
-    this.content,
     this.formattedContent,
     this.media,
     this.deleted,
@@ -22,7 +21,6 @@ class CommentWidget extends StatelessWidget {
   }) : super(key: key);
 
   final User author;
-  final String? content;
   final FormattedContent? formattedContent;
   final BuiltList<MediaUrlV2>? media;
   final bool? deleted;
@@ -113,7 +111,7 @@ class CommentWidget extends StatelessWidget {
         }
       }
       if (formattedContent != null) {
-        spans.addAll(getTextSpans(formattedContent!));
+        spans.addAll(getTextSpans(formattedContent!, context));
       }
     }
 

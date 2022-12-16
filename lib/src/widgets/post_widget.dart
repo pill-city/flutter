@@ -6,7 +6,7 @@ import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/comments_widget.dart';
-import 'package:pill_city_flutter/src/widgets/formatted_content_widget.dart';
+import 'package:pill_city_flutter/src/widgets/formatted_content.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
 import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dart';
 
@@ -158,7 +158,7 @@ class PostWidget extends StatelessWidget {
           },
           child: RichText(
             text: TextSpan(
-              children: getTextSpans(post.formattedContent!),
+              children: getTextSpans(post.formattedContent!, context),
             ),
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,

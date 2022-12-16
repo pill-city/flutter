@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-List<TextSpan> getTextSpans(FormattedContent content) {
+List<TextSpan> getTextSpans(FormattedContent content, BuildContext context) {
   BuiltList<String> references = content.references;
 
   return content.segments.map((FormattedContentSegment segment) {
@@ -34,41 +34,40 @@ List<TextSpan> getTextSpans(FormattedContent content) {
       }
     }
 
+    TapGestureRecognizer? recognizer;
+
     if (useUrl != null) {
-      return TextSpan(
-        text: segment.content,
-        style: style,
-        recognizer: TapGestureRecognizer()
-          ..onTap = () {
-            Uri? parsedUrl;
-            try {
-              parsedUrl = Uri.parse(useUrl!);
-            } on FormatException {
-              return;
-            }
-            launchUrl(
-              parsedUrl,
-              mode: LaunchMode.externalApplication,
-            );
-          },
-      );
+      recognizer = TapGestureRecognizer()
+        ..onTap = () {
+          Uri? parsedUrl;
+          try {
+            parsedUrl = Uri.parse(useUrl!);
+          } on FormatException {
+            return;
+          }
+          launchUrl(
+            parsedUrl,
+            mode: LaunchMode.externalApplication,
+          );
+        };
     } else if (useMention != null) {
-      return TextSpan(
-        text: segment.content,
-        style: style,
-        recognizer: TapGestureRecognizer()
-          ..onTap = () {
-            launchUrl(
-              Uri.parse("https://pill.city/profile/${useMention!}"),
-              mode: LaunchMode.externalApplication,
-            );
-          },
-      );
-    } else {
-      return TextSpan(
-        text: segment.content,
-        style: style,
-      );
+      recognizer = TapGestureRecognizer()
+        ..onTap = () {
+          launchUrl(
+            Uri.parse("https://pill.city/profile/${useMention!}"),
+            mode: LaunchMode.externalApplication,
+          );
+        };
     }
+
+    return TextSpan(
+      text: segment.content,
+      style: style.copyWith(
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+      ),
+      recognizer: recognizer,
+    );
   }).toList();
 }

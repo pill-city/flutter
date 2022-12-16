@@ -67,7 +67,7 @@ class CommentsWidget extends StatelessWidget {
       commentWidgets.add(
         CommentWidget(
           author: comment.author,
-          content: comment.content,
+          formattedContent: comment.formattedContent,
           media: comment.mediaUrlsV2,
           deleted: comment.deleted,
           blocked: comment.blocked,
@@ -90,7 +90,7 @@ class CommentsWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 32),
               child: CommentWidget(
                 author: nestedComment.author,
-                content: nestedComment.content,
+                formattedContent: nestedComment.formattedContent,
                 media: nestedComment.mediaUrlsV2,
                 deleted: comment.deleted,
                 blocked: comment.blocked,
