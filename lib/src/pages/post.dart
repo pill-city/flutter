@@ -76,7 +76,7 @@ class PostPageState extends State<PostPage> {
                     maxNestedComments: double.maxFinite.toInt(),
                     showMedia: true,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
                   Text(
                     AppLocalizations.of(context)!.end_of_post,
                     style: const TextStyle(color: Colors.grey),
