@@ -44,6 +44,7 @@ class ProfilePage extends StatelessWidget {
             AppLocalizations.of(context)!.use_this_feature_on_webapp,
             textAlign: TextAlign.center,
             style: const TextStyle(
+              fontStyle: FontStyle.italic,
               decoration: TextDecoration.underline,
             ),
           ),
