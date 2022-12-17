@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/aggregated_reaction.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
+import 'package:pill_city_flutter/src/widgets/my_twemoji_text_span.dart';
 import 'package:pill_city_flutter/src/widgets/reaction_count_widget.dart';
 import 'package:pill_city_flutter/src/widgets/reaction_full_widget.dart';
 import 'package:twemoji/twemoji.dart';
@@ -35,6 +36,8 @@ class ReactionsWidget extends StatelessWidget {
           final aggregatedReaction = aggregatedReactions[i];
           children.add(
             Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,12 +52,17 @@ class ReactionsWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Flexible(
-                  child: Text(
-                    aggregatedReaction.users
-                        .map((u) => getPrimaryName(u))
-                        .join(", "),
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: MyTwemojiTextSpan(
+                        text: aggregatedReaction.users
+                            .map((u) => getPrimaryName(u))
+                            .join(", "),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

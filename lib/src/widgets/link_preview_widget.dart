@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/widgets/my_twemoji_text_span.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkPreviewWidget extends StatelessWidget {
@@ -22,8 +23,8 @@ class LinkPreviewWidget extends StatelessWidget {
     List<Widget> textWidgets = [];
     if (linkPreview.title != null) {
       textWidgets.add(
-        Text(
-          linkPreview.title!,
+        RichText(
+          text: MyTwemojiTextSpan(text: linkPreview.title!),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           textScaleFactor: 0.9,
@@ -32,12 +33,16 @@ class LinkPreviewWidget extends StatelessWidget {
     }
     if (linkPreview.subtitle != null) {
       textWidgets.add(
-        Text(
-          linkPreview.subtitle!,
+        RichText(
+          text: MyTwemojiTextSpan(
+            text: linkPreview.subtitle!,
+            style: const TextStyle(
+              color: Colors.grey,
+            ),
+          ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textScaleFactor: 0.8,
-          style: const TextStyle(color: Colors.grey),
         ),
       );
     }

@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/widgets/my_twemoji_text_span.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 List<TextSpan> getTextSpans(FormattedContent content, BuildContext context) {
@@ -34,40 +35,38 @@ List<TextSpan> getTextSpans(FormattedContent content, BuildContext context) {
       }
     }
 
-    TapGestureRecognizer? recognizer;
+    GestureTapCallback? onTap;
 
     if (useUrl != null) {
-      recognizer = TapGestureRecognizer()
-        ..onTap = () {
-          Uri? parsedUrl;
-          try {
-            parsedUrl = Uri.parse(useUrl!);
-          } on FormatException {
-            return;
-          }
-          launchUrl(
-            parsedUrl,
-            mode: LaunchMode.externalApplication,
-          );
-        };
+      onTap = () {
+        Uri? parsedUrl;
+        try {
+          parsedUrl = Uri.parse(useUrl!);
+        } on FormatException {
+          return;
+        }
+        launchUrl(
+          parsedUrl,
+          mode: LaunchMode.externalApplication,
+        );
+      };
     } else if (useMention != null) {
-      recognizer = TapGestureRecognizer()
-        ..onTap = () {
-          launchUrl(
-            Uri.parse("https://pill.city/profile/${useMention!}"),
-            mode: LaunchMode.externalApplication,
-          );
-        };
+      onTap = () {
+        launchUrl(
+          Uri.parse("https://pill.city/profile/${useMention!}"),
+          mode: LaunchMode.externalApplication,
+        );
+      };
     }
 
-    return TextSpan(
+    return MyTwemojiTextSpan(
       text: segment.content,
       style: style.copyWith(
         color: Theme.of(context).brightness == Brightness.light
             ? Colors.black
             : Colors.white,
       ),
-      recognizer: recognizer,
+      onTap: onTap,
     );
   }).toList();
 }

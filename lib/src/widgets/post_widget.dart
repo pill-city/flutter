@@ -7,12 +7,14 @@ import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/comments_widget.dart';
 import 'package:pill_city_flutter/src/widgets/formatted_content.dart';
+import 'package:pill_city_flutter/src/widgets/my_twemoji_text_span.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
 import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dart';
 
 import 'link_previews_widget.dart';
 import 'media_collage.dart';
 
+const mainTextStyle = TextStyle(fontSize: 16);
 const subTextStyle = TextStyle(fontSize: 12, color: Colors.grey);
 
 class PostWidget extends StatelessWidget {
@@ -77,12 +79,12 @@ class PostWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text.rich(
-                TextSpan(
+              RichText(
+                text: MyTwemojiTextSpan(
                   text: !blocked
                       ? getPrimaryName(post.author)
                       : AppLocalizations.of(context)!.blocked_user,
-                  style: DefaultTextStyle.of(context).style,
+                  style: mainTextStyle,
                   children: [
                     if (getSecondaryName(post.author) != null)
                       TextSpan(
@@ -140,13 +142,16 @@ class PostWidget extends StatelessWidget {
           onTap: () {
             goToPost(context);
           },
-          child: Text(
-            "${getInferredFirstName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
+          child: RichText(
+            text: MyTwemojiTextSpan(
+              text:
+                  "${getPrimaryName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+              ),
+            ),
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
           ),
         ),
       );
