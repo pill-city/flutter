@@ -7,6 +7,8 @@ const primaryNameMaxLength = 15;
 const inferredFirstNameMaxLength = 6;
 const circleNameMaxLength = 10;
 
+// TODO: if names contain emoji getPrimaryName and getInferredFirstName might return wrong results
+
 String getPrimaryName(User user) {
   if (user.displayName != null) {
     return user.displayName!.length <= primaryNameMaxLength
