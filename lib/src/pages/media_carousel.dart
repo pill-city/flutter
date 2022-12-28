@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/widgets/media_widget.dart';
 
 class MediaCarousel extends StatefulWidget {
   const MediaCarousel(
@@ -48,7 +49,7 @@ class _MediaCarouselState extends State<MediaCarousel> {
           },
           itemBuilder: (context, pagePosition) {
             return InteractiveViewer(
-              child: Image.network(widget.media[pagePosition].originalUrl),
+              child: MediaWidget(media: widget.media[pagePosition]),
             );
           },
         ),
