@@ -21,7 +21,10 @@ List<InlineSpan> getTwemojiTextSpans(
               : Colors.white,
         );
 
-  final emojiStyle = textStyle;
+  final emojiStyle = textStyle.copyWith(
+    fontSize: (textStyle.fontSize ?? 14),
+  );
+
   text.splitMapJoin(
     regex,
     onMatch: (m) {
