@@ -3,11 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/format_duration.dart';
+import 'package:pill_city_flutter/src/utils/get_formatted_content_text_spans.dart';
+import 'package:pill_city_flutter/src/utils/get_twemoji_text_spans.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 import 'package:pill_city_flutter/src/widgets/comments_widget.dart';
-import 'package:pill_city_flutter/src/widgets/formatted_content.dart';
-import 'package:pill_city_flutter/src/widgets/my_twemoji_text_span.dart';
 import 'package:pill_city_flutter/src/widgets/reactions_widget.dart';
 import 'package:pill_city_flutter/src/widgets/show_more_link_previews_widget.dart';
 
@@ -80,18 +80,20 @@ class PostWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RichText(
-                text: MyTwemojiTextSpan(
-                  text: !blocked
-                      ? getPrimaryName(post.author)
-                      : AppLocalizations.of(context)!.blocked_user,
-                  style: mainTextStyle,
-                  children: [
-                    if (getSecondaryName(post.author) != null)
-                      TextSpan(
-                        text: ' @${post.author.id}',
-                        style: subTextStyle,
-                      ),
-                  ],
+                text: TextSpan(
+                  children: getTwemojiTextSpans(
+                          !blocked
+                              ? getPrimaryName(post.author)
+                              : AppLocalizations.of(context)!.blocked_user,
+                          context,
+                          additionalStyle: mainTextStyle) +
+                      [
+                        if (getSecondaryName(post.author) != null)
+                          TextSpan(
+                            text: ' @${post.author.id}',
+                            style: subTextStyle,
+                          ),
+                      ],
                 ),
               ),
               Text(
@@ -143,11 +145,13 @@ class PostWidget extends StatelessWidget {
             goToPost(context);
           },
           child: RichText(
-            text: MyTwemojiTextSpan(
-              text:
-                  "${getPrimaryName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
+            text: TextSpan(
+              children: getTwemojiTextSpans(
+                "${getPrimaryName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
+                context,
+                additionalStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
             maxLines: contentMaxLines,
@@ -163,7 +167,10 @@ class PostWidget extends StatelessWidget {
           },
           child: RichText(
             text: TextSpan(
-              children: getTextSpans(post.formattedContent!, context),
+              children: getFormattedContentTextSpans(
+                post.formattedContent!,
+                context,
+              ),
             ),
             maxLines: contentMaxLines,
             overflow: TextOverflow.fade,

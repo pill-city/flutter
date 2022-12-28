@@ -2,9 +2,9 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/utils/get_twemoji_text_spans.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
-import 'package:pill_city_flutter/src/widgets/my_twemoji_text_span.dart';
 import 'package:pill_city_flutter/src/widgets/post_widget.dart';
 
 typedef CreatePostCallback = void Function(CreatePostRequest);
@@ -79,16 +79,17 @@ class _CreatePostFormState extends State<CreatePostForm> {
                       ),
                 const SizedBox(width: 16),
                 RichText(
-                  text: MyTwemojiTextSpan(
-                    text: getPrimaryName(widget.me),
-                    style: mainTextStyle,
-                    children: [
-                      if (getSecondaryName(widget.me) != null)
-                        TextSpan(
-                          text: ' @${widget.me.id}',
-                          style: subTextStyle,
-                        ),
-                    ],
+                  text: TextSpan(
+                    children: getTwemojiTextSpans(
+                            getPrimaryName(widget.me), context,
+                            additionalStyle: mainTextStyle) +
+                        [
+                          if (getSecondaryName(widget.me) != null)
+                            TextSpan(
+                              text: ' @${widget.me.id}',
+                              style: subTextStyle,
+                            ),
+                        ],
                   ),
                 ),
               ],

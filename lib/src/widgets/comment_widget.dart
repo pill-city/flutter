@@ -2,8 +2,8 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/utils/get_formatted_content_text_spans.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
-import 'package:pill_city_flutter/src/widgets/formatted_content.dart';
 import 'package:pill_city_flutter/src/widgets/media_collage.dart';
 
 import '../utils/get_user_names.dart';
@@ -111,7 +111,7 @@ class CommentWidget extends StatelessWidget {
         }
       }
       if (formattedContent != null) {
-        spans.addAll(getTextSpans(formattedContent!, context));
+        spans.addAll(getFormattedContentTextSpans(formattedContent!, context));
       }
     }
 
