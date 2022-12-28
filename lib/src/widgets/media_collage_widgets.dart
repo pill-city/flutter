@@ -27,10 +27,9 @@ class MediaCollageCell extends StatelessWidget {
         );
       },
       child: SizedBox.expand(
-        child: FittedBox(
+        child: MediaWidget(
+          media: mediaList[index],
           fit: BoxFit.cover,
-          clipBehavior: Clip.hardEdge,
-          child: MediaWidget(media: mediaList[index]),
         ),
       ),
     );

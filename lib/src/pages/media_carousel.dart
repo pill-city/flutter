@@ -49,7 +49,10 @@ class _MediaCarouselState extends State<MediaCarousel> {
           },
           itemBuilder: (context, pagePosition) {
             return InteractiveViewer(
-              child: MediaWidget(media: widget.media[pagePosition]),
+              child: MediaWidget(
+                media: widget.media[pagePosition],
+                fit: BoxFit.contain,
+              ),
             );
           },
         ),

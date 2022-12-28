@@ -3,28 +3,33 @@ import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/hex_color.dart';
 
 class MediaWidget extends StatelessWidget {
-  const MediaWidget({super.key, required this.media});
+  const MediaWidget({super.key, required this.media, required this.fit});
 
   final MediaUrlV2 media;
+  final BoxFit fit;
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
         media.processed ? media.processedUrl! : media.originalUrl,
-        loadingBuilder: (context, child, loadingProgress) {
+        fit: fit, loadingBuilder: (context, child, loadingProgress) {
       if (loadingProgress == null) {
         return child;
-      }
-      if (!media.processed) {
-        return const Center(
-          child: Icon(Icons.image),
+      } else {
+        return Container(
+          color: media.processed
+              ? Colors.grey
+              : HexColor.fromHex(media.dominantColorHex!),
+          child: Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          ),
         );
       }
-      return Container(
-        color: HexColor.fromHex(
-          media.dominantColorHex!,
-        ),
-      );
     }, errorBuilder: (context, error, stackTrace) {
       return const Center(
         child: Icon(Icons.broken_image),
