@@ -187,14 +187,21 @@ class CommentWidget extends StatelessWidget {
       }
     }
 
-    return DecoratedBox(
-      decoration: BoxDecoration(color: isHighlighted ? Colors.grey : null),
-      child: Text.rich(
-        TextSpan(
-          children: spans,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      clipBehavior: Clip.antiAlias,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: isHighlighted ? Colors.grey : null),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 2, right: 2),
+          child: Text.rich(
+            TextSpan(
+              children: spans,
+            ),
+            maxLines: maxLines,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        maxLines: maxLines,
-        overflow: TextOverflow.ellipsis,
       ),
     );
   }

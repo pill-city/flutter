@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/pages/create_post.dart';
 import 'package:pill_city_flutter/src/state/app_global_state.dart';
@@ -155,6 +156,10 @@ class HomePageState extends State<HomePage> {
     }
   }
 
+  void goToPost(BuildContext context, String postId) {
+    GoRouter.of(context).push("/post/${postId}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return LoadingAndRetryWidget(
@@ -174,26 +179,30 @@ class HomePageState extends State<HomePage> {
                     1,
                 itemBuilder: (context, index) {
                   if (index < _posts.length) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8, bottom: 8),
-                          child: PostWidget(
-                            post: _posts[index],
-                            contentMaxLines: homeContentMaxLines,
-                            maxLinkPreviews: homeMaxLinkPreviews,
-                            fullReactionMaxUsers: homeFullReactionMaxUsers,
-                            commentMaxLines: homeCommentMaxLines,
-                            maxComments: homeMaxComments,
-                            maxNestedComments: homeMaxNestedComments,
-                            showCommentMedia: false,
-                            enableCommentActions: false,
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => goToPost(context, _posts[index].id),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8, bottom: 8),
+                            child: PostWidget(
+                              post: _posts[index],
+                              contentMaxLines: homeContentMaxLines,
+                              maxLinkPreviews: homeMaxLinkPreviews,
+                              fullReactionMaxUsers: homeFullReactionMaxUsers,
+                              commentMaxLines: homeCommentMaxLines,
+                              maxComments: homeMaxComments,
+                              maxNestedComments: homeMaxNestedComments,
+                              showCommentMedia: false,
+                              enableCommentActions: false,
+                            ),
                           ),
-                        ),
-                        const Divider(
-                          thickness: 1,
-                        )
-                      ],
+                          const Divider(
+                            thickness: 1,
+                          )
+                        ],
+                      ),
                     );
                   } else {
                     if (_loadingMorePosts) {

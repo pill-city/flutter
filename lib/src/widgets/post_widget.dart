@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pill_city/pill_city.dart';
 import 'package:pill_city_flutter/src/utils/format_duration.dart';
 import 'package:pill_city_flutter/src/utils/get_formatted_content_text_spans.dart';
@@ -40,13 +39,6 @@ class PostWidget extends StatelessWidget {
   final int maxNestedComments;
   final bool showCommentMedia;
   final bool enableCommentActions;
-
-  void goToPost(BuildContext context) {
-    final postRoute = '/post/${post.id}';
-    if (GoRouter.of(context).location != postRoute) {
-      GoRouter.of(context).push("/post/${post.id}");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,73 +102,53 @@ class PostWidget extends StatelessWidget {
 
     if (blocked) {
       widgets.add(
-        GestureDetector(
-          onTap: () {
-            goToPost(context);
-          },
-          child: Text(
-            AppLocalizations.of(context)!.post_author_blocked,
-            maxLines: contentMaxLines,
-            overflow: TextOverflow.fade,
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
+        Text(
+          AppLocalizations.of(context)!.post_author_blocked,
+          maxLines: contentMaxLines,
+          overflow: TextOverflow.fade,
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
           ),
         ),
       );
     } else if (deleted) {
       widgets.add(
-        GestureDetector(
-          onTap: () {
-            goToPost(context);
-          },
-          child: Text(
-            AppLocalizations.of(context)!.post_deleted,
-            maxLines: contentMaxLines,
-            overflow: TextOverflow.fade,
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
+        Text(
+          AppLocalizations.of(context)!.post_deleted,
+          maxLines: contentMaxLines,
+          overflow: TextOverflow.fade,
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
           ),
         ),
       );
     } else if (post.isUpdateAvatar != null && post.isUpdateAvatar!) {
       widgets.add(
-        GestureDetector(
-          onTap: () {
-            goToPost(context);
-          },
-          child: RichText(
-            text: TextSpan(
-              children: getTwemojiTextSpans(
-                "${getPrimaryName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
-                context,
-                additionalStyle: const TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
+        RichText(
+          text: TextSpan(
+            children: getTwemojiTextSpans(
+              "${getPrimaryName(post.author)} ${AppLocalizations.of(context)!.has_a_new_avatar}",
+              context,
+              additionalStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
               ),
             ),
-            maxLines: contentMaxLines,
-            overflow: TextOverflow.fade,
           ),
+          maxLines: contentMaxLines,
+          overflow: TextOverflow.fade,
         ),
       );
     } else if (post.formattedContent != null) {
       widgets.add(
-        GestureDetector(
-          onTap: () {
-            goToPost(context);
-          },
-          child: RichText(
-            text: TextSpan(
-              children: getFormattedContentTextSpans(
-                post.formattedContent!,
-                context,
-              ),
+        RichText(
+          text: TextSpan(
+            children: getFormattedContentTextSpans(
+              post.formattedContent!,
+              context,
             ),
-            maxLines: contentMaxLines,
-            overflow: TextOverflow.fade,
           ),
+          maxLines: contentMaxLines,
+          overflow: TextOverflow.fade,
         ),
       );
     }
@@ -215,18 +187,13 @@ class PostWidget extends StatelessWidget {
 
     if (post.comments != null && post.comments!.isNotEmpty) {
       widgets.add(
-        GestureDetector(
-          onTap: () {
-            goToPost(context);
-          },
-          child: CommentsWidget(
-            enabledActions: enableCommentActions,
-            comments: post.comments!,
-            commentMaxLines: commentMaxLines,
-            maxComments: maxComments,
-            maxNestedComments: maxNestedComments,
-            showMedia: showCommentMedia,
-          ),
+        CommentsWidget(
+          enabledActions: enableCommentActions,
+          comments: post.comments!,
+          commentMaxLines: commentMaxLines,
+          maxComments: maxComments,
+          maxNestedComments: maxNestedComments,
+          showMedia: showCommentMedia,
         ),
       );
     }
