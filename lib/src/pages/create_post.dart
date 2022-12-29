@@ -2,13 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/state/app_global_state.dart';
 import 'package:pill_city_flutter/src/state/me_state.dart';
+import 'package:pill_city_flutter/src/utils/get_error_message.dart';
 import 'package:pill_city_flutter/src/widgets/create_post_form.dart';
 import 'package:pill_city_flutter/src/widgets/loading_and_retry_widget.dart';
 import 'package:provider/provider.dart';
-
-import '../state/app_global_state.dart';
-import '../utils/get_error_message.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
