@@ -85,7 +85,7 @@ class CommentWidget extends StatelessWidget {
         const WidgetSpan(
           child: Icon(
             size: 18,
-            Icons.reply,
+            Icons.forum,
           ),
         ),
       );
