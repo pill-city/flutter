@@ -132,8 +132,8 @@ class ReactionsWidget extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.grey[200]
-                    : Colors.grey[800],
+                    ? Colors.grey[800]
+                    : Colors.grey[200],
               ),
               textAlign: TextAlign.center,
             ),
