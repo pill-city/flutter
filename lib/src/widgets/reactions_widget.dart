@@ -1,4 +1,5 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
@@ -16,7 +17,7 @@ class ReactionsWidget extends StatelessWidget {
     required this.fullReactionMaxUsers,
   }) : super(key: key);
 
-  final BuiltList<Reaction> reactions;
+  final BuiltList<Reaction>? reactions;
   final int fullReactionMaxUsers;
 
   void showReactionsFullDetail(
@@ -70,7 +71,7 @@ class ReactionsWidget extends StatelessWidget {
               ],
             ),
           );
-          if (i != reactions.length - 1) {
+          if (reactions != null && i != reactions!.length - 1) {
             children.add(const SizedBox(height: 16));
           }
         }
@@ -95,12 +96,65 @@ class ReactionsWidget extends StatelessWidget {
     );
   }
 
+  void showAddReaction(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(8),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return EmojiPicker(
+          // onEmojiSelected: (Category category, Emoji emoji) {
+          //   // Do something when emoji is tapped (optional)
+          // },
+          config: Config(
+            columns: 7,
+            emojiSizeMax: 32,
+            verticalSpacing: 0,
+            horizontalSpacing: 0,
+            gridPadding: EdgeInsets.zero,
+            initCategory: Category.RECENT,
+            bgColor: (Theme.of(context).brightness == Brightness.light
+                ? Colors.grey[200]
+                : Colors.grey[800])!,
+            indicatorColor: Colors.red,
+            iconColor: (Theme.of(context).brightness == Brightness.light
+                ? Colors.grey[800]
+                : Colors.grey[200])!,
+            iconColorSelected: Colors.redAccent,
+            enableSkinTones: false,
+            showRecentsTab: true,
+            recentsLimit: 49,
+            noRecents: Text(
+              AppLocalizations.of(context)!.no_recent_reactions,
+              style: TextStyle(
+                fontSize: 20,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.grey[200]
+                    : Colors.grey[800],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            loadingIndicator: const SizedBox.shrink(),
+            tabIndicatorAnimDuration: kTabScrollDuration,
+            categoryIcons: const CategoryIcons(),
+            buttonMode: ButtonMode.NONE,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, List<User>> usersByEmoji = {};
-    for (final reaction in reactions) {
-      usersByEmoji[reaction.emoji] =
-          (usersByEmoji[reaction.emoji] ?? []) + [reaction.author];
+    if (reactions != null) {
+      for (final reaction in reactions!) {
+        usersByEmoji[reaction.emoji] =
+            (usersByEmoji[reaction.emoji] ?? []) + [reaction.author];
+      }
     }
     List<AggregatedReaction> aggregatedReactions = usersByEmoji.entries
         .map((e) => AggregatedReaction(e.key, e.value))
@@ -112,15 +166,19 @@ class ReactionsWidget extends StatelessWidget {
       return b.emoji.codeUnitAt(0) - a.emoji.codeUnitAt(0);
     });
 
-    int totalNamesLength = aggregatedReactions
-        .map((r) => r.users)
-        .expand((e) => e)
-        .map((u) => getInferredFirstName(u).length)
-        .reduce((a, b) => a + b);
+    int totalNamesLength = 0;
+    int allReactionsCount = 0;
+    if (reactions != null && reactions!.isNotEmpty) {
+      totalNamesLength = aggregatedReactions
+          .map((r) => r.users)
+          .expand((e) => e)
+          .map((u) => getInferredFirstName(u).length)
+          .reduce((a, b) => a + b);
+      allReactionsCount = aggregatedReactions
+          .map((r) => r.users.length)
+          .reduce((a, b) => a + b);
+    }
     bool useFull = totalNamesLength < fullReactionMaxUsers * 10;
-
-    int allReactionsCount =
-        aggregatedReactions.map((r) => r.users.length).reduce((a, b) => a + b);
 
     return GestureDetector(
       onLongPress: () {
@@ -137,6 +195,27 @@ class ReactionsWidget extends StatelessWidget {
             useFull
                 ? ReactionFullWidget(reaction: reaction)
                 : ReactionCountWidget(reaction: reaction),
+          GestureDetector(
+            onTap: () {
+              showAddReaction(context);
+            },
+            child: SizedBox(
+              width: 32,
+              height: 32,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.grey[200]
+                      : Colors.grey[800],
+                ),
+                child: const Icon(
+                  Icons.add,
+                  size: 16,
+                ),
+              ),
+            ),
+          ),
           if (!useFull)
             GestureDetector(
               onTap: () {

@@ -80,5 +80,7 @@
   "signing_out": "Signing out…",
   "end_of_post": "End of post",
   "reply": "Reply",
-  "highlight_replying": "Highlight replying"
+  "highlight_replying": "Highlight replying",
+  "add_reaction": "Add reaction",
+  "no_recent_reactions": "No recent reactions"
 }

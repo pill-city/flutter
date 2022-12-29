@@ -176,14 +176,12 @@ class PostWidget extends StatelessWidget {
       }
     }
 
-    if (post.reactions != null && post.reactions!.isNotEmpty) {
-      widgets.add(
-        ReactionsWidget(
-          reactions: post.reactions!,
-          fullReactionMaxUsers: fullReactionMaxUsers,
-        ),
-      );
-    }
+    widgets.add(
+      ReactionsWidget(
+        reactions: post.reactions,
+        fullReactionMaxUsers: fullReactionMaxUsers,
+      ),
+    );
 
     if (post.comments != null && post.comments!.isNotEmpty) {
       widgets.add(
