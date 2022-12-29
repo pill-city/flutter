@@ -46,18 +46,18 @@ class CommentWidget extends StatelessWidget {
           width: 18,
           child: author.avatarUrlV2 != null && !(blocked ?? false)
               ? CircleAvatar(
-            backgroundImage: NetworkImage(
-              author.avatarUrlV2!.processed
-                  ? author.avatarUrlV2!.processedUrl!
-                  : author.avatarUrlV2!.originalUrl,
-            ),
-            backgroundColor: author.avatarUrlV2!.processed
-                ? HexColor.fromHex(author.avatarUrlV2!.dominantColorHex!)
-                : Colors.grey,
-          )
+                  backgroundImage: NetworkImage(
+                    author.avatarUrlV2!.processed
+                        ? author.avatarUrlV2!.processedUrl!
+                        : author.avatarUrlV2!.originalUrl,
+                  ),
+                  backgroundColor: author.avatarUrlV2!.processed
+                      ? HexColor.fromHex(author.avatarUrlV2!.dominantColorHex!)
+                      : Colors.grey,
+                )
               : const CircleAvatar(
-            backgroundColor: Colors.grey,
-          ),
+                  backgroundColor: Colors.grey,
+                ),
         ),
       ),
     );
@@ -140,7 +140,12 @@ class CommentWidget extends StatelessWidget {
         }
       }
       if (formattedContent != null) {
-        spans.addAll(getFormattedContentTextSpans(formattedContent!, context));
+        spans.addAll(
+          getFormattedContentTextSpans(
+            formattedContent!,
+            context,
+          ),
+        );
       }
     }
     if (enableActions) {
