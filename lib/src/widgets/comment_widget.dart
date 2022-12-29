@@ -18,6 +18,8 @@ class CommentWidget extends StatelessWidget {
     this.blocked,
     required this.maxLines,
     required this.showMedia,
+    this.replyToCommentId,
+    required this.enableActions,
   }) : super(key: key);
 
   final User author;
@@ -27,6 +29,8 @@ class CommentWidget extends StatelessWidget {
   final bool? blocked;
   final int maxLines;
   final bool showMedia;
+  final String? replyToCommentId;
+  final bool enableActions;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +70,25 @@ class CommentWidget extends StatelessWidget {
       );
       spans.add(
         const TextSpan(text: ": "),
+      );
+    }
+    if (!enableActions &&
+        replyToCommentId != null &&
+        replyToCommentId!.isNotEmpty) {
+      spans.add(
+        const WidgetSpan(
+          child: Icon(
+            size: 16,
+            Icons.reply,
+          ),
+        ),
+      );
+      spans.add(
+        const WidgetSpan(
+          child: SizedBox(
+            width: 4,
+          ),
+        ),
       );
     }
     if (blocked ?? false) {
@@ -113,6 +136,40 @@ class CommentWidget extends StatelessWidget {
       if (formattedContent != null) {
         spans.addAll(getFormattedContentTextSpans(formattedContent!, context));
       }
+    }
+    if (enableActions) {
+      if (replyToCommentId != null && replyToCommentId!.isNotEmpty) {
+        spans.add(
+          const WidgetSpan(
+            child: SizedBox(
+              width: 4,
+            ),
+          ),
+        );
+        spans.add(
+          TextSpan(
+            text: AppLocalizations.of(context)!.highlight_replying,
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        );
+      }
+      spans.add(
+        const WidgetSpan(
+          child: SizedBox(
+            width: 4,
+          ),
+        ),
+      );
+      spans.add(
+        TextSpan(
+          text: AppLocalizations.of(context)!.reply,
+          style: const TextStyle(
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      );
     }
 
     return Text.rich(

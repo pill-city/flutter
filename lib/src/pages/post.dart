@@ -74,7 +74,8 @@ class PostPageState extends State<PostPage> {
                     commentMaxLines: postCommentMaxLines,
                     maxComments: double.maxFinite.toInt(),
                     maxNestedComments: double.maxFinite.toInt(),
-                    showMedia: true,
+                    showCommentMedia: true,
+                    enableCommentActions: true,
                   ),
                   const SizedBox(height: 16),
                   Text(

@@ -27,7 +27,8 @@ class PostWidget extends StatelessWidget {
     required this.commentMaxLines,
     required this.maxComments,
     required this.maxNestedComments,
-    required this.showMedia,
+    required this.showCommentMedia,
+    required this.enableCommentActions,
   });
 
   final Post post;
@@ -37,7 +38,8 @@ class PostWidget extends StatelessWidget {
   final int commentMaxLines;
   final int maxComments;
   final int maxNestedComments;
-  final bool showMedia;
+  final bool showCommentMedia;
+  final bool enableCommentActions;
 
   void goToPost(BuildContext context) {
     final postRoute = '/post/${post.id}';
@@ -218,11 +220,12 @@ class PostWidget extends StatelessWidget {
             goToPost(context);
           },
           child: CommentsWidget(
+            enabledActions: enableCommentActions,
             comments: post.comments!,
             commentMaxLines: commentMaxLines,
             maxComments: maxComments,
             maxNestedComments: maxNestedComments,
-            showMedia: showMedia,
+            showMedia: showCommentMedia,
           ),
         ),
       );

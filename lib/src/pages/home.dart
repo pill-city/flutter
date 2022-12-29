@@ -186,7 +186,8 @@ class HomePageState extends State<HomePage> {
                             commentMaxLines: homeCommentMaxLines,
                             maxComments: homeMaxComments,
                             maxNestedComments: homeMaxNestedComments,
-                            showMedia: false,
+                            showCommentMedia: false,
+                            enableCommentActions: false,
                           ),
                         ),
                         const Divider(

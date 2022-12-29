@@ -9,6 +9,7 @@ import 'package:pill_city_flutter/src/widgets/comment_widget.dart';
 class CommentsWidget extends StatelessWidget {
   const CommentsWidget({
     Key? key,
+    required this.enabledActions,
     required this.comments,
     required this.commentMaxLines,
     required this.maxComments,
@@ -16,6 +17,7 @@ class CommentsWidget extends StatelessWidget {
     required this.showMedia,
   }) : super(key: key);
 
+  final bool enabledActions;
   final BuiltList<Comment> comments;
   final int commentMaxLines;
   final int maxComments;
@@ -48,6 +50,7 @@ class CommentsWidget extends StatelessWidget {
       var comment = visibleComments[i];
       commentWidgets.add(
         CommentWidget(
+          enableActions: enabledActions,
           author: comment.author,
           formattedContent: comment.formattedContent,
           media: comment.mediaUrlsV2,
@@ -70,6 +73,7 @@ class CommentsWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 32),
               child: CommentWidget(
+                enableActions: enabledActions,
                 author: nestedComment.author,
                 formattedContent: nestedComment.formattedContent,
                 media: nestedComment.mediaUrlsV2,
@@ -78,6 +82,7 @@ class CommentsWidget extends StatelessWidget {
                     nestedComment.state == NestedCommentStateEnum.authorBlocked,
                 maxLines: commentMaxLines,
                 showMedia: showMedia,
+                replyToCommentId: nestedComment.replyToCommentId,
               ),
             ),
           );
