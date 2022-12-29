@@ -1,4 +1,5 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
@@ -19,6 +20,8 @@ class CommentWidget extends StatelessWidget {
     required this.showMedia,
     this.replyToCommentId,
     required this.enableActions,
+    required this.isHighlighted,
+    required this.onHighlightComment,
   }) : super(key: key);
 
   final User author;
@@ -30,6 +33,8 @@ class CommentWidget extends StatelessWidget {
   final bool showMedia;
   final String? replyToCommentId;
   final bool enableActions;
+  final bool isHighlighted;
+  final void Function(String commentId) onHighlightComment;
 
   @override
   Widget build(BuildContext context) {
@@ -37,22 +42,22 @@ class CommentWidget extends StatelessWidget {
     spans.add(
       WidgetSpan(
         child: SizedBox(
-          height: 16,
-          width: 16,
+          height: 18,
+          width: 18,
           child: author.avatarUrlV2 != null && !(blocked ?? false)
               ? CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    author.avatarUrlV2!.processed
-                        ? author.avatarUrlV2!.processedUrl!
-                        : author.avatarUrlV2!.originalUrl,
-                  ),
-                  backgroundColor: author.avatarUrlV2!.processed
-                      ? HexColor.fromHex(author.avatarUrlV2!.dominantColorHex!)
-                      : Colors.grey,
-                )
+            backgroundImage: NetworkImage(
+              author.avatarUrlV2!.processed
+                  ? author.avatarUrlV2!.processedUrl!
+                  : author.avatarUrlV2!.originalUrl,
+            ),
+            backgroundColor: author.avatarUrlV2!.processed
+                ? HexColor.fromHex(author.avatarUrlV2!.dominantColorHex!)
+                : Colors.grey,
+          )
               : const CircleAvatar(
-                  backgroundColor: Colors.grey,
-                ),
+            backgroundColor: Colors.grey,
+          ),
         ),
       ),
     );
@@ -65,7 +70,9 @@ class CommentWidget extends StatelessWidget {
     );
     if (!(blocked ?? false) && !(deleted ?? false)) {
       spans.add(
-        TextSpan(text: getInferredFirstName(author)),
+        TextSpan(
+          text: getInferredFirstName(author),
+        ),
       );
       spans.add(
         const TextSpan(text: ": "),
@@ -77,7 +84,7 @@ class CommentWidget extends StatelessWidget {
       spans.add(
         const WidgetSpan(
           child: Icon(
-            size: 16,
+            size: 18,
             Icons.reply,
           ),
         ),
@@ -125,7 +132,7 @@ class CommentWidget extends StatelessWidget {
           spans.add(
             const WidgetSpan(
               child: Icon(
-                size: 16,
+                size: 18,
                 Icons.image,
               ),
             ),
@@ -137,23 +144,6 @@ class CommentWidget extends StatelessWidget {
       }
     }
     if (enableActions) {
-      if (replyToCommentId != null && replyToCommentId!.isNotEmpty) {
-        spans.add(
-          const WidgetSpan(
-            child: SizedBox(
-              width: 4,
-            ),
-          ),
-        );
-        spans.add(
-          TextSpan(
-            text: AppLocalizations.of(context)!.highlight_replying,
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        );
-      }
       spans.add(
         const WidgetSpan(
           child: SizedBox(
@@ -169,14 +159,38 @@ class CommentWidget extends StatelessWidget {
           ),
         ),
       );
+      if (replyToCommentId != null && replyToCommentId!.isNotEmpty) {
+        spans.add(
+          const WidgetSpan(
+            child: SizedBox(
+              width: 4,
+            ),
+          ),
+        );
+        spans.add(
+          TextSpan(
+            text: AppLocalizations.of(context)!.highlight_replying,
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                onHighlightComment(replyToCommentId!);
+              },
+          ),
+        );
+      }
     }
 
-    return Text.rich(
-      TextSpan(
-        children: spans,
+    return DecoratedBox(
+      decoration: BoxDecoration(color: isHighlighted ? Colors.grey : null),
+      child: Text.rich(
+        TextSpan(
+          children: spans,
+        ),
+        maxLines: maxLines,
+        overflow: TextOverflow.ellipsis,
       ),
-      maxLines: maxLines,
-      overflow: TextOverflow.ellipsis,
     );
   }
 }
