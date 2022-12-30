@@ -180,6 +180,7 @@ class PostWidget extends StatelessWidget {
       ReactionsWidget(
         reactions: post.reactions,
         fullReactionMaxUsers: fullReactionMaxUsers,
+        postId: post.id,
       ),
     );
 

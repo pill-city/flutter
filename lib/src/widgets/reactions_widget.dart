@@ -3,11 +3,13 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pill_city/pill_city.dart';
+import 'package:pill_city_flutter/src/state/app_global_state.dart';
 import 'package:pill_city_flutter/src/utils/aggregated_reaction.dart';
 import 'package:pill_city_flutter/src/utils/get_twemoji_text_spans.dart';
 import 'package:pill_city_flutter/src/utils/get_user_names.dart';
 import 'package:pill_city_flutter/src/widgets/reaction_count_widget.dart';
 import 'package:pill_city_flutter/src/widgets/reaction_full_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:twemoji/twemoji.dart';
 
 class ReactionsWidget extends StatelessWidget {
@@ -15,10 +17,12 @@ class ReactionsWidget extends StatelessWidget {
     Key? key,
     required this.reactions,
     required this.fullReactionMaxUsers,
+    required this.postId,
   }) : super(key: key);
 
   final BuiltList<Reaction>? reactions;
   final int fullReactionMaxUsers;
+  final String postId;
 
   void showReactionsFullDetail(
     BuildContext context,
@@ -96,14 +100,25 @@ class ReactionsWidget extends StatelessWidget {
     );
   }
 
-  void showAddReaction(BuildContext context) {
+  void showAddReaction(BuildContext context, [bool mounted = true]) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return EmojiPicker(
-          // onEmojiSelected: (Category category, Emoji emoji) {
-          //   // Do something when emoji is tapped (optional)
-          // },
+          onEmojiSelected: (Category? category, Emoji emoji) async {
+            final appGlobalState =
+                Provider.of<AppGlobalState>(context, listen: false);
+            final api = await appGlobalState.getAuthenticatedApi();
+            final response = await api.getCoreApi().createReaction(
+                postId: postId,
+                createReactionRequest:
+                    CreateReactionRequest((b) => b.emoji = emoji.emoji));
+            if (response.data == null) {
+              throw Future.error("Failed to create reaction");
+            }
+            if (!mounted) return;
+            Navigator.of(context).pop();
+          },
           config: Config(
             columns: 7,
             emojiSizeMax: 32,
