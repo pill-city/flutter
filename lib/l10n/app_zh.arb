@@ -82,5 +82,6 @@
   "reply": "回复",
   "highlight_replying": "被回复的评论",
   "add_reaction": "加反应",
-  "no_recent_reactions": "没有最近用过的反应"
+  "no_recent_reactions": "没有最近用过的反应",
+  "clear_recent_reactions": "清理最近用过的反应"
 }

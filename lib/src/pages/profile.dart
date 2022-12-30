@@ -1,3 +1,4 @@
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -6,8 +7,15 @@ import 'package:pill_city_flutter/src/state/me_state.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  ProfilePageState createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
+  final key = GlobalKey<EmojiPickerState>();
 
   showLoaderDialog(BuildContext context) {
     showDialog(
@@ -62,6 +70,13 @@ class ProfilePage extends StatelessWidget {
               GoRouter.of(context).go('/signin');
             },
             child: Text(AppLocalizations.of(context)!.signout),
+          ),
+          const SizedBox(height: 8),
+          ElevatedButton(
+            onPressed: () {
+              EmojiPickerUtils().clearRecentEmojis(key: key);
+            },
+            child: Text(AppLocalizations.of(context)!.clear_recent_reactions),
           )
         ],
       ),

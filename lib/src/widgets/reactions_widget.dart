@@ -130,7 +130,6 @@ class ReactionsWidget extends StatelessWidget {
             noRecents: Text(
               AppLocalizations.of(context)!.no_recent_reactions,
               style: TextStyle(
-                fontSize: 20,
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.grey[800]
                     : Colors.grey[200],
@@ -210,7 +209,7 @@ class ReactionsWidget extends StatelessWidget {
                       : Colors.grey[800],
                 ),
                 child: const Icon(
-                  Icons.add,
+                  Icons.add_reaction,
                   size: 16,
                 ),
               ),

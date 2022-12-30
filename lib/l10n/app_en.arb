@@ -82,5 +82,6 @@
   "reply": "Reply",
   "highlight_replying": "Highlight replying",
   "add_reaction": "Add reaction",
-  "no_recent_reactions": "No recent reactions"
+  "no_recent_reactions": "No recent reactions",
+  "clear_recent_reactions": "Clear recent reactions"
 }
