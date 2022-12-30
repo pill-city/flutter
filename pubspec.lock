@@ -67,9 +67,11 @@ packages:
   emoji_picker_flutter:
     dependency: "direct main"
     description:
-      name: emoji_picker_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: "9fb08a417d86898a48c60b7087da1887f4307c78"
+      resolved-ref: "9fb08a417d86898a48c60b7087da1887f4307c78"
+      url: "https://github.com/pill-city/emoji_picker_flutter.git"
+    source: git
     version: "1.5.1"
   fake_async:
     dependency: transitive

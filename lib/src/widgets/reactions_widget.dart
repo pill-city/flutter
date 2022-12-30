@@ -99,11 +99,6 @@ class ReactionsWidget extends StatelessWidget {
   void showAddReaction(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(8),
-        ),
-      ),
       builder: (BuildContext context) {
         return EmojiPicker(
           // onEmojiSelected: (Category category, Emoji emoji) {
@@ -198,6 +193,7 @@ class ReactionsWidget extends StatelessWidget {
             onTap: () {
               showAddReaction(context);
             },
+            onLongPress: () {},
             child: SizedBox(
               width: 32,
               height: 32,
